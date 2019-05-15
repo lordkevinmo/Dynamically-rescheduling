@@ -1,0 +1,40 @@
+package fr.utbm.info.ia51.ar.ui
+
+import io.sarl.javafx.FxViewerController
+import fr.utbm.info.ia51.ar.agents.MyAgent
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import javafx.fxml.FXML
+
+/** JavaFX controller for the JavaFX application.
+ */
+class MyAppFxViewerController extends FxViewerController {
+
+	val launched = new AtomicBoolean(false)
+
+	var launchedAgent : UUID
+
+	/** UI initialization. The agent framework is started.
+	 */
+	@FXML
+	def initialize {
+		// Launching of the agent-side of the application
+		if (!this.launched.getAndSet(true)) {
+			// First launch => start the agent framework with an agent of type MyAgent.
+			this.launchedAgent = startAgentApplication(typeof(MyAgent)) [
+				// TODO: Put any action that must be done after the first agent launching
+			]
+		}
+	}
+
+	protected def refreshScreen {
+		// TODO: Refresh the JavaFX screen
+	}
+
+	/** React to any request from the agent refresh the UI.
+	 */
+	dispatch def receiveEvent(^event : Refresh) {
+		refreshScreen
+	}
+
+}

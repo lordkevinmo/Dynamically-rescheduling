@@ -1,0 +1,102 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+import java.util.Date
+import java.util.ArrayList
+
+/** 
+ * @author Koffi AGBENYA
+ * 
+ * This class defines the characteristics of a Trip in this project point view.
+ * It represents the way that an person traveled to a destination for in the future
+ * doing some activity. The properties are : 
+ * - origin :
+ * - travel mode :
+ * - path : 
+ */
+class Trip extends Task {
+	var origin : Location
+	var path : String
+	var travelMode : TravelMode
+
+	/** 
+	 * Constructor to initialize Trip object 
+	 * 
+	 * @param origin location from where user begin his trip
+	 * @param startTime when the trip begin
+	 * @param duration of the trip
+	 * @param destination of the trip
+	 * @param mode which the user used for traveling. -> travel mode
+	 */
+	new(origin : Location, startTime : Date, duration : int, destination : Location, mode : TravelMode) {
+		this.origin = origin
+		this.setStartTime(startTime)
+		this.setDuration(duration)
+		this.setLocation(destination)
+		this.travelMode = mode
+		this.path = null
+	}
+
+	/** 
+	 * 
+	 * @return the origin of the trip
+	 */
+	def getOrigin : Location {
+		 this.origin
+	}
+	
+	/** 
+	 * 
+	 * @param origin of the trip
+	 */
+	def setOrigin(origin : Location) {
+		this.origin = origin
+	}
+	
+	/** 
+	 * 
+	 * @return the path followed by the user for his trip
+	 */
+	def getPath : String {
+		this.path
+	}
+	
+	/** 
+	 * 
+	 * @param path followed by the user for reaching his destination
+	 */
+	def setPath(path : String) {
+		this.path = path
+	}
+	
+	/** 
+	 * 
+	 * @return the travel mode that user take for reaching the destination
+	 */
+	def getTravelMode : TravelMode {
+		this.travelMode
+	}
+	
+	/** 
+	 * 
+	 * @param mode for reaching the destination
+	 */
+	def setTravelMode(mode : TravelMode) {
+		this.travelMode = mode
+	}
+	
+	/** 
+	 * 
+	 * @return all the travel mode add in the enumeration TravelMode enum file.
+	 */
+	def getAllTravelMode : ArrayList<TravelMode>  {
+		
+		var modes : ArrayList<TravelMode> = new ArrayList
+		for(mode : TravelMode.values()) {
+			modes.add(mode)
+		}
+		return modes
+	}
+}

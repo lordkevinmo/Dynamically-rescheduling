@@ -1,0 +1,88 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.agents
+
+import java.util.List
+import fr.utbm.info.ia51.ar.requirements.Schedule
+
+
+/** 
+ * <p> This classe define the mind and the body for agent.
+ * In this project we considering agent as all the participant
+ * to a trip or activity.
+ * </p>
+ * 
+ * @author komi AGOTSI                                                                             
+ * 
+ * 
+ */
+agent Person {
+	var schedules : List<Schedule>
+	
+	var myRelations : List<Person>
+	var inRelationsWith : List<Person>
+
+	// getters and setters
+
+	/* 
+	 * @return  List<Schedule>
+	 * 						List of Schedule of agent
+	 */
+	def getSchedules : List<Schedule> {
+		this.schedules;
+	}
+
+	/** 
+	 * 
+	 * @param List<Schedule>
+	 * 					List of Schedule of the agent
+	 */
+	def setSchedules(Schedules : List<Schedule>) {
+		this.schedules = Schedules;
+	}
+
+	/* 
+	 * @return  List<AgentUUID>
+	 * List of relations of the agent with others agents
+	 */
+	def getRelations : List<Person> {
+		this.relations;
+	}
+
+	
+	/* 
+	 * @return  List<AgentUUID>
+	 * List of relations of the agent with others agents
+	 */
+	def getMyRelations : List<Person> {
+		this.myRelations;
+	}
+
+	/** 
+	 * 
+	 * @param List<AgentUUID>
+	 * List of relations of the agent with others agents
+	 */
+	def setRelations(myRelations : List<Person>) {
+		this.myRelations = myRelations;
+	}
+
+	/* 
+	 * @return  List<AgentUUID>
+	 * List of agents who is in relation with this agent
+	 */
+	def getInRelationsWith : List<Person> {
+		this.inRelationsWith;
+	}
+
+	/** 
+	 * 
+	 * @param List<AgentUUID>
+	 * List of agents who is in relation with this agent
+	 */
+	def setInRelationsWith(inRelationsWith : List<Person>) {
+		this.inRelationsWith = inRelationsWith;
+	}
+
+}

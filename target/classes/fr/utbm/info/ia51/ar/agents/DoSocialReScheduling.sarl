@@ -1,0 +1,29 @@
+package fr.utbm.info.ia51.ar.agents
+
+import java.util.List
+import fr.utbm.info.ia51.ar.requirements.Episode
+import java.util.Map
+
+/** 
+ * <p>
+ * This skill implements  the capacity of the agent 
+ * to self Re-schedule following the reception of
+ * constraining event
+ * </p>
+ * 
+ * @author komi AGOTSI
+ * 
+ */
+skill DoSelfReScheduling implements SocialReScheduling {
+
+	
+	
+	def makeSocialRescheduling(participantEpisode : Map<String, List<Episode>>) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	def makeRescheduling(episodes : List<Episode>) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+}

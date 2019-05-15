@@ -1,0 +1,68 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+/** 
+ * @author Koffi AGBENYA
+ * 
+ * The episode class consists of a pair of activity and trip.
+ * 
+ */
+class Episode extends Object {
+	var name : String
+	var episode : Tuple<Trip, Activity>
+	
+	new(name : String, episode : Tuple<Trip, Activity>) {
+		this.name = name;
+		this.episode = episode;
+	}
+
+	/** 
+	 * 
+	 * @return the name of the episode
+	 */
+	def getName : String {
+		this.name
+	}
+	
+	/** 
+	 * 
+	 * @param newName which we set to the episode name
+	 */
+	def setName(newName : String) {
+		this.name = newName
+	}
+	
+	/** 
+	 * 
+	 * @return the current episode
+	 */
+	def getEpisode : Tuple<Trip, Activity> {
+		return this.episode;
+	}
+	
+	/** 
+	 * 
+	 * @param newEps which we set to the current episode
+	 */
+	def setEpisode(newEps : Tuple<Trip, Activity>) {	
+		this.episode = newEps
+	}
+	
+	/** 
+	 * 
+	 * @return the activity related to the current episode
+	 */
+	def getActivity : Activity {
+		this.episode.getSecond();
+	}
+	
+	/** 
+	 * 
+	 * @return the Trip related to the current episode
+	 */
+	def getTrip() : Trip {
+		this.episode.getFirst();
+	}
+}

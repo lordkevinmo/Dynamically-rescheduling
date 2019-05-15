@@ -1,0 +1,13 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.agents
+
+/** 
+ * <p> This behavior represents the behavior of participants.
+ * </p>
+ * @author komi AGOTSI
+ * 
+ */
+behavior CarpolingBehavior {
+}
