@@ -1,0 +1,19 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.agents
+/** 
+ * @author Lilian Durand
+ * 
+ */
+behavior participant {
+	
+	//EVENT SECTION
+	
+	on renegotiation{
+		//Determine si le nouvel edt ne change pas son schedule
+		//Si il ne le change pas il envoi l'event "renegotiationAgreed"
+		//Sinon "renegotiationDisagreed" (l'initiateur est le seul à écouter ces events c'est une renegotiation destinée à l'initiateur)
+	}
+	
+}

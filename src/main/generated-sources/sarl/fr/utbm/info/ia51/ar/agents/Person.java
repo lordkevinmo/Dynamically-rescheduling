@@ -1,12 +1,16 @@
 package fr.utbm.info.ia51.ar.agents;
 
+import fr.utbm.info.ia51.ar.agents.confirmInitiator;
+import fr.utbm.info.ia51.ar.agents.perturbation;
 import fr.utbm.info.ia51.ar.requirements.Schedule;
+import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
 import io.sarl.lang.core.DynamicSkillProvider;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -88,6 +92,28 @@ public class Person extends Agent {
    */
   protected void setInRelationsWith(final List<Person> inRelationsWith) {
     this.inRelationsWith = inRelationsWith;
+  }
+  
+  private void $behaviorUnit$perturbation$0(final perturbation occurrence) {
+  }
+  
+  private void $behaviorUnit$confirmInitiator$1(final confirmInitiator occurrence) {
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$perturbation$0(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
+  private void $guardEvaluator$confirmInitiator(final confirmInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$confirmInitiator$1(occurrence));
   }
   
   @Override

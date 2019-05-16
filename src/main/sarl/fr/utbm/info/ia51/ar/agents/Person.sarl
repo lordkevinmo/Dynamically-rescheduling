@@ -6,7 +6,6 @@ package fr.utbm.info.ia51.ar.agents
 import java.util.List
 import fr.utbm.info.ia51.ar.requirements.Schedule
 
-
 /** 
  * <p> This classe define the mind and the body for agent.
  * In this project we considering agent as all the participant
@@ -83,6 +82,19 @@ agent Person {
 	 */
 	def setInRelationsWith(inRelationsWith : List<Person>) {
 		this.inRelationsWith = inRelationsWith;
+	}
+	
+	//EVENT SECTION
+	
+	on perturbation{
+		//Determine si la perturbation l'impacte ou non
+		//Si la perturbation l'impacte alors il prend le behavior participant
+		//Il decide ou non d'etre initiateur
+		//Si il est initiateur il envoi l'event "askToBeInitiator" à l'environnement 
+	}
+
+	on confirmInitiator {
+		//L'agent prend le behavior "Initiateur" et n'est plus "participant"
 	}
 
 }
