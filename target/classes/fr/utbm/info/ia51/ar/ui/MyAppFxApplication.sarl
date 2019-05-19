@@ -31,7 +31,7 @@ class MyAppFxApplication extends FxApplication {
 		// Create the application UI
 		var scene = new Scene(root)
 		scene.stylesheets.add(class.getResource("ViewerController.css").toExternalForm)
-		stage.title = bundle.getString("TITLE")
+		stage.title = bundle.getString("Activity Re-scheduling")
 		stage.scene = scene
 		stage.centerOnScreen
 

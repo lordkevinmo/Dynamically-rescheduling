@@ -1,6 +1,5 @@
 package fr.utbm.info.ia51.ar.ui;
 
-import fr.utbm.info.ia51.ar.agents.MyAgent;
 import fr.utbm.info.ia51.ar.ui.Refresh;
 import io.sarl.javafx.FxViewerController;
 import io.sarl.lang.annotation.SarlElementType;
@@ -12,7 +11,6 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.fxml.FXML;
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure0;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -31,14 +29,9 @@ public class MyAppFxViewerController extends FxViewerController {
    */
   @FXML
   public UUID initialize() {
-    UUID _xifexpression = null;
-    boolean _andSet = this.launched.getAndSet(true);
-    if ((!_andSet)) {
-      final Procedure0 _function = () -> {
-      };
-      _xifexpression = this.launchedAgent = this.startAgentApplication(MyAgent.class, _function);
-    }
-    return _xifexpression;
+    throw new Error("Unresolved compilation problems:"
+      + "\nMyAgent cannot be resolved to a type."
+      + "\nType mismatch: cannot convert from Class<void> to Class<? extends Agent>");
   }
   
   @Pure

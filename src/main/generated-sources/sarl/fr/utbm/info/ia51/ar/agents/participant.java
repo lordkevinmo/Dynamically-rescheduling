@@ -13,7 +13,7 @@ import java.util.Collection;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(21)
+@SarlElementType(20)
 @SuppressWarnings("all")
 public class participant extends Behavior {
   private void $behaviorUnit$renegotiation$0(final renegotiation occurrence) {
