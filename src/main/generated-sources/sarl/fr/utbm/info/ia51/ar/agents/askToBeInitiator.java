@@ -12,14 +12,14 @@ import io.sarl.lang.core.Event;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class askToBeInitiator extends Event {
+public class AskToBeInitiator extends Event {
   @SyntheticMember
-  public askToBeInitiator() {
+  public AskToBeInitiator() {
     super();
   }
   
   @SyntheticMember
-  public askToBeInitiator(final Address source) {
+  public AskToBeInitiator(final Address source) {
     super(source);
   }
   

@@ -1,7 +1,5 @@
 package fr.utbm.info.ia51.ar.agents;
 
-import fr.utbm.info.ia51.ar.agents.confirmInitiator;
-import fr.utbm.info.ia51.ar.agents.perturbation;
 import fr.utbm.info.ia51.ar.requirements.Schedule;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
@@ -94,26 +92,17 @@ public class Person extends Agent {
     this.inRelationsWith = inRelationsWith;
   }
   
-  private void $behaviorUnit$perturbation$0(final perturbation occurrence) {
+  private void $behaviorUnit$void$0(final /* perturbation */Object occurrence) {
   }
   
-  private void $behaviorUnit$confirmInitiator$1(final confirmInitiator occurrence) {
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$perturbation$0(occurrence));
+  private void $behaviorUnit$void$1(final /* confirmInitiator */Object occurrence) {
   }
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$confirmInitiator(final confirmInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$confirmInitiator$1(occurrence));
+  private void $guardEvaluator$void(final /* perturbation */Object occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nperturbation cannot be resolved to a type.");
   }
   
   @Override

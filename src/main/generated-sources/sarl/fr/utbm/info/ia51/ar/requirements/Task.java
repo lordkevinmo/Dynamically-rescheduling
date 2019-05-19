@@ -1,10 +1,12 @@
 package fr.utbm.info.ia51.ar.requirements;
 
+import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.requirements.Location;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.Date;
+import java.util.List;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -28,6 +30,8 @@ public abstract class Task {
   
   private Location location;
   
+  private List<Person> participants;
+  
   /**
    * return the start time of the task
    */
@@ -38,7 +42,7 @@ public abstract class Task {
   
   /**
    * Set the start time of the Task
-   * @startTime is the start date and time
+   * @param : startTime is the start date and time
    */
   public void setStartTime(final Date startTime) {
     this.startTime = startTime;
@@ -54,7 +58,7 @@ public abstract class Task {
   
   /**
    * Set the duration of the task
-   * @duration : of the task
+   * @param duration : of the task
    */
   public void setDuration(final int duration) {
     this.duration = duration;
@@ -73,6 +77,22 @@ public abstract class Task {
    */
   public void setLocation(final Location location) {
     this.location = location;
+  }
+  
+  /**
+   * @return the participants of the task
+   */
+  @Pure
+  public List<Person> getParticipants() {
+    return this.participants;
+  }
+  
+  /**
+   * @param : participants are the list of all the participants
+   * involved in the task
+   */
+  public void setParticipants(final List<Person> participants) {
+    this.participants = participants;
   }
   
   @Override

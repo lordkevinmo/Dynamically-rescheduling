@@ -12,14 +12,14 @@ import io.sarl.lang.core.Event;
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class perturbation extends Event {
+public class Perturbation extends Event {
   @SyntheticMember
-  public perturbation() {
+  public Perturbation() {
     super();
   }
   
   @SyntheticMember
-  public perturbation(final Address source) {
+  public Perturbation(final Address source) {
     super(source);
   }
   

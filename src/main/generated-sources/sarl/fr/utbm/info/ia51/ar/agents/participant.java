@@ -15,7 +15,7 @@ import java.util.Collection;
 @SarlSpecification("0.9")
 @SarlElementType(20)
 @SuppressWarnings("all")
-public class participant extends Behavior {
+public class Participant extends Behavior {
   private void $behaviorUnit$renegotiation$0(final renegotiation occurrence) {
   }
   
@@ -28,7 +28,7 @@ public class participant extends Behavior {
   }
   
   @SyntheticMember
-  public participant(final Agent agent) {
+  public Participant(final Agent agent) {
     super(agent);
   }
 }

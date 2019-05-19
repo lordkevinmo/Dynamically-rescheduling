@@ -46,7 +46,7 @@ agent Environment {
 		info("The agent was stopped.")
 	}
 
-	on perturbation {
+	on Perturbation {
 
 		/* 
 		 * Perturbation create and send by the javafx gui
@@ -55,7 +55,7 @@ agent Environment {
 		 */ 
 	}
 
-	on askToBeInitiator {
+	on AskToBeInitiator {
 
 		/* 
 		 * If an pertubation is occured and sent to all the agents, one of them or all agents who's concerned

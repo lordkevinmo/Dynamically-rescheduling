@@ -1,8 +1,8 @@
 package fr.utbm.info.ia51.ar.agents;
 
+import fr.utbm.info.ia51.ar.agents.AskToBeInitiator;
 import fr.utbm.info.ia51.ar.agents.EndRenegotiation;
-import fr.utbm.info.ia51.ar.agents.askToBeInitiator;
-import fr.utbm.info.ia51.ar.agents.perturbation;
+import fr.utbm.info.ia51.ar.agents.Perturbation;
 import fr.utbm.info.ia51.ar.ui.Refresh;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
@@ -62,10 +62,10 @@ public class Environment extends Agent {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was stopped.");
   }
   
-  private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
+  private void $behaviorUnit$Perturbation$2(final Perturbation occurrence) {
   }
   
-  private void $behaviorUnit$askToBeInitiator$3(final askToBeInitiator occurrence) {
+  private void $behaviorUnit$AskToBeInitiator$3(final AskToBeInitiator occurrence) {
   }
   
   private void $behaviorUnit$EndRenegotiation$4(final EndRenegotiation occurrence) {
@@ -152,6 +152,14 @@ public class Environment extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
+  private void $guardEvaluator$Perturbation(final Perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Perturbation$2(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
   private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
@@ -192,26 +200,18 @@ public class Environment extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
+  private void $guardEvaluator$AskToBeInitiator(final AskToBeInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+    assert occurrence != null;
+    assert ___SARLlocal_runnableCollection != null;
+    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AskToBeInitiator$3(occurrence));
+  }
+  
+  @SyntheticMember
+  @PerceptGuardEvaluator
   private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$6(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$perturbation$2(occurrence));
-  }
-  
-  @SyntheticMember
-  @PerceptGuardEvaluator
-  private void $guardEvaluator$askToBeInitiator(final askToBeInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
-    assert occurrence != null;
-    assert ___SARLlocal_runnableCollection != null;
-    ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$askToBeInitiator$3(occurrence));
   }
   
   @SyntheticMember
