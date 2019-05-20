@@ -29,7 +29,4 @@ public class InitRenegotiation extends Event {
   public InitRenegotiation(final Address source) {
     super(source);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 588368462L;
 }

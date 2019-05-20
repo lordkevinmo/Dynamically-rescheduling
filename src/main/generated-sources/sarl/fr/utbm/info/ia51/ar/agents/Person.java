@@ -21,7 +21,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author komi AGOTSI
  */
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(18)
 @SuppressWarnings("all")
 public class Person extends Agent {
   private List<Schedule> schedules;

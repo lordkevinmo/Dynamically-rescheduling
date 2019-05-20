@@ -8,7 +8,6 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -111,26 +110,16 @@ public class Trip extends Task {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Trip other = (Trip) obj;
-    if (!Objects.equals(this.path, other.path)) {
-      return false;
-    }
-    return super.equals(obj);
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean."
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
   
   @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
-    int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + Objects.hashCode(this.path);
-    return result;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe return type is incompatible with equals(Object). Current method has the return type: void. The super method has the return type: boolean.");
   }
 }

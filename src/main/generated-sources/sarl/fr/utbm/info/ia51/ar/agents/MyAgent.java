@@ -27,7 +27,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * The main agent able to communicate with the GUI
  */
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(18)
 @SuppressWarnings("all")
 public class MyAgent extends Agent {
   private FXBehavior javafxBehavior;
