@@ -9,7 +9,7 @@ import io.sarl.lang.core.Capacity;
  * @author Koffi Agbenya
  */
 @SarlSpecification("0.9")
-@SarlElementType(20)
+@SarlElementType(19)
 @SuppressWarnings("all")
 public interface ScheduleConformity extends Capacity {
   /**

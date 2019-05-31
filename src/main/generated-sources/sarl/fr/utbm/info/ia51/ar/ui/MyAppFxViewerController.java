@@ -53,7 +53,8 @@ public class MyAppFxViewerController extends FxViewerController {
   public UUID initialize() {
     UUID _xifexpression = null;
     boolean _andSet = this.launched.getAndSet(true);
-    if ((!_andSet)) {
+    boolean _not = (!_andSet);
+    if (_not) {
       final Procedure0 _function = () -> {
       };
       _xifexpression = this.launchedAgent = this.startAgentApplication(Environment.class, _function);

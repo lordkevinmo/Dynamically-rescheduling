@@ -103,11 +103,13 @@ public class ParticipantsController extends FxViewerController implements Initia
       this.openFile(file);
       File selectedFile = file;
       String _name = selectedFile.getName();
-      System.out.println(("file name : " + _name));
+      String _plus = ("file name : " + _name);
+      System.out.println(_plus);
       Persons _xmlToObject = Util.xmlToObject(selectedFile);
-      this.data = _xmlToObject;
+      this.data = ((Persons) _xmlToObject);
       String _name_1 = selectedFile.getName();
-      System.out.println(("file name : " + _name_1));
+      String _plus_1 = ("file name : " + _name_1);
+      System.out.println(_plus_1);
       System.out.println(("data : " + this.data));
     }
   }

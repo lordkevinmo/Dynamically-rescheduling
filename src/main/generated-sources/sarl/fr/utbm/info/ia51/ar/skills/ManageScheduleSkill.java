@@ -19,7 +19,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(22)
+@SarlElementType(21)
 @SuppressWarnings("all")
 public class ManageScheduleSkill extends Skill implements ManageSchedule {
   public void install() {
@@ -32,10 +32,12 @@ public class ManageScheduleSkill extends Skill implements ManageSchedule {
     _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
+  @Pure
   public boolean isNewScheduleOK(final Schedule schedule) {
     return true;
   }
   
+  @Pure
   public Schedule computeNewSchedule(final perturbation perturb) {
     return new Schedule(null);
   }

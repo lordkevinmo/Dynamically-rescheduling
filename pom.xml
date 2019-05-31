@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>DESKTOP-EK25N67</groupId>
-	<artifactId>Activity_rescheduling</artifactId>
+	<artifactId>Dynamically_rescheduling</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>

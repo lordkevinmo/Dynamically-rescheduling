@@ -3,31 +3,23 @@
  */
 package fr.utbm.info.ia51.ar.agents
 
-import java.util.List
-import fr.utbm.info.ia51.ar.requirements.Schedule
+import fr.utbm.info.ia51.ar.behaviors.InitiateAgentBehavior
+import fr.utbm.info.ia51.ar.behaviors.participant
+import fr.utbm.info.ia51.ar.capacities.NativeCapacity
+import fr.utbm.info.ia51.ar.events.ConfirmInitiator
+import fr.utbm.info.ia51.ar.events.EndRenegotiation
+import fr.utbm.info.ia51.ar.events.askToBeInitiator
+import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.skills.NativeSkill
 import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
-import fr.utbm.info.ia51.ar.capacities.NativeCapacity
-import io.sarl.lang.core.Behavior
 import io.sarl.core.Initialize
-import fr.utbm.info.ia51.ar.events.ConfirmInitiator
-import fr.utbm.info.ia51.ar.behaviors.participant
-import fr.utbm.info.ia51.ar.events.perturbation
-import fr.utbm.info.ia51.ar.events.askToBeInitiator
-import fr.utbm.info.ia51.ar.behaviors.InitiateAgentBehavior
-import fr.utbm.info.ia51.ar.events.EndRenegotiation
-import fr.utbm.info.ia51.ar.skills.NativeSkill
-import fr.utbm.info.ia51.ar.requirements.Gender
-import fr.utbm.info.ia51.ar.requirements.DriverLicense
-import fr.utbm.info.ia51.ar.requirements.WorkStatus
-import fr.utbm.info.ia51.ar.requirements.HouseholdAge
-import fr.utbm.info.ia51.ar.requirements.HouseholdComposition
-import fr.utbm.info.ia51.ar.requirements.ChildrenCategory
-import fr.utbm.info.ia51.ar.requirements.IncomeCategory
-import javax.xml.bind.annotation.XmlRootElement
-import javax.xml.bind.annotation.XmlAccessorType
+import io.sarl.lang.core.Behavior
+import java.util.List
 import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
 
 /** 
  * <p> This class define the mind and the body for agent.
@@ -45,18 +37,6 @@ import javax.xml.bind.annotation.XmlElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 agent Person {
 	uses Behaviors, DefaultContextInteractions, NativeCapacity
-	var schedules : List<Schedule>
-	// Identification informations
-	var id : int
-	var name : String
-	var age : int
-	var gender : Gender
-	var isDriver : DriverLicense
-	var workStatus : WorkStatus	 
-	var houseHoldAge : HouseholdAge
-	var houseHoldComposition : HouseholdComposition
-	var childrenCategory : ChildrenCategory
-	var incomeCategory : IncomeCategory
 	
 	var myRelations : List<Person>
 	//var inRelationsWith : List<Person>
@@ -70,7 +50,7 @@ agent Person {
 	
 
 	// Reception d'une perturbation par l'agent seulement si 
-	on perturbation [this.actualBehavior==null]{
+	on perturbation [this.actualBehavior === null]{
 		// L'agent determine si la perturbation l'impacte ou non
 		if (isPerturbationImpacting(occurrence)) {
 			// L'Agent agit comme un participant à la pertubation
@@ -103,26 +83,6 @@ agent Person {
 		this.actualBehavior = null
 	}
 
-	// getters and setters
-
-	/* 
-	 * @return  List<Schedule>
-	 * 						List of Schedule of agent
-	 */
-	def getSchedules : List<Schedule> {
-		this.schedules;
-	}
-
-	/** 
-	 * 
-	 * @param List<Schedule>
-	 * 					List of Schedule of the agent
-	 */
-	@XmlElement(name = "schedules")
-	def setSchedules(Schedules : List<Schedule>) {
-		this.schedules = Schedules;
-	}
-
 	/* 
 	 * @return  List<AgentUUID>
 	 * List of relations of the agent with others agents
@@ -140,186 +100,5 @@ agent Person {
 	def setRelations(myRelations : List<Person>) {
 		this.myRelations = myRelations;
 	}	
-
-	/* 
-	 * @return id
-	 * id of agent
-	 */
-	def getId: int {
-		this.id
-	}
-
-	/** 
-	 * 
-	 * @param id
-	 * id of  agent
-	 */
-	@XmlElement(name = "id")
-	def setId(id :int) {
-		this.id = id;
-	}
-
-	/* 
-	 * @return name
-	 * name of agent
-	 */
-	def getName : String {
-		this.name
-	}
-
-	/** 
-	 * 
-	 * @param name
-	 * name of  agent
-	 */
-	@XmlElement(name = "name")
-	def setName(name : String) {
-		this.name = name
-	}
-
-	/* 
-	 * @return gender
-	 * gender of agent
-	 */
-	def getGender : Gender {
-		this.gender
-	}
-
-	/** 
-	 * 
-	 * @param gender
-	 * gender of  agent
-	 */
-	@XmlElement(name = "gender")
-	def setGender(gender : Gender) {
-		this.gender = gender
-	}
-
-	/* 
-	 * @return age
-	 * age of agent
-	 */
-	def getAge : int {
-		this.age
-	}
-	
-	/** 
-	 * 
-	 * @param age
-	 * age of  agent
-	 */
-	@XmlElement(name = "age")
-	def setAge(age : int) {
-		this.age = age
-	}
-
-	/* 
-	 * @return driver licence
-	 * verify if the agent has a driver licence
-	 */
-	def isDriver : DriverLicense {
-		this.driver
-	}
-
-	/** 
-	 * 
-	 * @param driver licence
-	 * if driver licence   agent
-	 */
-	@XmlElement(name = "isdriver")
-	def setDriver(driverLicence : DriverLicense) {
-		this.driver = driverLicence
-	}
-
-	/* 
-	 * @return workStatus
-	 * workStatus of agent
-	 */
-	def getWorkStatus : WorkStatus {
-		this.workStatus
-	}
-
-	/** 
-	 * 
-	 * @param workStatus
-	 * workStatus of  agent
-	 */
-	@XmlElement(name = "workStatus")
-	def setWorkStatus(workStatus : WorkStatus) {
-		this.workStatus = workStatus
-	}
-
-	/* 
-	 * @return houseHoldAge
-	 * houseHoldAge of agent
-	 */
-	def getHouseHoldAge : HouseholdAge {
-		this.houseHoldAge
-	}
-
-	/** 
-	 * 
-	 * @param houseHoldAge
-	 * houseHoldAge of  agent
-	 */
-	@XmlElement(name = "houseHoldAge")
-	def setHouseHoldAge(houseHoldAge : HouseholdAge) {
-		this.houseHoldAge = houseHoldAge
-	}
-
-	/* 
-	 * @return houseHoldComposition
-	 * houseHoldComposition of agent
-	 */
-	def getHouseHoldComposition : HouseholdComposition {
-		this.houseHoldComposition
-	}
-
-	/** 
-	 * 
-	 * @param houseHoldComposition
-	 * houseHoldComposition of  agent
-	 */
-	@XmlElement(name = "houseHoldComposition")
-	def setHouseHoldComposition(houseHoldAgeComposition : HouseholdComposition) {
-		this.houseHoldComposition = houseHoldAgeComposition
-	}
-
-	/* 
-	 * @return ChildrenCategory
-	 * ChildrenCategory in the agent house
-	 */
-	def getChildrenCategory : ChildrenCategory {
-		this.childrenCategory
-	}
-
-	/** 
-	 * 
-	 * @param ChildrenCategory
-	 * ChildrenCategory in the agent house
-	 */
-	@XmlElement(name = "childrenCategory")
-	def setChildrenCategory(childrenCategory : ChildrenCategory) {
-		this.childrenCategory = childrenCategory
-	}
-
-	/* 
-	 * @return incomeCategory
-	 * incomeCategory in the agent house
-	 */
-	def getIncomeCategory : IncomeCategory {
-		this.incomeCategory
-	}
-
-	/** 
-	 * 
-	 * @param incomeCategory
-	 * incomeCategory in the agent house
-	 */
-	@XmlElement(name = "incomeCategory")
-	def setIncomeCategory(incomeCategory : IncomeCategory) {
-		this.incomeCategory = incomeCategory
-	}
-	
 
 }

@@ -40,7 +40,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author : Koffi Agbenya
  */
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(18)
 @SuppressWarnings("all")
 public class Environment extends Agent {
   private FXBehavior javafxBehavior;

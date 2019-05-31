@@ -31,5 +31,5 @@ public class AskForRenegotiation extends Event {
   }
   
   @SyntheticMember
-  private static final long serialVersionUID = 588368462L;
+  private final static long serialVersionUID = 588368462L;
 }

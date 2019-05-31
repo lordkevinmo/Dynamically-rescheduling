@@ -11,7 +11,7 @@ import io.sarl.lang.core.Capacity;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(20)
+@SarlElementType(19)
 @SuppressWarnings("all")
 public interface ManageSchedule extends Capacity {
   public abstract boolean isNewScheduleOK(final Schedule schedule);

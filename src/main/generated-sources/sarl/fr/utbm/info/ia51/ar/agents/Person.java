@@ -8,14 +8,6 @@ import fr.utbm.info.ia51.ar.events.ConfirmInitiator;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
 import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
-import fr.utbm.info.ia51.ar.requirements.ChildrenCategory;
-import fr.utbm.info.ia51.ar.requirements.DriverLicense;
-import fr.utbm.info.ia51.ar.requirements.Gender;
-import fr.utbm.info.ia51.ar.requirements.HouseholdAge;
-import fr.utbm.info.ia51.ar.requirements.HouseholdComposition;
-import fr.utbm.info.ia51.ar.requirements.IncomeCategory;
-import fr.utbm.info.ia51.ar.requirements.Schedule;
-import fr.utbm.info.ia51.ar.requirements.WorkStatus;
 import fr.utbm.info.ia51.ar.skills.NativeSkill;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
@@ -56,31 +48,9 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @XmlRootElement(name = "Person")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(18)
 @SuppressWarnings("all")
 public class Person extends Agent {
-  private List<Schedule> schedules;
-  
-  private int id;
-  
-  private String name;
-  
-  private int age;
-  
-  private Gender gender;
-  
-  private DriverLicense isDriver;
-  
-  private WorkStatus workStatus;
-  
-  private HouseholdAge houseHoldAge;
-  
-  private HouseholdComposition houseHoldComposition;
-  
-  private ChildrenCategory childrenCategory;
-  
-  private IncomeCategory incomeCategory;
-  
   private List<Person> myRelations;
   
   private Behavior actualBehavior;
@@ -114,8 +84,7 @@ public class Person extends Agent {
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$1(final perturbation it, final perturbation occurrence) {
-    boolean _equals = Objects.equal(this.actualBehavior, null);
-    return _equals;
+    return (this.actualBehavior == null);
   }
   
   private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
@@ -144,24 +113,6 @@ public class Person extends Agent {
   }
   
   /**
-   * @return  List<Schedule>
-   * 						List of Schedule of agent
-   */
-  @Pure
-  protected List<Schedule> getSchedules() {
-    return this.schedules;
-  }
-  
-  /**
-   * @param List<Schedule>
-   * 					List of Schedule of the agent
-   */
-  @XmlElement(name = "schedules")
-  protected void setSchedules(final List<Schedule> Schedules) {
-    this.schedules = Schedules;
-  }
-  
-  /**
    * @return  List<AgentUUID>
    * List of relations of the agent with others agents
    */
@@ -177,186 +128,6 @@ public class Person extends Agent {
   @XmlElement(name = "myrelations")
   protected void setRelations(final List<Person> myRelations) {
     this.myRelations = myRelations;
-  }
-  
-  /**
-   * @return id
-   * id of agent
-   */
-  @Pure
-  protected int getId() {
-    return this.id;
-  }
-  
-  /**
-   * @param id
-   * id of  agent
-   */
-  @XmlElement(name = "id")
-  protected void setId(final int id) {
-    this.id = id;
-  }
-  
-  /**
-   * @return name
-   * name of agent
-   */
-  @Pure
-  protected String getName() {
-    return this.name;
-  }
-  
-  /**
-   * @param name
-   * name of  agent
-   */
-  @XmlElement(name = "name")
-  protected void setName(final String name) {
-    this.name = name;
-  }
-  
-  /**
-   * @return gender
-   * gender of agent
-   */
-  @Pure
-  protected Gender getGender() {
-    return this.gender;
-  }
-  
-  /**
-   * @param gender
-   * gender of  agent
-   */
-  @XmlElement(name = "gender")
-  protected void setGender(final Gender gender) {
-    this.gender = gender;
-  }
-  
-  /**
-   * @return age
-   * age of agent
-   */
-  @Pure
-  protected int getAge() {
-    return this.age;
-  }
-  
-  /**
-   * @param age
-   * age of  agent
-   */
-  @XmlElement(name = "age")
-  protected void setAge(final int age) {
-    this.age = age;
-  }
-  
-  /**
-   * @return driver licence
-   * verify if the agent has a driver licence
-   */
-  @Pure
-  protected DriverLicense isDriver() {
-    return this.isDriver();
-  }
-  
-  /**
-   * @param driver licence
-   * if driver licence   agent
-   */
-  @XmlElement(name = "isdriver")
-  protected void setDriver(final DriverLicense driverLicence) {
-    this.setDriver(driverLicence);
-  }
-  
-  /**
-   * @return workStatus
-   * workStatus of agent
-   */
-  @Pure
-  protected WorkStatus getWorkStatus() {
-    return this.workStatus;
-  }
-  
-  /**
-   * @param workStatus
-   * workStatus of  agent
-   */
-  @XmlElement(name = "workStatus")
-  protected void setWorkStatus(final WorkStatus workStatus) {
-    this.workStatus = workStatus;
-  }
-  
-  /**
-   * @return houseHoldAge
-   * houseHoldAge of agent
-   */
-  @Pure
-  protected HouseholdAge getHouseHoldAge() {
-    return this.houseHoldAge;
-  }
-  
-  /**
-   * @param houseHoldAge
-   * houseHoldAge of  agent
-   */
-  @XmlElement(name = "houseHoldAge")
-  protected void setHouseHoldAge(final HouseholdAge houseHoldAge) {
-    this.houseHoldAge = houseHoldAge;
-  }
-  
-  /**
-   * @return houseHoldComposition
-   * houseHoldComposition of agent
-   */
-  @Pure
-  protected HouseholdComposition getHouseHoldComposition() {
-    return this.houseHoldComposition;
-  }
-  
-  /**
-   * @param houseHoldComposition
-   * houseHoldComposition of  agent
-   */
-  @XmlElement(name = "houseHoldComposition")
-  protected void setHouseHoldComposition(final HouseholdComposition houseHoldAgeComposition) {
-    this.houseHoldComposition = houseHoldAgeComposition;
-  }
-  
-  /**
-   * @return ChildrenCategory
-   * ChildrenCategory in the agent house
-   */
-  @Pure
-  protected ChildrenCategory getChildrenCategory() {
-    return this.childrenCategory;
-  }
-  
-  /**
-   * @param ChildrenCategory
-   * ChildrenCategory in the agent house
-   */
-  @XmlElement(name = "childrenCategory")
-  protected void setChildrenCategory(final ChildrenCategory childrenCategory) {
-    this.childrenCategory = childrenCategory;
-  }
-  
-  /**
-   * @return incomeCategory
-   * incomeCategory in the agent house
-   */
-  @Pure
-  protected IncomeCategory getIncomeCategory() {
-    return this.incomeCategory;
-  }
-  
-  /**
-   * @param incomeCategory
-   * incomeCategory in the agent house
-   */
-  @XmlElement(name = "incomeCategory")
-  protected void setIncomeCategory(final IncomeCategory incomeCategory) {
-    this.incomeCategory = incomeCategory;
   }
   
   @Extension
@@ -445,20 +216,6 @@ public class Person extends Agent {
   @Pure
   @SyntheticMember
   public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    Person other = (Person) obj;
-    if (other.id != this.id)
-      return false;
-    if (!java.util.Objects.equals(this.name, other.name)) {
-      return false;
-    }
-    if (other.age != this.age)
-      return false;
     return super.equals(obj);
   }
   
@@ -467,10 +224,6 @@ public class Person extends Agent {
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + this.id;
-    result = prime * result + java.util.Objects.hashCode(this.name);
-    result = prime * result + this.age;
     return result;
   }
   
