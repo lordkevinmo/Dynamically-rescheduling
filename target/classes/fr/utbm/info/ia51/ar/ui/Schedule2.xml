@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schedule>
+  <Episode id="1">
+    <Trip id="1">
+      <origin_name>home</origin_name>
+      <start_time>900</start_time>
+      <duration>20</duration>
+      <destination_name>swimming_pool</destination_name>
+      <mode>private_car</mode>
+    </Trip>
+    <Activity id="1">
+      <start_time>920</start_time>
+      <duration>110</duration>
+      <location>swimming_pool</location>
+      <type>leisure</type>
+    </Activity>
+  </Episode>
+  <Episode id="2">
+    <Trip id="1">
+      <origin_name>swimming_pool</origin_name>
+      <start_time>1030</start_time>
+      <duration>0</duration>
+      <destination_name>swimming_pool</destination_name>="swimming_pool">
+      <mode>private_car</mode>
+    </Trip>
+  </Episode>
+</Schedule>

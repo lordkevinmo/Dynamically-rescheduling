@@ -1,0 +1,56 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+import fr.utbm.info.ia51.ar.agents.Person
+import java.util.List
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlElement
+
+/** 
+ * @author Koffi AGBENYA
+ * 
+ * This class defines the characteristics of an Activity in this project point of view.
+ * Activity extends the Task abstract class. The properties are : 
+ * - type of the Activity
+ * - the Task properties 
+ */
+@XmlRootElement(name = "Activity")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+class Activity extends Task{
+	var type : ActivityType
+	
+	
+	new() {
+		//Empty constructor
+		super()
+	}
+	
+	new(type : ActivityType, id : int, startTime : int, duration : int, location : Location,
+		participants : List<Person>, dayofWeek : DayOfWeek) {
+		super(id, startTime, duration, location, participants, dayofWeek)
+		this.type = type
+	}
+
+	/** 
+	 * 
+	 * @return the type of activity
+	 */
+	 def getType : ActivityType {
+		this.type
+	 }
+
+	/**
+	 * 
+	 * @param type of the activity
+	 */
+	 @XmlElement(name = "type")
+	 def setType(type : ActivityType) {
+		this.type = type
+	 }
+
+	
+}

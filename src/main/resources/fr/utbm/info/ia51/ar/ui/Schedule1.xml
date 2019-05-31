@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schedule>
+  <Episode id="1">
+    <Activity id="1">
+      <start_time>700</start_time>
+      <duration>30</duration>
+      <location>neighbourhood</location>
+      <type>leisure</type>
+    </Activity>
+  </Episode>
+  <Episode id="2">
+    <Activity id="2">
+      <start_time>800</start_time>
+      <duration>20</duration>
+      <location>home</location>
+      <type>home</type>
+    </Activity>
+  </Episode>
+  <Episode id="3">
+    <Trip id="3">
+      <origin_name>home</origin_name>
+      <start_time>820</start_time>
+      <duration>20</duration>
+      <destination_name>school</destination_name>
+      <mode>private_car</mode>
+    </Trip>
+  </Episode>
+  <Episode id="4">
+    <Trip id="4">
+      <origin_name>school</origin_name>
+      <start_time>840</start_time>
+      <duration>20</duration>
+      <destination_name>company</destination_name>
+      <mode>private_car</mode>
+    </Trip>
+    <Activity id="4">
+      <start_time>900</start_time>
+      <duration>300</duration>
+      <location>company</location>
+      <type>work</type>
+    </Activity>
+  </Episode>
+  <Episode id="5">
+    <Activity id="5">
+      <start_time>1200</start_time>
+      <duration>100</duration>
+      <location>company</location>
+      <type>leisure</type>
+    </Activity>
+  </Episode>
+  <Episode id="6">
+    <Activity id="6">
+      <start_time>1300</start_time>
+      <duration>500</duration>
+      <location>company</location>
+      <type>work</type>
+    </Activity>
+  </Episode>
+  <Episode id="7">
+    <Trip id="7">
+      <origin_name>company</origin_name>
+      <start_time>1800</start_time>
+      <duration>25</duration>
+      <destination_name>resto</destination_name>
+      <type>private_car</type>
+    </Trip>
+    <Activity id="7">
+      <start_time>1825</start_time>
+      <duration>135</duration>
+      <location>resto</location>
+      <type>leisure</type>
+    </Activity>
+  </Episode>
+  <Episode id="8">
+    <Trip id="8">
+      <origin_name>resto</origin_name>
+      <start_time>2000</start_time>
+      <duration>15</duration>
+      <destination_name>bar</destination_name>
+      <mode>walk</mode>
+    </Trip>
+    <Activity id="8">
+      <start_time>2015</start_time>
+      <duration>145</duration>
+      <location>bar</location>
+      <type>leisure</type>
+    </Activity>
+  </Episode>
+  <Episode id="9">
+    <Trip id="9">
+      <origin_name>bar</origin_name>
+      <start_time>2200</start_time>
+      <duration>30</duration>
+      <destination_name>home</destination_name>
+      <mode>private_car</mode>
+    </Trip>
+  </Episode>
+</Schedule>

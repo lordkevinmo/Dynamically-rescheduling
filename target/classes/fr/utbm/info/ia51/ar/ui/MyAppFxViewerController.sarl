@@ -1,0 +1,121 @@
+package fr.utbm.info.ia51.ar.ui
+
+import io.sarl.javafx.FxViewerController
+import fr.utbm.info.ia51.ar.agents.Environment
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import javafx.fxml.FXML
+import javafx.scene.input.MouseEvent
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import java.io.IOException
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.VBox
+import javafx.scene.Node
+import javafx.^event.ActionEvent
+import java.awt.Desktop
+import java.io.File
+import javafx.stage.FileChooser
+import java.util.List
+import java.util.Arrays
+
+/** JavaFX controller for the JavaFX application.
+ */
+class MyAppFxViewerController extends FxViewerController {
+
+	val launched = new AtomicBoolean(false)
+
+	var launchedAgent : UUID
+	
+	var desktop : Desktop = Desktop.getDesktop()
+
+	val fileChooser : FileChooser = new FileChooser();
+	
+	@FXML
+	var borderPane : BorderPane
+
+	/** UI initialization. The agent framework is started.
+	 */
+	@FXML
+	def initialize {
+		// Launching of the agent-side of the application
+		if (!this.launched.getAndSet(true)) {
+			// First launch => start the agent framework with an agent of type MyAgent.
+			this.launchedAgent = startAgentApplication(typeof(Environment)) [
+				// TODO: Put any action that must be done after the first agent launching
+			]
+		}
+	}
+
+	protected def refreshScreen {
+		// TODO: Refresh the JavaFX screen
+	}
+
+	/** React to any request from the agent refresh the UI.
+	 */
+	dispatch def receiveEvent(^event : Refresh) {
+		refreshScreen
+	}
+	
+	// code under a menu button
+	@FXML
+	protected def participants(events : MouseEvent) {
+	 	System.out.println("I'am here")
+	 	loadUI("participants")
+	 }
+
+	@FXML
+	protected def home(events : MouseEvent) {
+	}
+
+	@FXML
+	protected def jointrip(events : MouseEvent) {
+	}
+
+	@FXML
+	private def simulate(events : MouseEvent) {
+	} 
+
+	@FXML
+	private def about(events : MouseEvent) {
+	}
+
+	@FXML
+    private def loadUI(ui : String){
+		var  root : Parent
+		var box : VBox
+		try{
+		box = FXMLLoader.load(class.getResource(ui + ".fxml"))
+		}catch(ex : IOException){
+			ex.printStackTrace
+		}		
+		MyAppFxApplication.loadBorderPaneCenter(box)
+	}
+
+	@FXML
+	private def openFile(file : File) {
+		try {
+			this.desktop.open(file);
+		} catch (ex : IOException) {
+			ex.printStackTrace();
+		}
+	} 	 
+	
+	@FXML
+	protected def loadData(events : ActionEvent){
+		System.out.println("loading")
+		
+		
+		
+		var file : File = fileChooser.showOpenDialog(MyAppFxApplication.stage);
+		if (file != null) {
+			openFile(file);
+			var files : List<File> = Arrays.asList(file);
+			//printLog(textArea, files);
+		}
+	}
+	
+	
+
+}

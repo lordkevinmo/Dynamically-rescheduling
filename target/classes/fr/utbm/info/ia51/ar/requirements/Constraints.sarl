@@ -1,0 +1,16 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+/** 
+ * @author Koffi AGBENYA
+ * 
+ */
+class Constraints extends Object {
+	var type : ConstrainsType
+	
+	new(constraint : ConstrainsType) {
+		this.type = constraint
+	}
+}
