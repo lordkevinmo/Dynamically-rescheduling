@@ -29,7 +29,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Koffi Agbenya
  */
 @SarlSpecification("0.9")
-@SarlElementType(20)
+@SarlElementType(21)
 @SuppressWarnings("all")
 public class Initiator extends Behavior {
   private void $behaviorUnit$renegotiationAgreed$0(final renegotiationAgreed occurrence) {

@@ -5,6 +5,7 @@ import fr.utbm.info.ia51.ar.events.renegotiation;
 import fr.utbm.info.ia51.ar.events.renegotiationAgreed;
 import fr.utbm.info.ia51.ar.events.renegotiationDisagreed;
 import fr.utbm.info.ia51.ar.requirements.Schedule;
+import fr.utbm.info.ia51.ar.skills.ManageScheduleSkill;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
@@ -25,12 +26,12 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(20)
+@SarlElementType(21)
 @SuppressWarnings("all")
 public class participant extends Behavior {
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nBounds mismatch: The type argument <ManageScheduleSkill> is not a valid substitute for the bounded type parameter <S extends Skill> of the method setSkill(S, Class<? extends Capacity>[])");
+    ManageScheduleSkill _manageScheduleSkill = new ManageScheduleSkill();
+    this.<ManageScheduleSkill>setSkill(_manageScheduleSkill);
   }
   
   private void $behaviorUnit$renegotiation$1(final renegotiation occurrence) {

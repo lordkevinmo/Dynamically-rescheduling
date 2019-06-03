@@ -10,6 +10,7 @@ import fr.utbm.info.ia51.ar.events.ConfirmInitiator
 import fr.utbm.info.ia51.ar.events.EndRenegotiation
 import fr.utbm.info.ia51.ar.events.askToBeInitiator
 import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe
 import fr.utbm.info.ia51.ar.skills.NativeSkill
 import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
@@ -20,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlElement
 import javax.xml.bind.annotation.XmlRootElement
+import io.sarl.lang.core.Address
 
 /** 
  * <p> This class define the mind and the body for agent.
@@ -41,18 +43,25 @@ agent Person {
 	var myRelations : List<Person>
 	//var inRelationsWith : List<Person>
 	var actualBehavior : Behavior
+	var participantsRenegotiation : List<Address>
 
 	// EVENT SECTION
 	on Initialize {
+		this.participantsRenegotiation = null
 		this.actualBehavior = null
 		setSkill(new NativeSkill)
 	}
 	
 
 	// Reception d'une perturbation par l'agent seulement si 
-	on perturbation [this.actualBehavior === null]{
+	on perturbation [this.actualBehavior === null] {
+
+		
 		// L'agent determine si la perturbation l'impacte ou non
 		if (isPerturbationImpacting(occurrence)) {
+			// L'agent previent l'environnement qu'il est impacté par la pertubation
+			emit(new PerturbationImpactingMe())
+			
 			// L'Agent agit comme un participant à la pertubation
 			unregisterBehavior(this.actualBehavior)
 			this.actualBehavior = new participant(this)
@@ -75,6 +84,8 @@ agent Person {
 		unregisterBehavior(this.actualBehavior)
 		this.actualBehavior = new InitiateAgentBehavior(this)
 		registerBehavior(actualBehavior)
+		//The initiator have to know the participants
+		this.participantsRenegotiation = occurrence.participants
 	}
 	
 	//L'agent n'est plus participant (ou initiateur) à la fin de la renegotiation

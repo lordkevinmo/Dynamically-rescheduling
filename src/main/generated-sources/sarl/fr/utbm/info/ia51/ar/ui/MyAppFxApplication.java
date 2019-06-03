@@ -30,9 +30,8 @@ public class MyAppFxApplication extends FxApplication {
     try {
       String simpleName = MyAppFxApplication.class.getSimpleName();
       String _replaceAll = MyAppFxApplication.class.getPackage().getName().replaceAll("\\.", "/");
-      String _plus = (_replaceAll + "/");
-      String _plus_1 = (_plus + simpleName);
-      final ResourceBundle bundle = ResourceBundle.getBundle(_plus_1);
+      final ResourceBundle bundle = ResourceBundle.getBundle(
+        ((_replaceAll + "/") + simpleName));
       URL location = this.getClass().getResource((simpleName + ".fxml"));
       FXMLLoader loader = new FXMLLoader();
       loader.setLocation(location);

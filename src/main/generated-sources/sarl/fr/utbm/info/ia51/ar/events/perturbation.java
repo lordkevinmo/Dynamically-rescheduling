@@ -24,5 +24,5 @@ public class perturbation extends Event {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = 588368462L;
+  private static final long serialVersionUID = 588368462L;
 }

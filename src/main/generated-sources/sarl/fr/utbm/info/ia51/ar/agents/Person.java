@@ -1,14 +1,9 @@
 package fr.utbm.info.ia51.ar.agents;
 
-import com.google.common.base.Objects;
-import fr.utbm.info.ia51.ar.behaviors.InitiateAgentBehavior;
-import fr.utbm.info.ia51.ar.behaviors.participant;
 import fr.utbm.info.ia51.ar.capacities.NativeCapacity;
 import fr.utbm.info.ia51.ar.events.ConfirmInitiator;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
-import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
-import fr.utbm.info.ia51.ar.skills.NativeSkill;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -17,6 +12,7 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Address;
 import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.Behavior;
 import io.sarl.lang.core.BuiltinCapacitiesProvider;
@@ -48,43 +44,30 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @XmlRootElement(name = "Person")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @SarlSpecification("0.9")
-@SarlElementType(18)
+@SarlElementType(19)
 @SuppressWarnings("all")
 public class Person extends Agent {
   private List<Person> myRelations;
   
   private Behavior actualBehavior;
   
+  private List<Address> participantsRenegotiation;
+  
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    this.actualBehavior = null;
-    NativeSkill _nativeSkill = new NativeSkill();
-    this.<NativeSkill>setSkill(_nativeSkill);
+    throw new Error("Unresolved compilation problems:"
+      + "\nBounds mismatch: The type argument <NativeSkill> is not a valid substitute for the bounded type parameter <S extends Skill> of the method setSkill(S, Class<? extends Capacity>[])");
   }
   
   private void $behaviorUnit$perturbation$1(final perturbation occurrence) {
-    NativeCapacity _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER = this.$castSkill(NativeCapacity.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = this.$getSkill(NativeCapacity.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY);
-    boolean _isPerturbationImpacting = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER.isPerturbationImpacting(occurrence);
-    if (_isPerturbationImpacting) {
-      Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
-      _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
-      participant _participant = new participant(this);
-      this.actualBehavior = _participant;
-      Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1 = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
-      _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1.registerBehavior(this.actualBehavior);
-      NativeCapacity _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER_1 = this.$castSkill(NativeCapacity.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = this.$getSkill(NativeCapacity.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY);
-      boolean _wantsToBeInitiator = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER_1.wantsToBeInitiator();
-      if (_wantsToBeInitiator) {
-        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-        askToBeInitiator _askToBeInitiator = new askToBeInitiator();
-        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_askToBeInitiator);
-      }
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Person to Agent");
   }
   
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$1(final perturbation it, final perturbation occurrence) {
-    return (this.actualBehavior == null);
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from boolean to boolean");
   }
   
   private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
@@ -93,17 +76,13 @@ public class Person extends Agent {
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$2(final perturbation it, final perturbation occurrence) {
-    boolean _notEquals = (!Objects.equal(this.actualBehavior, null));
-    return _notEquals;
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from boolean to boolean");
   }
   
   private void $behaviorUnit$ConfirmInitiator$3(final ConfirmInitiator occurrence) {
-    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
-    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
-    InitiateAgentBehavior _initiateAgentBehavior = new InitiateAgentBehavior(this);
-    this.actualBehavior = _initiateAgentBehavior;
-    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1 = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
-    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1.registerBehavior(this.actualBehavior);
+    throw new Error("Unresolved compilation problems:"
+      + "\nType mismatch: cannot convert from Person to Agent");
   }
   
   private void $behaviorUnit$EndRenegotiation$4(final EndRenegotiation occurrence) {

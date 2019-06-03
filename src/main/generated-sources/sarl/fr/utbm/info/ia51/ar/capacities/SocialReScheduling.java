@@ -18,7 +18,7 @@ import java.util.Map;
  * @author komi AGOTSI
  */
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(20)
 @SuppressWarnings("all")
 public interface SocialReScheduling extends SelfReScheduling {
   /**

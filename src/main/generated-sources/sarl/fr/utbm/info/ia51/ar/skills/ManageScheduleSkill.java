@@ -19,7 +19,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(21)
+@SarlElementType(22)
 @SuppressWarnings("all")
 public class ManageScheduleSkill extends Skill implements ManageSchedule {
   public void install() {

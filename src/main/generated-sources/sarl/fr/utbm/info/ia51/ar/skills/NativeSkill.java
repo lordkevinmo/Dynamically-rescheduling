@@ -19,7 +19,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  */
 @SarlSpecification("0.9")
-@SarlElementType(21)
+@SarlElementType(22)
 @SuppressWarnings("all")
 public class NativeSkill extends Skill implements NativeCapacity {
   public void install() {
@@ -38,8 +38,7 @@ public class NativeSkill extends Skill implements NativeCapacity {
   
   public boolean wantsToBeInitiator() {
     int _nextInt = new Random().nextInt(10);
-    int _modulo = (_nextInt % 2);
-    return (_modulo == 0);
+    return ((_nextInt % 2) == 0);
   }
   
   @Extension

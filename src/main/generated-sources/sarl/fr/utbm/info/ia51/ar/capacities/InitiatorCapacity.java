@@ -10,7 +10,7 @@ import io.sarl.lang.core.Capacity;
  */
 @SuppressWarnings("discouraged_capacity_definition")
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(20)
 public interface InitiatorCapacity extends Capacity {
   /**
    * @ExcludeFromApidoc

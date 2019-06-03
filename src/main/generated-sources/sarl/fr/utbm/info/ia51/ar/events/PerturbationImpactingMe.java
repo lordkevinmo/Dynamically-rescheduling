@@ -7,19 +7,19 @@ import io.sarl.lang.core.Address;
 import io.sarl.lang.core.Event;
 
 /**
- * @author Koffi Agbenya
+ * @author Lilian Durand
  */
 @SarlSpecification("0.9")
 @SarlElementType(15)
 @SuppressWarnings("all")
-public class InitiatorConfirmation extends Event {
+public class PerturbationImpactingMe extends Event {
   @SyntheticMember
-  public InitiatorConfirmation() {
+  public PerturbationImpactingMe() {
     super();
   }
   
   @SyntheticMember
-  public InitiatorConfirmation(final Address source) {
+  public PerturbationImpactingMe(final Address source) {
     super(source);
   }
   
