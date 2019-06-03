@@ -6,8 +6,6 @@ import fr.utbm.info.ia51.ar.requirements.Location;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -21,9 +19,8 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * - Location : Represent the destination or the location where the trip finished or an activity
  *   will be carried out
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(10)
-@SuppressWarnings("all")
 public abstract class Task {
   private int id;
   
@@ -33,21 +30,18 @@ public abstract class Task {
   
   private Location location;
   
-  private List<Person> participants;
+  private /* List<Person> */Object participants;
   
   private DayOfWeek dayofWeek;
   
   public Task() {
-    super();
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method super() is undefined");
   }
   
-  public Task(final int id, final int startTime, final int duration, final Location location, final List<Person> participants, final DayOfWeek dayofWeek) {
-    this.id = id;
-    this.startTime = startTime;
-    this.duration = duration;
-    this.location = location;
-    this.participants = participants;
-    this.dayofWeek = dayofWeek;
+  public Task(final int id, final int startTime, final int duration, final Location location, final /* List<Person> */Object participants, final DayOfWeek dayofWeek) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field Task.participants refers to the missing type List");
   }
   
   /**
@@ -62,8 +56,8 @@ public abstract class Task {
    * Set the start time of the Task
    * @param : startTime is the start date and time
    */
-  @XmlElement(name = "startTime")
-  public void setStartTime(final int startTime) {
+  /* @XmlElement()
+   */public void setStartTime(final int startTime) {
     this.startTime = startTime;
   }
   
@@ -79,8 +73,8 @@ public abstract class Task {
    * Set the duration of the task
    * @param duration : of the task
    */
-  @XmlElement(name = "duration")
-  public void setDuration(final int duration) {
+  /* @XmlElement()
+   */public void setDuration(final int duration) {
     this.duration = duration;
   }
   
@@ -95,8 +89,8 @@ public abstract class Task {
   /**
    * Set the location of the current task
    */
-  @XmlElement(name = "location")
-  public void setLocation(final Location location) {
+  /* @XmlElement()
+   */public void setLocation(final Location location) {
     this.location = location;
   }
   
@@ -104,24 +98,26 @@ public abstract class Task {
    * @return the participants of the task
    */
   @Pure
-  public List<Person> getParticipants() {
-    return this.participants;
+  public /* List<Person> */Object getParticipants() {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field Task.participants refers to the missing type List");
   }
   
   /**
    * @param : participants are the list of all the participants
    * involved in the task
    */
-  @XmlElement(name = "participants")
-  public void setParticipants(final List<Person> participants) {
-    this.participants = participants;
+  /* @XmlElement()
+   */public void setParticipants(final /* List<Person> */Object participants) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field Task.participants refers to the missing type List");
   }
   
   /**
    * @return the id of the task
    */
-  @XmlElement(name = "id")
-  @Pure
+  /* @XmlElement()
+   */@Pure
   public int getId() {
     return this.id;
   }
@@ -137,15 +133,14 @@ public abstract class Task {
   /**
    * @param The day on which the activity will take place
    */
-  @XmlElement(name = "dayofWeek")
-  public void setDayOfWeek(final DayOfWeek dayofWeek) {
+  /* @XmlElement()
+   */public void setDayOfWeek(final DayOfWeek dayofWeek) {
     this.dayofWeek = dayofWeek;
   }
   
-  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
+  public boolean equals(final java.lang.Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -162,7 +157,6 @@ public abstract class Task {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {

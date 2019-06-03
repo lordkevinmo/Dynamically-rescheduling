@@ -9,9 +9,8 @@ import io.sarl.lang.core.Event;
 /**
  * @author Lilian Durand
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(15)
-@SuppressWarnings("all")
 public class renegotiationAgreed extends Event {
   @SyntheticMember
   public renegotiationAgreed() {
@@ -22,7 +21,4 @@ public class renegotiationAgreed extends Event {
   public renegotiationAgreed(final Address source) {
     super(source);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 588368462L;
 }

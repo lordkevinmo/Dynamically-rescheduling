@@ -9,9 +9,8 @@ import io.sarl.lang.core.Event;
 /**
  * @author koffi Agbenya
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(15)
-@SuppressWarnings("all")
 public class EndRenegotiation extends Event {
   @SyntheticMember
   public EndRenegotiation() {
@@ -22,7 +21,4 @@ public class EndRenegotiation extends Event {
   public EndRenegotiation(final Address source) {
     super(source);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 588368462L;
 }

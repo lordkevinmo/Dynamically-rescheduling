@@ -13,9 +13,8 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * 
  * @author Komi AGOTSI
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(10)
-@SuppressWarnings("all")
 public class SocialRelations {
   private SocialStatus socialStatus;
   
@@ -56,14 +55,12 @@ public class SocialRelations {
     return this.secondPerson;
   }
   
-  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
+  public boolean equals(final java.lang.Object obj) {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {

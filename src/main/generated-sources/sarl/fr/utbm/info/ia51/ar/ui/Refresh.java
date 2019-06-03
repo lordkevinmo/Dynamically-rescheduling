@@ -9,9 +9,8 @@ import io.sarl.lang.core.Event;
 /**
  * ** Request for refreshing the JavaFX screen.
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(15)
-@SuppressWarnings("all")
 public class Refresh extends Event {
   @SyntheticMember
   public Refresh() {
@@ -22,7 +21,4 @@ public class Refresh extends Event {
   public Refresh(final Address source) {
     super(source);
   }
-  
-  @SyntheticMember
-  private static final long serialVersionUID = 588368462L;
 }

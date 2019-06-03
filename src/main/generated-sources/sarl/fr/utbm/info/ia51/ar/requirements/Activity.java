@@ -8,11 +8,6 @@ import fr.utbm.info.ia51.ar.requirements.Task;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -23,11 +18,9 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * - type of the Activity
  * - the Task properties
  */
-@XmlRootElement(name = "Activity")
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@SarlSpecification("0.9")
+/* @XmlRootElement()
+@XmlAccessorType(/* name is null */./* name is null */) */@SarlSpecification("0.8")
 @SarlElementType(10)
-@SuppressWarnings("all")
 public class Activity extends Task {
   private ActivityType type;
   
@@ -35,9 +28,9 @@ public class Activity extends Task {
     super();
   }
   
-  public Activity(final ActivityType type, final int id, final int startTime, final int duration, final Location location, final List<Person> participants, final DayOfWeek dayofWeek) {
-    super(id, startTime, duration, location, participants, dayofWeek);
-    this.type = type;
+  public Activity(final ActivityType type, final int id, final int startTime, final int duration, final Location location, final /* List<Person> */Object participants, final DayOfWeek dayofWeek) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe constructor Task(int, int, int, Location, List, DayOfWeek) refers to the missing type List");
   }
   
   /**
@@ -51,19 +44,17 @@ public class Activity extends Task {
   /**
    * @param type of the activity
    */
-  @XmlElement(name = "type")
-  public void setType(final ActivityType type) {
+  /* @XmlElement()
+   */public void setType(final ActivityType type) {
     this.type = type;
   }
   
-  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
+  public boolean equals(final java.lang.Object obj) {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {

@@ -12,23 +12,9 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import io.sarl.lang.core.Address;
-import io.sarl.lang.core.Agent;
-import io.sarl.lang.core.Behavior;
-import io.sarl.lang.core.BuiltinCapacitiesProvider;
-import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
-import javax.inject.Inject;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -41,33 +27,37 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  * @author Koffi Agbenya
  */
-@XmlRootElement(name = "Person")
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@SarlSpecification("0.9")
-@SarlElementType(19)
-@SuppressWarnings("all")
-public class Person extends Agent {
-  private List<Person> myRelations;
+/* @XmlRootElement()
+@XmlAccessorType(/* name is null */./* name is null */) */@SarlSpecification("0.8")
+@SarlElementType(18)
+public class Person implements io.sarl.lang.core.Agent {
+  private /* List<Person> */Object myRelations;
   
-  private Behavior actualBehavior;
-  
-  private List<Address> participantsRenegotiation;
+  private /* Behavior */Object actualBehavior;
   
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     throw new Error("Unresolved compilation problems:"
-      + "\nBounds mismatch: The type argument <NativeSkill> is not a valid substitute for the bounded type parameter <S extends Skill> of the method setSkill(S, Class<? extends Capacity>[])");
+      + "\nThe method participantsRenegotiation(Object) is undefined for the type Person"
+      + "\nThe method setSkill(NativeSkill) is undefined"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
   }
   
   private void $behaviorUnit$perturbation$1(final perturbation occurrence) {
     throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from Person to Agent");
+      + "\nThe method registerBehavior(Behavior) is undefined"
+      + "\nInvalid number of arguments. The constructor participant() is not applicable for the arguments (Person)"
+      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
   }
   
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$1(final perturbation it, final perturbation occurrence) {
     throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from boolean to boolean");
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\n=== cannot be resolved");
   }
   
   private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
@@ -77,18 +67,26 @@ public class Person extends Agent {
   @Pure
   private boolean $behaviorUnitGuard$perturbation$2(final perturbation it, final perturbation occurrence) {
     throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from boolean to boolean");
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\n!= cannot be resolved");
   }
   
   private void $behaviorUnit$ConfirmInitiator$3(final ConfirmInitiator occurrence) {
     throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from Person to Agent");
+      + "\nThe method registerBehavior(Behavior) is undefined"
+      + "\nInvalid number of arguments. The constructor Initiator() is not applicable for the arguments (Person,Object)"
+      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\nThe field ConfirmInitiator.participants refers to the missing type Object"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
   }
   
   private void $behaviorUnit$EndRenegotiation$4(final EndRenegotiation occurrence) {
-    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
-    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
-    this.actualBehavior = null;
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
+      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
   }
   
   /**
@@ -96,17 +94,19 @@ public class Person extends Agent {
    * List of relations of the agent with others agents
    */
   @Pure
-  protected List<Person> getRelations() {
-    return this.getRelations();
+  protected /* List<Person> */Object getRelations() {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method getRelations() from the type Person refers to the missing type List");
   }
   
   /**
    * @param List<AgentUUID>
    * List of relations of the agent with others agents
    */
-  @XmlElement(name = "myrelations")
-  protected void setRelations(final List<Person> myRelations) {
-    this.myRelations = myRelations;
+  /* @XmlElement()
+   */protected void setRelations(final /* List<Person> */Object myRelations) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe field Person.myRelations refers to the missing type List");
   }
   
   @Extension
@@ -116,7 +116,6 @@ public class Person extends Agent {
   
   @SyntheticMember
   @Pure
-  @Inline(value = "$castSkill(Behaviors.class, ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $0$getSkill(Behaviors.class)) : $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS)", imported = Behaviors.class)
   private Behaviors $CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $getSkill(Behaviors.class);
@@ -131,7 +130,6 @@ public class Person extends Agent {
   
   @SyntheticMember
   @Pure
-  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
   private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
@@ -146,7 +144,6 @@ public class Person extends Agent {
   
   @SyntheticMember
   @Pure
-  @Inline(value = "$castSkill(NativeCapacity.class, ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = $0$getSkill(NativeCapacity.class)) : $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY)", imported = NativeCapacity.class)
   private NativeCapacity $CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER() {
     if (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) {
       this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = $getSkill(NativeCapacity.class);
@@ -156,7 +153,7 @@ public class Person extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$Initialize(final Initialize occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
@@ -164,7 +161,7 @@ public class Person extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ConfirmInitiator(final ConfirmInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$ConfirmInitiator(final ConfirmInitiator occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ConfirmInitiator$3(occurrence));
@@ -172,7 +169,7 @@ public class Person extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$EndRenegotiation$4(occurrence));
@@ -180,7 +177,7 @@ public class Person extends Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$perturbation(final perturbation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     if ($behaviorUnitGuard$perturbation$1(occurrence, occurrence)) {
@@ -191,36 +188,16 @@ public class Person extends Agent {
     }
   }
   
-  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
+  public boolean equals(final java.lang.Object obj) {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
     return result;
-  }
-  
-  @SyntheticMember
-  public Person(final UUID parentID, final UUID agentID) {
-    super(parentID, agentID);
-  }
-  
-  @SyntheticMember
-  @Inject
-  @Deprecated
-  public Person(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
-    super(provider, parentID, agentID);
-  }
-  
-  @SyntheticMember
-  @Inject
-  public Person(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
-    super(parentID, agentID, skillProvider);
   }
 }
