@@ -12,7 +12,7 @@ import io.sarl.lang.core.Behavior;
  * @author komi AGOTSI
  */
 @SarlSpecification("0.9")
-@SarlElementType(20)
+@SarlElementType(21)
 @SuppressWarnings("all")
 public class Carpooling extends Behavior {
   @SyntheticMember

@@ -18,7 +18,8 @@ import fr.utbm.info.ia51.ar.agents.Person;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class Persons {
 	
-	private List<Person> persons;
+	private List<PersonnalInfo> personsalInfos;
+	private List<Relation> relations;
 	
 	private Persons() {
 		
@@ -27,22 +28,39 @@ public class Persons {
 	//getters and setters
 	/**
 	 * 
-	 * @return a list of persons
+	 * @return a list of personal informations
 	 */
-	public List<Person> getPersons(){
-		return persons;
+	public List<PersonnalInfo> getPersonalInfos(){
+		return personsalInfos;
 	}
 	/**
 	 * 
-	 * @param persons
+	 * @param personal informations
 	 */
-	@XmlElement(name ="persons")
-	public void setPersons(List<Person> persons){
-		this.persons = persons;
+	@XmlElement(name ="PersonnalInfos")
+	public void setPersonalInfos(List<PersonnalInfo> personalInfos){
+		this.personsalInfos = personalInfos;
 	}
+	/**
+	 * set a list of relations between participants
+	 * @param relations
+	 */
 	
-	
-	
-	
+	@XmlElement(name="Relations")
+	public void setRelations( List<Relation> relations) {
+		this.relations = relations;
+	}
+	/**
+	 * List of relations between participants 
+	 * @return
+	 */
+	public List<Relation> getRelations(){
+		return relations;
+	}
+
+	@Override
+	public String toString() {
+		return "Persons [personsalInfos=" + personsalInfos + "]";
+	}		
 
 }

@@ -1,8 +1,8 @@
 package fr.utbm.info.ia51.ar.requirements;
 
-import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.requirements.DayOfWeek;
 import fr.utbm.info.ia51.ar.requirements.Location;
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import fr.utbm.info.ia51.ar.requirements.Task;
 import fr.utbm.info.ia51.ar.requirements.TravelMode;
 import io.sarl.lang.annotation.SarlElementType;
@@ -52,8 +52,7 @@ public class Trip extends Task {
    * @param destination of the trip
    * @param mode which the user used for traveling. -> travel mode
    */
-  public Trip(final int id, final Location origin, final int startTime, final int duration, final Location destination, final TravelMode mode, final List<Person> participants, final DayOfWeek dayofWeek) {
-    super(id, startTime, duration, destination, participants, dayofWeek);
+  public Trip(final int id, final Location origin, final int startTime, final int duration, final Location destination, final TravelMode mode, final List<PersonnalInfo> participants, final DayOfWeek dayofWeek) {
     this.origin = origin;
     this.travelMode = mode;
     this.path = null;
@@ -101,7 +100,6 @@ public class Trip extends Task {
   /**
    * @param mode for reaching the destination
    */
-  @XmlElement(name = "travelMode")
   public void setTravelMode(final TravelMode mode) {
     this.travelMode = mode;
   }

@@ -1,0 +1,97 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements;
+
+import java.awt.geom.Point2D;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+/** 
+ * @author Koffi AGBENYA
+ * 
+ * This enumeration is the definition of Location. Here, we define Location as
+ * an coordinate of a point in the plan. x-coordinate can be considered as 
+ * latitude and y-coordinate as longitude.
+ * The properties are : 
+ * double x : which represent x-coordinate
+ * double y : which represent y-coordinate 
+ * 
+ */
+@XmlRootElement(name = "Location")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+class Location {
+
+	var x : double ;
+	var y : double;
+	var name : String; 
+	
+	new(){
+		
+	}
+	
+	new(x : double, y : double ,name : String){
+		this.x = x;
+		this.y = y;
+		this.name = name;
+	}
+	
+	/** 
+ * 
+ * @return the x coordinate
+ */
+	def public getX : double {
+		return this.x;
+	}
+
+/** 
+ * 
+ * @param x is the value of x-coordinate which we set to Location x property 
+ */
+@XmlElement(name = "x")
+	def public  setX(x : double) {
+		this.x = x;
+	}
+
+/** 
+	 * 
+ * @return the y coordinate
+ */
+	def public getY : double  {
+		return this.y;
+	}
+
+/** 
+ * 
+	 * @param y is the value of y-coordinate which we set to location y property 
+ */
+@XmlElement(name = "y")
+	def public  setY(y : double ) {
+		this.y = y;
+	}
+
+/** 
+ * Calculate the distance between two locations
+ * @param l location represent the destination where user are going
+ * @return the distance in double value.
+
+	def public double distance(Location l) {
+		return Point2D.distance(x, y, l.getX(), l.getY());
+	}*/
+
+	def public getName : String {
+		return name;
+	}
+
+@XmlElement(name = "name")
+	def public  setName(name :String ) {
+		this.name = name;
+	}
+
+	def public toString : String {
+	        return  this.name;
+	}
+}

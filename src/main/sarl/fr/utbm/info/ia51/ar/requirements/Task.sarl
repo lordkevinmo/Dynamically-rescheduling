@@ -6,6 +6,14 @@ package fr.utbm.info.ia51.ar.requirements
 import fr.utbm.info.ia51.ar.agents.Person
 import java.util.List
 import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlTransient
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
+import fr.utbm.info.ia51.ar.util.TripAdapter
+import javax.xml.bind.annotation.XmlAttribute
+import javax.naming.Name
 
 /** 
  * @author koffi AGBENYA
@@ -18,12 +26,13 @@ import javax.xml.bind.annotation.XmlElement
  * - Location : Represent the destination or the location where the trip finished or an activity
  *   will be carried out   
  */
-abstract class Task {
+
+class Task {
 	var id : int
 	var startTime : int
 	var duration : int
 	var location : Location
-	var participants : List<Person>
+	var participants : List<PersonnalInfo>
 	var dayofWeek : DayOfWeek
 	
 	new() {
@@ -33,7 +42,7 @@ abstract class Task {
 	
 	
 	// Constructor
-	new(id : int, startTime : int, duration : int, location : Location, participants : List<Person>,
+	new(id : int, startTime : int, duration : int, location : Location, participants : List<PersonnalInfo>,
 		dayofWeek : DayOfWeek) {
 		this.id = id
 		this.startTime = startTime
@@ -56,10 +65,12 @@ abstract class Task {
 	 }
 	 
 	 /**
+	  * 
+	  * 
 	  * Set the start time of the Task
 	  * @param : startTime is the start date and time
 	  */
-	  @XmlElement(name = "startTime")
+	 
 	 def setStartTime(startTime : int) {
 		this.startTime = startTime
 	 }
@@ -90,7 +101,7 @@ abstract class Task {
 	 /**
 	  * Set the location of the current task
 	  */
-	  @XmlElement(name = "location")
+	  @XmlElement(name = "Location")
 	 def setLocation(location : Location) {
 		this.location = location
 	 }
@@ -98,7 +109,7 @@ abstract class Task {
 	 /**
 	  * @return the participants of the task
 	  */
-	 def getParticipants : List<Person> {
+	 def getParticipants : List<PersonnalInfo> {
 	 	this.participants
 	 }
 	 
@@ -106,19 +117,27 @@ abstract class Task {
 	  * @param : participants are the list of all the participants
 	  * involved in the task
 	  */
-	  @XmlElement(name = "participants")
-	 def setParticipants(participants : List<Person>) {
+	  @XmlElement(name = "PersonnalInfos")
+	 def setParticipants(participants : List<PersonnalInfo>) {
 	 	this.participants = participants
 	 }
-	 
-	 /**
-	  * 
-	  * @return the id of the task
-	  */
-	  @XmlElement(name = "id")
-	 def getId : int {
-	 	this.id
-	 }
+
+	/** 
+	 * 
+	 * @return the id of the task
+	 */
+	def getId : int {
+		this.id
+	}
+
+	/** 
+	 * 
+	 * @return the id of the task
+	 */
+	@XmlElement(name="id")
+	def setId(id : int) : int {
+		this.id = id
+	}
 
 	/** 
 	 * 
@@ -132,7 +151,7 @@ abstract class Task {
 	 * 
 	 * @param The day on which the activity will take place
 	 */
-	 @XmlElement(name = "dayofWeek")
+	 @XmlElement(name = "dayofweek")
 	 def setDayOfWeek(dayofWeek : DayOfWeek) {
 		this.dayofWeek = dayofWeek
 	}

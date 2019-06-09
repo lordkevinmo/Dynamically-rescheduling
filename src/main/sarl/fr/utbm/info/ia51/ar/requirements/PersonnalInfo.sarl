@@ -5,12 +5,17 @@ package fr.utbm.info.ia51.ar.requirements
 
 import java.util.List
 import javax.xml.bind.annotation.XmlElement
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAccessType
 
 /** 
  * We describe here all informations about the person agent
  * @author Koffi Agbenya
  * 
  */
+@XmlRootElement(name = "PersonnalInfo")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 class PersonnalInfo extends Object {
 	var schedules : List<Schedule>
 	// Identification informations
@@ -24,6 +29,12 @@ class PersonnalInfo extends Object {
 	var houseHoldComposition : HouseholdComposition
 	var childrenCategory : ChildrenCategory
 	var incomeCategory : IncomeCategory
+	
+	//constructor
+	
+	new(){
+		
+	}
 
 	/* 
 	 * @return id
@@ -75,7 +86,7 @@ class PersonnalInfo extends Object {
 	 * @param gender
 	 * gender of  agent
 	 */
-	@XmlElement(name = "gender")
+	
 	def setGender(gender : Gender) {
 		this.gender = gender
 	}
@@ -111,7 +122,7 @@ class PersonnalInfo extends Object {
 	 * @param driver licence
 	 * if driver licence   agent
 	 */
-	@XmlElement(name = "driver")
+	
 	def setDriver(driverLicence : DriverLicense) {
 		this.driver = driverLicence
 	}
@@ -129,7 +140,7 @@ class PersonnalInfo extends Object {
 	 * @param workStatus
 	 * workStatus of  agent
 	 */
-	@XmlElement(name = "workStatus")
+
 	def setWorkStatus(workStatus : WorkStatus) {
 		this.workStatus = workStatus
 	}
@@ -147,7 +158,7 @@ class PersonnalInfo extends Object {
 	 * @param houseHoldAge
 	 * houseHoldAge of  agent
 	 */
-	@XmlElement(name = "houseHoldAge")
+	
 	def setHouseHoldAge(houseHoldAge : HouseholdAge) {
 		this.houseHoldAge = houseHoldAge
 	}
@@ -165,7 +176,7 @@ class PersonnalInfo extends Object {
 	 * @param houseHoldComposition
 	 * houseHoldComposition of  agent
 	 */
-	@XmlElement(name = "houseHoldComposition")
+	
 	def setHouseHoldComposition(houseHoldAgeComposition : HouseholdComposition) {
 		this.houseHoldComposition = houseHoldAgeComposition
 	}
@@ -183,7 +194,7 @@ class PersonnalInfo extends Object {
 	 * @param ChildrenCategory
 	 * ChildrenCategory in the agent house
 	 */
-	@XmlElement(name = "childrenCategory")
+	
 	def setChildrenCategory(childrenCategory : ChildrenCategory) {
 		this.childrenCategory = childrenCategory
 	}
@@ -201,7 +212,7 @@ class PersonnalInfo extends Object {
 	 * @param incomeCategory
 	 * incomeCategory in the agent house
 	 */
-	@XmlElement(name = "incomeCategory")
+	
 	def setIncomeCategory(incomeCategory : IncomeCategory) {
 		this.incomeCategory = incomeCategory
 	}
@@ -219,10 +230,22 @@ class PersonnalInfo extends Object {
 	 * @param List<Schedule>
 	 * List of Schedule of the agent
 	 */
-	@XmlElement(name = "schedules")
+	@XmlElement(name = "Schedule")
 	def setSchedules(Schedules : List<Schedule>) {
 		this.schedules = Schedules;
 	}
+	
+	static def  getPersonnalInfoById(id : int, listPersonnal : List<PersonnalInfo> ){
+		var result : PersonnalInfo
+		for(elt : listPersonnal){
+			if(elt.id == id){
+				result = elt
+			}
+		}
+		return result
+	}
+	
+	
 	
 	
 }

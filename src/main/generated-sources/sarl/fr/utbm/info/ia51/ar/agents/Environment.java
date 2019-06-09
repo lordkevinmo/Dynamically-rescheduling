@@ -1,8 +1,12 @@
 package fr.utbm.info.ia51.ar.agents;
 
+import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
 import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
+import fr.utbm.info.ia51.ar.requirements.Persons;
+import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController;
 import fr.utbm.info.ia51.ar.ui.Refresh;
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
@@ -12,11 +16,11 @@ import io.sarl.core.ContextLeft;
 import io.sarl.core.Destroy;
 import io.sarl.core.ExternalContextAccess;
 import io.sarl.core.Initialize;
+import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
 import io.sarl.core.MemberJoined;
 import io.sarl.core.MemberLeft;
 import io.sarl.javafx.FXBehavior;
-import io.sarl.javafx.FxViewerController;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
@@ -28,6 +32,7 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -38,20 +43,31 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * The main agent able to communicate with the GUI
  * 
  * @author : Koffi Agbenya
+ * @author : Komi AGOTSI
  */
 @SarlSpecification("0.9")
-@SarlElementType(18)
+@SarlElementType(19)
 @SuppressWarnings("all")
 public class Environment extends Agent {
   private FXBehavior javafxBehavior;
   
+  private Persons data;
+  
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("I lauching");
     Object _get = occurrence.parameters[0];
-    FxViewerController fxcontroller = ((FxViewerController) _get);
+    MyAppFxViewerController fxcontroller = ((MyAppFxViewerController) _get);
     FXBehavior _fXBehavior = new FXBehavior(this, fxcontroller);
     this.javafxBehavior = _fXBehavior;
     Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
     _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.registerBehavior(this.javafxBehavior);
+    this.data = fxcontroller.getData();
+    List<PersonnalInfo> _personalInfos = this.data.getPersonalInfos();
+    for (final PersonnalInfo elt : _personalInfos) {
+      Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
+      _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(Person.class, elt);
+    }
     ExternalContextAccess _$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS$CALLER = this.$castSkill(ExternalContextAccess.class, (this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS == null || this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS = this.$getSkill(ExternalContextAccess.class)) : this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS);
     Refresh _refresh = new Refresh();
     _$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS$CALLER.emit(this.javafxBehavior.getUISpace(), _refresh);
@@ -132,6 +148,21 @@ public class Environment extends Agent {
       this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
     }
     return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+  }
+  
+  @Extension
+  @ImportedCapacityFeature(Lifecycle.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(Lifecycle.class, ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $0$getSkill(Lifecycle.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE)", imported = Lifecycle.class)
+  private Lifecycle $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $getSkill(Lifecycle.class);
+    }
+    return $castSkill(Lifecycle.class, this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
   }
   
   @SyntheticMember

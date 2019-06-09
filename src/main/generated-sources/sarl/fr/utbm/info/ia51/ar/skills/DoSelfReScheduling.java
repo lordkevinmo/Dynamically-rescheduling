@@ -19,7 +19,7 @@ import java.util.List;
  * @author komi AGOTSI
  */
 @SarlSpecification("0.9")
-@SarlElementType(21)
+@SarlElementType(22)
 @SuppressWarnings("all")
 public class DoSelfReScheduling extends Skill implements SelfReScheduling {
   public void makeRescheduling(final List<Episode> episodes) {

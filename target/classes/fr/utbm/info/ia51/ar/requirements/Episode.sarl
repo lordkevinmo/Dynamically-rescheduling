@@ -44,7 +44,8 @@ class Episode {
 	 * 
 	 * @param newName which we set to the episode name
 	 */
-	def setId(newId : String) {
+	@XmlElement(name="id")
+	def setId(newId : int) {
 		this.id = newId
 	}
 	
@@ -59,7 +60,7 @@ class Episode {
 	 * 
 	 * @param: Activity: act is an activity witch is set to the episode 
 	 */
-	 @XmlElement(name = "activity")
+	 @XmlElement(name = "Activity")
 	def setActivity(act : Activity) {
 		this.activity = act
 	}
@@ -75,8 +76,13 @@ class Episode {
 	 * 
 	 * @param Trip : trip which is set to the episode
 	 */
-	@XmlElement(name = "trip")
+	@XmlElement(name = "Trip")
 	def setTrip(trip : Trip) {
 		this.trip = trip
 	}
+
+	@Override
+	def public toString() : String {
+	         "id episode"+ this.id
+}
 }

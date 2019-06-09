@@ -8,10 +8,12 @@ import fr.utbm.info.ia51.ar.events.ConfirmInitiator;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
 import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import fr.utbm.info.ia51.ar.skills.NativeSkill;
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
+import io.sarl.core.Logging;
 import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
@@ -24,13 +26,8 @@ import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
@@ -45,17 +42,19 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  * @author Koffi Agbenya
  */
-@XmlRootElement(name = "Person")
-@XmlAccessorType(XmlAccessType.PROPERTY)
 @SarlSpecification("0.9")
-@SarlElementType(18)
+@SarlElementType(19)
 @SuppressWarnings("all")
 public class Person extends Agent {
-  private List<Person> myRelations;
-  
   private Behavior actualBehavior;
   
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Initializing me");
+    Object _get = occurrence.parameters[0];
+    PersonnalInfo x = ((PersonnalInfo) _get);
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1 = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER_1.info(("my data" + x));
     this.actualBehavior = null;
     NativeSkill _nativeSkill = new NativeSkill();
     this.<NativeSkill>setSkill(_nativeSkill);
@@ -112,24 +111,6 @@ public class Person extends Agent {
     this.actualBehavior = null;
   }
   
-  /**
-   * @return  List<AgentUUID>
-   * List of relations of the agent with others agents
-   */
-  @Pure
-  protected List<Person> getRelations() {
-    return this.getRelations();
-  }
-  
-  /**
-   * @param List<AgentUUID>
-   * List of relations of the agent with others agents
-   */
-  @XmlElement(name = "myrelations")
-  protected void setRelations(final List<Person> myRelations) {
-    this.myRelations = myRelations;
-  }
-  
   @Extension
   @ImportedCapacityFeature(Behaviors.class)
   @SyntheticMember
@@ -173,6 +154,21 @@ public class Person extends Agent {
       this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = $getSkill(NativeCapacity.class);
     }
     return $castSkill(NativeCapacity.class, this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY);
+  }
+  
+  @Extension
+  @ImportedCapacityFeature(Logging.class)
+  @SyntheticMember
+  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LOGGING;
+  
+  @SyntheticMember
+  @Pure
+  @Inline(value = "$castSkill(Logging.class, ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || $0$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING = $0$getSkill(Logging.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LOGGING)", imported = Logging.class)
+  private Logging $CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER() {
+    if (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) {
+      this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
+    }
+    return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
   }
   
   @SyntheticMember

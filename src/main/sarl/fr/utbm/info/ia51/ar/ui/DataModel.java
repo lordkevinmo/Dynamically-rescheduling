@@ -1,5 +1,8 @@
 package fr.utbm.info.ia51.ar.ui;
 
+import fr.utbm.info.ia51.ar.requirements.DriverLicense;
+import fr.utbm.info.ia51.ar.requirements.Gender;
+import fr.utbm.info.ia51.ar.requirements.WorkStatus;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -9,17 +12,21 @@ import javafx.beans.property.SimpleStringProperty;
  *
  */
 public class DataModel {
-
-	public final String name ;
-	public final int gender ;
-	public final int workStatus ;
-	public final int driverLicence ;
 	
-	public DataModel(String name,int gender,int workStatus,int driverLicence) {
+	public final int id;
+	public final String name ;
+	public final String gender ;
+	public final String workStatus ;
+	public final String driverLicence ;
+	public final String houseHold;
+	
+	public DataModel(int id,String name,String gender,String workStatus,String driverLicence,String houseHold) {
+		this.id= id;
 		this.name = name;
 		this.gender = gender;
 		this.workStatus =workStatus;
 		this.driverLicence = driverLicence;
+		this.houseHold = houseHold;
 	}
 	
 	//getters and setters	
@@ -27,15 +34,24 @@ public class DataModel {
 		return name;
 	}
 
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public int getWorkStatus() {
+	public String getWorkStatus() {
 		return workStatus;
 	}
 
-	public int getDriverLicence() {
+	public String getDriverLicence() {
 		return driverLicence;
-	}	
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getHouseHold() {
+		return houseHold;
+	}			
+
 }

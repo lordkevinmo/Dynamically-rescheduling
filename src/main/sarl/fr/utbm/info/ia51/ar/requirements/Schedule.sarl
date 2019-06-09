@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlElement
  */
  @XmlRootElement(name = "Schedule")
  @XmlAccessorType(XmlAccessType.PROPERTY)
-class Schedule extends Object  {
+class Schedule {
 	
 	var episodes : List<Episode>;
 	
@@ -42,7 +42,7 @@ class Schedule extends Object  {
 	 * @param List<Episode>
 	 * 					List of episodes
 	 */
-	 @XmlElement(name = "episode")
+	 @XmlElement(name = "Episode")
 	def setEpisodes(episodes : List<Episode>) {
 		this.episodes = episodes;
 	}

@@ -43,7 +43,7 @@ public class Schedule {
    * @param List<Episode>
    * 					List of episodes
    */
-  @XmlElement(name = "episode")
+  @XmlElement(name = "Episode")
   public void setEpisodes(final List<Episode> episodes) {
     this.episodes = episodes;
   }

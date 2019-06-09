@@ -3,6 +3,9 @@
  */
 package fr.utbm.info.ia51.ar.requirements;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+
 /**
  * @author Koffi AGBENYA
  * 
@@ -12,16 +15,27 @@ package fr.utbm.info.ia51.ar.requirements;
  * let the possibility for the users to create their own activities.
  * 
  */
+@XmlEnum(value = Integer.class)
 public enum ActivityType {
+	@XmlEnumValue("4")
 	DAILYSHOPPING(4),
+	@XmlEnumValue("0")
 	HOME(0),
+	@XmlEnumValue("1")
 	WORK(1),
+	@XmlEnumValue("2")
 	SCHOOL(2),
+	@XmlEnumValue("")
 	NONDAILYSHOPPING(5),
+	@XmlEnumValue("7")
 	SOCIALVISIT(7),
+	@XmlEnumValue("6")
 	SERVICES(6),
+	@XmlEnumValue("8")
 	LEISURE(8),
+	@XmlEnumValue("9")
 	TOURING(9),
+	@XmlEnumValue("10")
 	OTHER(10);
 	
 	private int activity;
@@ -45,6 +59,11 @@ public enum ActivityType {
 	 */
 	public void setActivity(int activity) {
 		this.activity = activity;
+	}
+	
+	@Override
+	public String toString() {
+	        return  this.name();
 	}
 	
 }

@@ -18,7 +18,7 @@ import java.util.List;
  */
 @FunctionalInterface
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(20)
 @SuppressWarnings("all")
 public interface SelfReScheduling extends Capacity {
   /**

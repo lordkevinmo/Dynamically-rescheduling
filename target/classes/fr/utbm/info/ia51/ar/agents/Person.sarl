@@ -15,11 +15,8 @@ import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.lang.core.Behavior
-import java.util.List
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
+import io.sarl.core.Logging
 
 /** 
  * <p> This class define the mind and the body for agent.
@@ -33,20 +30,22 @@ import javax.xml.bind.annotation.XmlRootElement
  * 
  * 
  */
-@XmlRootElement(name = "Person")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+
 agent Person {
-	uses Behaviors, DefaultContextInteractions, NativeCapacity
-	
-	var myRelations : List<Person>
+	uses Behaviors, DefaultContextInteractions, NativeCapacity,Logging
+
 	//var inRelationsWith : List<Person>
 	var actualBehavior : Behavior
 
 	// EVENT SECTION
 	on Initialize {
+		info("Initializing me")
+		var x = occurrence.parameters.get(0) as PersonnalInfo
+		info("my data"+x)
 		this.actualBehavior = null
 		setSkill(new NativeSkill)
 	}
+	
 	
 
 	// Reception d'une perturbation par l'agent seulement si 
@@ -82,23 +81,5 @@ agent Person {
 		unregisterBehavior(this.actualBehavior)
 		this.actualBehavior = null
 	}
-
-	/* 
-	 * @return  List<AgentUUID>
-	 * List of relations of the agent with others agents
-	 */
-	def getRelations : List<Person> {
-		this.relations;
-	}
-
-	/** 
-	 * 
-	 * @param List<AgentUUID>
-	 * List of relations of the agent with others agents
-	 */
-	@XmlElement(name = "myrelations")
-	def setRelations(myRelations : List<Person>) {
-		this.myRelations = myRelations;
-	}	
 
 }

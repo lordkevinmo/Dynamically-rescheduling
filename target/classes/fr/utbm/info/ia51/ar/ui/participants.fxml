@@ -9,11 +9,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.utbm.info.ia51.ar.ui.ParticipantsController">
+<VBox xmlns="http://javafx.com/javafx/8.0.211" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.utbm.info.ia51.ar.ui.MyAppFxViewerController">
    <children>
       <HBox prefHeight="38.0" prefWidth="600.0" style="-fx-background-color: #E0E0E0;">
          <children>
@@ -28,7 +29,7 @@
          </children>
       </HBox>
       <Separator prefWidth="200.0" />
-      <VBox prefHeight="364.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
+      <VBox prefHeight="662.0" prefWidth="589.0" style="-fx-background-color: #ffffff;">
          <children>
             <HBox prefHeight="107.0" prefWidth="600.0" style="-fx-background-color: #ffffff;">
                <children>
@@ -51,22 +52,54 @@
                               <Font name="Segoe UI" size="14.0" />
                            </font>
                         </Text>
+                        <Text fx:id="loadInfotv" layoutX="174.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="125.60000000000002" />
                      </children>
                   </AnchorPane>
                </children>
             </HBox>
-            <TableView prefHeight="270.0" prefWidth="613.0">
+            <TableView fx:id="table" onMouseClicked="#displayItem" prefHeight="191.0" prefWidth="600.0">
               <columns>
-                <TableColumn prefWidth="140.0" text="Name" />
-                <TableColumn minWidth="0.0" prefWidth="87.20001220703125" text="Gender" />
-                  <TableColumn prefWidth="98.4000244140625" text="Work status" />
-                  <TableColumn prefWidth="102.4000244140625" text="Drivers Licence" />
-                  <TableColumn prefWidth="173.5999755859375" text="Household" />
+              <TableColumn fx:id="colId" prefWidth="76.0" text="Id" />
+                <TableColumn fx:id="colName" prefWidth="78.4000244140625" text="Name" />
+                <TableColumn fx:id="colGender" minWidth="0.0" prefWidth="87.20001220703125" text="Gender" />
+                  <TableColumn fx:id="colWorkStatus" prefWidth="98.4000244140625" text="Work status" />
+                  <TableColumn fx:id="colDriverLicence" prefWidth="102.4000244140625" text="Driver Licence" />
+                   <TableColumn fx:id="colHouseHold" prefWidth="302.4000244140625" text="Household" />
+
               </columns>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TableView>
+            <VBox fx:id="scheduleBox" prefHeight="362.0" prefWidth="600.0" visible="false">
+               <children>
+                  <Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="19.0" prefWidth="592.0" style="-fx-background-color: #03a9f4;">
+                     <children>
+                        <Text fill="#fdfdfd" layoutX="18.0" layoutY="14.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Schedule" wrappingWidth="125.59999999999991">
+                           <font>
+                              <Font name="Segoe UI" size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+                  <TableView fx:id="scheduleTable" prefHeight="270.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="colIds" prefWidth="50.400023651122865" text="Id" />
+                      <TableColumn fx:id="colDay" prefWidth="58.39999771118164" text="Day" />
+                        <TableColumn fx:id="colStartTime" prefWidth="80.0" text="Start time" />
+                        <TableColumn fx:id="colDuration" prefWidth="80.0" text="Duration" />
+                        <TableColumn fx:id="colOrigin" prefWidth="120.59996032714844" text="Origin" />
+                        <TableColumn fx:id="colDestination" prefWidth="210.199951171875" text="Destination" />
+                        <TableColumn fx:id="colTravelMode" prefWidth="100.79998779296875" text="Travel Mode" />
+                        <TableColumn fx:id="colParticipant" prefWidth="150.39990234375" text="Participant" />
+                        <TableColumn fx:id="colType" prefWidth="80.4000244140625" text="Type" />
+                    </columns>
+                     <padding>
+                        <Insets top="25.0" />
+                     </padding>
+                  </TableView>
+               </children>
+            </VBox>
          </children>
       </VBox>
    </children>

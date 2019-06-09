@@ -9,7 +9,7 @@ import io.sarl.lang.core.Capacity;
  * @author DELL
  */
 @SarlSpecification("0.9")
-@SarlElementType(19)
+@SarlElementType(20)
 @SuppressWarnings("all")
 public interface SchedulePertubed extends Capacity {
   /**

@@ -49,8 +49,9 @@ public class Episode {
   /**
    * @param newName which we set to the episode name
    */
-  public void setId(final String newId) {
-    this.setId(newId);
+  @XmlElement(name = "id")
+  public void setId(final int newId) {
+    this.id = newId;
   }
   
   /**
@@ -64,7 +65,7 @@ public class Episode {
   /**
    * @param: Activity: act is an activity witch is set to the episode
    */
-  @XmlElement(name = "activity")
+  @XmlElement(name = "Activity")
   public void setActivity(final Activity act) {
     this.activity = act;
   }
@@ -80,9 +81,15 @@ public class Episode {
   /**
    * @param Trip : trip which is set to the episode
    */
-  @XmlElement(name = "trip")
+  @XmlElement(name = "Trip")
   public void setTrip(final Trip trip) {
     this.trip = trip;
+  }
+  
+  @Override
+  @Pure
+  public String toString() {
+    return ("id episode" + Integer.valueOf(this.id));
   }
   
   @Override

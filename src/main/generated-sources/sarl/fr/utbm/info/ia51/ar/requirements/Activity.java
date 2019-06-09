@@ -1,18 +1,15 @@
 package fr.utbm.info.ia51.ar.requirements;
 
-import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.requirements.ActivityType;
 import fr.utbm.info.ia51.ar.requirements.DayOfWeek;
 import fr.utbm.info.ia51.ar.requirements.Location;
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import fr.utbm.info.ia51.ar.requirements.Task;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -23,8 +20,6 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * - type of the Activity
  * - the Task properties
  */
-@XmlRootElement(name = "Activity")
-@XmlAccessorType(XmlAccessType.PROPERTY)
 @SarlSpecification("0.9")
 @SarlElementType(10)
 @SuppressWarnings("all")
@@ -35,8 +30,7 @@ public class Activity extends Task {
     super();
   }
   
-  public Activity(final ActivityType type, final int id, final int startTime, final int duration, final Location location, final List<Person> participants, final DayOfWeek dayofWeek) {
-    super(id, startTime, duration, location, participants, dayofWeek);
+  public Activity(final ActivityType type, final int id, final int startTime, final int duration, final Location location, final List<PersonnalInfo> participants, final DayOfWeek dayofWeek) {
     this.type = type;
   }
   

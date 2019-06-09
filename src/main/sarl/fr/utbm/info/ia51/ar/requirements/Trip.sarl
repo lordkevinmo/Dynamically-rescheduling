@@ -44,8 +44,8 @@ class Trip extends Task {
 	 * @param mode which the user used for traveling. -> travel mode
 	 */
 	new(id : int, origin : Location, startTime : int, duration : int,
-		destination : Location, mode : TravelMode, participants : List<Person>, dayofWeek : DayOfWeek) {
-		super(id, startTime, duration, destination, participants,dayofWeek)
+		destination : Location, mode : TravelMode, participants : List<PersonnalInfo>, dayofWeek : DayOfWeek) {
+		//super(id, startTime, duration, destination, participants,dayofWeek)
 		this.origin = origin
 		this.travelMode = mode
 		this.path = null
@@ -96,7 +96,6 @@ class Trip extends Task {
 	 * 
 	 * @param mode for reaching the destination
 	 */
-	 @XmlElement(name = "travelMode")
 	def setTravelMode(mode : TravelMode) {
 		this.travelMode = mode
 	}

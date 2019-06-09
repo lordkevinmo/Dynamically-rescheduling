@@ -1,8 +1,8 @@
 package fr.utbm.info.ia51.ar.requirements;
 
-import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.requirements.DayOfWeek;
 import fr.utbm.info.ia51.ar.requirements.Location;
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
@@ -24,7 +24,7 @@ import org.eclipse.xtext.xbase.lib.Pure;
 @SarlSpecification("0.9")
 @SarlElementType(10)
 @SuppressWarnings("all")
-public abstract class Task {
+public class Task {
   private int id;
   
   private int startTime;
@@ -33,7 +33,7 @@ public abstract class Task {
   
   private Location location;
   
-  private List<Person> participants;
+  private List<PersonnalInfo> participants;
   
   private DayOfWeek dayofWeek;
   
@@ -41,7 +41,7 @@ public abstract class Task {
     super();
   }
   
-  public Task(final int id, final int startTime, final int duration, final Location location, final List<Person> participants, final DayOfWeek dayofWeek) {
+  public Task(final int id, final int startTime, final int duration, final Location location, final List<PersonnalInfo> participants, final DayOfWeek dayofWeek) {
     this.id = id;
     this.startTime = startTime;
     this.duration = duration;
@@ -62,7 +62,6 @@ public abstract class Task {
    * Set the start time of the Task
    * @param : startTime is the start date and time
    */
-  @XmlElement(name = "startTime")
   public void setStartTime(final int startTime) {
     this.startTime = startTime;
   }
@@ -95,7 +94,7 @@ public abstract class Task {
   /**
    * Set the location of the current task
    */
-  @XmlElement(name = "location")
+  @XmlElement(name = "Location")
   public void setLocation(final Location location) {
     this.location = location;
   }
@@ -104,7 +103,7 @@ public abstract class Task {
    * @return the participants of the task
    */
   @Pure
-  public List<Person> getParticipants() {
+  public List<PersonnalInfo> getParticipants() {
     return this.participants;
   }
   
@@ -112,18 +111,25 @@ public abstract class Task {
    * @param : participants are the list of all the participants
    * involved in the task
    */
-  @XmlElement(name = "participants")
-  public void setParticipants(final List<Person> participants) {
+  @XmlElement(name = "PersonnalInfos")
+  public void setParticipants(final List<PersonnalInfo> participants) {
     this.participants = participants;
   }
   
   /**
    * @return the id of the task
    */
-  @XmlElement(name = "id")
   @Pure
   public int getId() {
     return this.id;
+  }
+  
+  /**
+   * @return the id of the task
+   */
+  @XmlElement(name = "id")
+  public int setId(final int id) {
+    return this.id = id;
   }
   
   /**
@@ -137,7 +143,7 @@ public abstract class Task {
   /**
    * @param The day on which the activity will take place
    */
-  @XmlElement(name = "dayofWeek")
+  @XmlElement(name = "dayofweek")
   public void setDayOfWeek(final DayOfWeek dayofWeek) {
     this.dayofWeek = dayofWeek;
   }

@@ -13,13 +13,18 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import java.util.List;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
  * We describe here all informations about the person agent
  * @author Koffi Agbenya
  */
+@XmlRootElement(name = "PersonnalInfo")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @SarlSpecification("0.9")
 @SarlElementType(10)
 @SuppressWarnings("all")
@@ -45,6 +50,9 @@ public class PersonnalInfo {
   private ChildrenCategory childrenCategory;
   
   private IncomeCategory incomeCategory;
+  
+  public PersonnalInfo() {
+  }
   
   /**
    * @return id
@@ -95,7 +103,6 @@ public class PersonnalInfo {
    * @param gender
    * gender of  agent
    */
-  @XmlElement(name = "gender")
   public void setGender(final Gender gender) {
     this.gender = gender;
   }
@@ -131,7 +138,6 @@ public class PersonnalInfo {
    * @param driver licence
    * if driver licence   agent
    */
-  @XmlElement(name = "driver")
   public void setDriver(final DriverLicense driverLicence) {
     this.driver = driverLicence;
   }
@@ -149,7 +155,6 @@ public class PersonnalInfo {
    * @param workStatus
    * workStatus of  agent
    */
-  @XmlElement(name = "workStatus")
   public void setWorkStatus(final WorkStatus workStatus) {
     this.workStatus = workStatus;
   }
@@ -167,7 +172,6 @@ public class PersonnalInfo {
    * @param houseHoldAge
    * houseHoldAge of  agent
    */
-  @XmlElement(name = "houseHoldAge")
   public void setHouseHoldAge(final HouseholdAge houseHoldAge) {
     this.houseHoldAge = houseHoldAge;
   }
@@ -185,7 +189,6 @@ public class PersonnalInfo {
    * @param houseHoldComposition
    * houseHoldComposition of  agent
    */
-  @XmlElement(name = "houseHoldComposition")
   public void setHouseHoldComposition(final HouseholdComposition houseHoldAgeComposition) {
     this.houseHoldComposition = houseHoldAgeComposition;
   }
@@ -203,7 +206,6 @@ public class PersonnalInfo {
    * @param ChildrenCategory
    * ChildrenCategory in the agent house
    */
-  @XmlElement(name = "childrenCategory")
   public void setChildrenCategory(final ChildrenCategory childrenCategory) {
     this.childrenCategory = childrenCategory;
   }
@@ -221,7 +223,6 @@ public class PersonnalInfo {
    * @param incomeCategory
    * incomeCategory in the agent house
    */
-  @XmlElement(name = "incomeCategory")
   public void setIncomeCategory(final IncomeCategory incomeCategory) {
     this.incomeCategory = incomeCategory;
   }
@@ -239,9 +240,20 @@ public class PersonnalInfo {
    * @param List<Schedule>
    * List of Schedule of the agent
    */
-  @XmlElement(name = "schedules")
+  @XmlElement(name = "Schedule")
   public void setSchedules(final List<Schedule> Schedules) {
     this.schedules = Schedules;
+  }
+  
+  @Pure
+  public static PersonnalInfo getPersonnalInfoById(final int id, final List<PersonnalInfo> listPersonnal) {
+    PersonnalInfo result = null;
+    for (final PersonnalInfo elt : listPersonnal) {
+      if ((elt.id == id)) {
+        result = elt;
+      }
+    }
+    return result;
   }
   
   @Override
@@ -275,10 +287,5 @@ public class PersonnalInfo {
     result = prime * result + Objects.hashCode(this.name);
     result = prime * result + this.age;
     return result;
-  }
-  
-  @SyntheticMember
-  public PersonnalInfo() {
-    super();
   }
 }

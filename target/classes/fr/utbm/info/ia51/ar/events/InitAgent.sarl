@@ -1,0 +1,19 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.events
+
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
+
+/** 
+ * @author komi Agotsi
+ * 
+ */
+event InitAgent{
+	var data : PersonnalInfo
+	
+	new(data : PersonnalInfo){
+		this.data = data
+	}
+	
+}

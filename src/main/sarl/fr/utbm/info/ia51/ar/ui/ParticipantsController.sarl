@@ -80,7 +80,7 @@ class ParticipantsController extends FxViewerController implements Initializable
 	
 	@FXML
 	protected def loadData(events : ActionEvent){
-		System.out.println("loading")		
+		System.out.println("loading....")		
 		var file : File = fileChooser.showOpenDialog(MyAppFxApplication.stage);
 		if (file != null) {
 			openFile(file);

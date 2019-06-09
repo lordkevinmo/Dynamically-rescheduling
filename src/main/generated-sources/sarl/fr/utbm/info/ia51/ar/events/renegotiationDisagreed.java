@@ -47,5 +47,5 @@ public class renegotiationDisagreed extends Event {
   }
   
   @SyntheticMember
-  private final static long serialVersionUID = -284435076L;
+  private static final long serialVersionUID = -284435076L;
 }

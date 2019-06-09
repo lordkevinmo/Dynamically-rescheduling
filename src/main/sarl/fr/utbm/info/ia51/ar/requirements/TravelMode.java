@@ -3,6 +3,9 @@
  */
 package fr.utbm.info.ia51.ar.requirements;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+
 /**
  * @author Koffi AGBENYA
  * 
@@ -10,15 +13,25 @@ package fr.utbm.info.ia51.ar.requirements;
  * a destination for the trip.
  *
  */
+@XmlEnum(value = Integer.class)
 public enum TravelMode {
+	@XmlEnumValue("0")
 	BMT(0),
+	@XmlEnumValue("1")
 	CAR(1),
+	@XmlEnumValue("7")
 	MOTORBIKE(7),
+	@XmlEnumValue("2")
 	BICYCLE(2),
+	@XmlEnumValue("8")
 	PLANE(8),
+	@XmlEnumValue("3")
 	SLOW(3),
+	@XmlEnumValue("4")
 	PUBLIC(4),
+	@XmlEnumValue("6")
 	CARPASSENGER(6),
+	@XmlEnumValue("9")
 	BOAT(9);
 	
 	
@@ -44,5 +57,8 @@ public enum TravelMode {
 		this.mode = mode;
 	}
 	
-	
+	@Override
+	public String toString() {
+	        return  this.name();
+	}
 }

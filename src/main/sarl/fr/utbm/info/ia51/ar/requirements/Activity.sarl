@@ -18,8 +18,7 @@ import javax.xml.bind.annotation.XmlElement
  * - type of the Activity
  * - the Task properties 
  */
-@XmlRootElement(name = "Activity")
-@XmlAccessorType(XmlAccessType.PROPERTY)
+
 class Activity extends Task{
 	var type : ActivityType
 	
@@ -30,8 +29,8 @@ class Activity extends Task{
 	}
 	
 	new(type : ActivityType, id : int, startTime : int, duration : int, location : Location,
-		participants : List<Person>, dayofWeek : DayOfWeek) {
-		super(id, startTime, duration, location, participants, dayofWeek)
+		participants : List<PersonnalInfo>, dayofWeek : DayOfWeek) {
+		//super(id, startTime, duration, location, participants, dayofWeek)
 		this.type = type
 	}
 
@@ -47,7 +46,7 @@ class Activity extends Task{
 	 * 
 	 * @param type of the activity
 	 */
-	 @XmlElement(name = "type")
+	 @XmlElement(name ="type")
 	 def setType(type : ActivityType) {
 		this.type = type
 	 }
