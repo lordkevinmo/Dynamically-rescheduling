@@ -1,6 +1,5 @@
 package fr.utbm.info.ia51.ar.requirements;
 
-<<<<<<< HEAD
 import fr.utbm.info.ia51.ar.requirements.ChildrenCategory;
 import fr.utbm.info.ia51.ar.requirements.DriverLicense;
 import fr.utbm.info.ia51.ar.requirements.Gender;
@@ -289,7 +288,4 @@ public class PersonnalInfo {
     result = prime * result + this.age;
     return result;
   }
-=======
-public class PersonnalInfo {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

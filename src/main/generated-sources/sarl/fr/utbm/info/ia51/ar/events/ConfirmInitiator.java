@@ -5,28 +5,31 @@ import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Address;
 import io.sarl.lang.core.Event;
+import java.util.List;
 import org.eclipse.xtext.xbase.lib.Pure;
 import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 
 /**
  * @author Lilian Durand
  */
-@SarlSpecification("0.8")
+@SarlSpecification("0.9")
 @SarlElementType(15)
+@SuppressWarnings("all")
 public class ConfirmInitiator extends Event {
-  public /* List<Address> */Object participants;
+  public List<Address> participants;
   
-  public ConfirmInitiator(final /* List<Address> */Object participants) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field ConfirmInitiator.participants refers to the missing type List");
+  public ConfirmInitiator(final List<Address> participants) {
+    this.participants = participants;
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
@@ -38,13 +41,12 @@ public class ConfirmInitiator extends Event {
    * Returns a String representation of the ConfirmInitiator event's attributes only.
    */
   @SyntheticMember
-<<<<<<< HEAD
-  private static final long serialVersionUID = 588368462L;
-=======
   @Pure
   protected void toString(final ToStringBuilder builder) {
     super.toString(builder);
     builder.add("participants", this.participants);
   }
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
+  
+  @SyntheticMember
+  private static final long serialVersionUID = 207886565L;
 }

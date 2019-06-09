@@ -1,17 +1,16 @@
 package fr.utbm.info.ia51.ar.agents;
 
+import com.google.common.base.Objects;
 import fr.utbm.info.ia51.ar.agents.Person;
+import fr.utbm.info.ia51.ar.events.ConfirmInitiator;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
 import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe;
 import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
-<<<<<<< HEAD
 import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import fr.utbm.info.ia51.ar.requirements.Persons;
 import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController;
 import fr.utbm.info.ia51.ar.ui.Refresh;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import io.sarl.core.AgentKilled;
 import io.sarl.core.AgentSpawned;
 import io.sarl.core.Behaviors;
@@ -21,7 +20,6 @@ import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Destroy;
 import io.sarl.core.ExternalContextAccess;
 import io.sarl.core.Initialize;
-import io.sarl.core.Lifecycle;
 import io.sarl.core.Logging;
 import io.sarl.core.MemberJoined;
 import io.sarl.core.MemberLeft;
@@ -33,16 +31,22 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Address;
+import io.sarl.lang.core.Agent;
+import io.sarl.lang.core.BuiltinCapacitiesProvider;
+import io.sarl.lang.core.DynamicSkillProvider;
+import io.sarl.lang.core.Scope;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-<<<<<<< HEAD
+import io.sarl.lang.util.SerializableProxy;
+import java.io.ObjectStreamException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import javax.inject.Inject;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Inline;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -51,18 +55,26 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author : Koffi Agbenya
  * @author : Komi AGOTSI
  */
-<<<<<<< HEAD
 @SarlSpecification("0.9")
 @SarlElementType(19)
 @SuppressWarnings("all")
 public class Environment extends Agent {
   private FXBehavior javafxBehavior;
   
+  private boolean negotiationInProgress;
+  
+  private List<Address> participants;
+  
+  private Address initiator;
+  
+  private int delay = 1000;
+  
   private Persons data;
   
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
-    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("I lauching");
+    this.negotiationInProgress = false;
+    this.participants = null;
+    this.initiator = null;
     Object _get = occurrence.parameters[0];
     MyAppFxViewerController fxcontroller = ((MyAppFxViewerController) _get);
     FXBehavior _fXBehavior = new FXBehavior(this, fxcontroller);
@@ -72,83 +84,100 @@ public class Environment extends Agent {
     this.data = fxcontroller.getData();
     List<PersonnalInfo> _personalInfos = this.data.getPersonalInfos();
     for (final PersonnalInfo elt : _personalInfos) {
-      Lifecycle _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER = this.$castSkill(Lifecycle.class, (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = this.$getSkill(Lifecycle.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-      _$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER.spawn(Person.class, elt);
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.spawn(Person.class, elt);
     }
     ExternalContextAccess _$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS$CALLER = this.$castSkill(ExternalContextAccess.class, (this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS == null || this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS = this.$getSkill(ExternalContextAccess.class)) : this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS);
     Refresh _refresh = new Refresh();
     _$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS$CALLER.emit(this.javafxBehavior.getUISpace(), _refresh);
-=======
-@SarlSpecification("0.8")
-@SarlElementType(18)
-public class Environment implements io.sarl.lang.core.Agent {
-  private FXBehavior javafxBehavior;
-  
-  private boolean negotiationInProgress;
-  
-  private /* List<Address> */Object participants;
-  
-  private Address initiator;
-  
-  private int delay = 1000;
-  
-  private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field parameters is undefined for the type Initialize"
-      + "\nThe method or field registerBehavior is undefined for the type FXBehavior"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe constructor FXBehavior(Object, FxViewerController) refers to the missing type Object"
-      + "\nget cannot be resolved");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   private void $behaviorUnit$Destroy$1(final Destroy occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method info(java.lang.String) is undefined");
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("The agent was stopped.");
   }
   
   private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\n=== cannot be resolved."
-      + "\nRandom cannot be resolved."
-      + "\nThe method in(long, Procedure1<? super Object>) from the type Schedules refers to the missing type Object"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe constructor ConfirmInitiator(List) refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nThe constructor ConfirmInitiator(List) refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nget cannot be resolved"
-      + "\nnextInt cannot be resolved"
-      + "\nsize cannot be resolved"
-      + "\n== cannot be resolved");
+    this.negotiationInProgress = true;
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(occurrence);
+    Schedules _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER = this.$castSkill(Schedules.class, (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = this.$getSkill(Schedules.class)) : this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES);
+    final Procedure1<Agent> _function = (Agent it) -> {
+      if ((this.initiator == null)) {
+        this.initiator = this.participants.get(new Random().nextInt(this.participants.size()));
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        ConfirmInitiator _confirmInitiator = new ConfirmInitiator(this.participants);
+        class $SerializableClosureProxy implements Scope<Address> {
+          
+          private final Address $_initiator;
+          
+          public $SerializableClosureProxy(final Address $_initiator) {
+            this.$_initiator = $_initiator;
+          }
+          
+          @Override
+          public boolean matches(final Address it) {
+            return Objects.equal(it, $_initiator);
+          }
+        }
+        final Scope<Address> _function_1 = new Scope<Address>() {
+          @Override
+          public boolean matches(final Address it) {
+            return Objects.equal(it, Environment.this.initiator);
+          }
+          private Object writeReplace() throws ObjectStreamException {
+            return new SerializableProxy($SerializableClosureProxy.class, Environment.this.initiator);
+          }
+        };
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_confirmInitiator, _function_1);
+      }
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER.in(this.delay, _function);
   }
   
   private void $behaviorUnit$PerturbationImpactingMe$3(final PerturbationImpactingMe occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\nadd cannot be resolved");
+    this.participants.add(occurrence.getSource());
   }
   
   private void $behaviorUnit$askToBeInitiator$4(final askToBeInitiator occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe constructor ConfirmInitiator(List) refers to the missing type List"
-      + "\nThe field Environment.participants refers to the missing type List"
-      + "\n== cannot be resolved");
+    this.initiator = occurrence.getSource();
+    DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+    ConfirmInitiator _confirmInitiator = new ConfirmInitiator(this.participants);
+    class $SerializableClosureProxy implements Scope<Address> {
+      
+      private final Address $_initiator;
+      
+      public $SerializableClosureProxy(final Address $_initiator) {
+        this.$_initiator = $_initiator;
+      }
+      
+      @Override
+      public boolean matches(final Address it) {
+        return Objects.equal(it, $_initiator);
+      }
+    }
+    final Scope<Address> _function = new Scope<Address>() {
+      @Override
+      public boolean matches(final Address it) {
+        return Objects.equal(it, Environment.this.initiator);
+      }
+      private Object writeReplace() throws ObjectStreamException {
+        return new SerializableProxy($SerializableClosureProxy.class, Environment.this.initiator);
+      }
+    };
+    _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_confirmInitiator, _function);
   }
   
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$askToBeInitiator$4(final askToBeInitiator it, final askToBeInitiator occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\n=== cannot be resolved.");
+    return (this.initiator == null);
   }
   
   private void $behaviorUnit$EndRenegotiation$5(final EndRenegotiation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Environment.participants refers to the missing type List");
+    this.negotiationInProgress = false;
+    this.participants = null;
+    this.initiator = null;
   }
   
   private void $behaviorUnit$AgentSpawned$6(final AgentSpawned occurrence) {
@@ -176,6 +205,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(Behaviors.class, ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $0$getSkill(Behaviors.class)) : $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS)", imported = Behaviors.class)
   private Behaviors $CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $getSkill(Behaviors.class);
@@ -190,6 +220,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(ExternalContextAccess.class, ($0$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS == null || $0$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS = $0$getSkill(ExternalContextAccess.class)) : $0$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS)", imported = ExternalContextAccess.class)
   private ExternalContextAccess $CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS == null || this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_EXTERNALCONTEXTACCESS = $getSkill(ExternalContextAccess.class);
@@ -204,6 +235,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
   private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
@@ -218,6 +250,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(Schedules.class, ($0$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || $0$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = $0$getSkill(Schedules.class)) : $0$CAPACITY_USE$IO_SARL_CORE_SCHEDULES)", imported = Schedules.class)
   private Schedules $CAPACITY_USE$IO_SARL_CORE_SCHEDULES$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES == null || this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_SCHEDULES = $getSkill(Schedules.class);
@@ -232,6 +265,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(Logging.class, ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || $0$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING = $0$getSkill(Logging.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LOGGING)", imported = Logging.class)
   private Logging $CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
@@ -239,24 +273,9 @@ public class Environment implements io.sarl.lang.core.Agent {
     return $castSkill(Logging.class, this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
   }
   
-  @Extension
-  @ImportedCapacityFeature(Lifecycle.class)
-  @SyntheticMember
-  private transient ClearableReference<Skill> $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE;
-  
-  @SyntheticMember
-  @Pure
-  @Inline(value = "$castSkill(Lifecycle.class, ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $0$getSkill(Lifecycle.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE)", imported = Lifecycle.class)
-  private Lifecycle $CAPACITY_USE$IO_SARL_CORE_LIFECYCLE$CALLER() {
-    if (this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE == null || this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE.get() == null) {
-      this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE = $getSkill(Lifecycle.class);
-    }
-    return $castSkill(Lifecycle.class, this.$CAPACITY_USE$IO_SARL_CORE_LIFECYCLE);
-  }
-  
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$Initialize(final Initialize occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
@@ -264,7 +283,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$ContextLeft(final ContextLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextLeft$9(occurrence));
@@ -272,7 +291,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$ContextJoined(final ContextJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ContextJoined$8(occurrence));
@@ -280,7 +299,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$MemberLeft(final MemberLeft occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberLeft$11(occurrence));
@@ -288,7 +307,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$AgentSpawned(final AgentSpawned occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentSpawned$6(occurrence));
@@ -296,7 +315,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$PerturbationImpactingMe(final PerturbationImpactingMe occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$PerturbationImpactingMe(final PerturbationImpactingMe occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$PerturbationImpactingMe$3(occurrence));
@@ -304,7 +323,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$Destroy(final Destroy occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$Destroy(final Destroy occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Destroy$1(occurrence));
@@ -312,7 +331,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$EndRenegotiation$5(occurrence));
@@ -320,7 +339,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$askToBeInitiator(final askToBeInitiator occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$askToBeInitiator(final askToBeInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     if ($behaviorUnitGuard$askToBeInitiator$4(occurrence, occurrence)) {
@@ -330,7 +349,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$perturbation(final perturbation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$perturbation$2(occurrence));
@@ -338,7 +357,7 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$AgentKilled(final AgentKilled occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$AgentKilled$7(occurrence));
@@ -346,15 +365,16 @@ public class Environment implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$MemberJoined(final MemberJoined occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$MemberJoined$10(occurrence));
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -369,6 +389,7 @@ public class Environment implements io.sarl.lang.core.Agent {
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
@@ -377,5 +398,23 @@ public class Environment implements io.sarl.lang.core.Agent {
     result = prime * result + (this.negotiationInProgress ? 1231 : 1237);
     result = prime * result + this.delay;
     return result;
+  }
+  
+  @SyntheticMember
+  public Environment(final UUID parentID, final UUID agentID) {
+    super(parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  @Deprecated
+  public Environment(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+    super(provider, parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  public Environment(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+    super(parentID, agentID, skillProvider);
   }
 }

@@ -1,0 +1,74 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlElement
+import java.util.List
+
+/** 
+ * this enables to mapping a relation betwenn two persons
+ * @author Komi AGOTSI
+ * 
+ */
+@XmlRootElement(name = "Relation")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+class Relation {
+	
+	var firstPerson : int 
+	var secondPerson : int
+	var socialStatus : SocialStatus
+	
+	
+	new(){
+		
+	}
+	new(firstPerson : int, secondPerson : int, socialStatus : SocialStatus){
+		this.firstPerson = firstPerson
+		this.socialStatus = socialStatus
+		this.secondPerson = secondPerson
+	}
+	
+	def getFirstPerson {
+		firstPerson
+	}
+	
+	@XmlElement(name = "firstPerson")
+	def setFirstPerson(firstPerson : int){
+		this.firstPerson = firstPerson
+	}
+	
+	def getSecondPerson {
+		secondPerson
+	}
+
+	@XmlElement(name = "secondPerson")
+	def setSecondPerson(secondPerson : int){
+		this.secondPerson = secondPerson
+	}
+	
+	def getSocialStatus {
+		socialStatus
+	}
+	
+	@XmlElement(name = "socialStatus")
+	def setSocialStatus(socialStatus : SocialStatus){
+		this.socialStatus = socialStatus
+	}
+	
+	static	def  relation(relations : List<Relation>, firstPerson : int, participant : int) {
+		 var relation : Relation 
+		for(elt : relations){
+			if (elt.firstPerson == firstPerson && elt.secondPerson == participant
+				|| elt.secondPerson == firstPerson && elt.firstPerson == participant) {
+				relation = elt			
+				}
+		return relation;
+		}
+		
+	}
+		
+}

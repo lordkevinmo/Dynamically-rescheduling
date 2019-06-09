@@ -9,8 +9,9 @@ import io.sarl.lang.core.Event;
 /**
  * @author Lilian Durand
  */
-@SarlSpecification("0.8")
+@SarlSpecification("0.9")
 @SarlElementType(15)
+@SuppressWarnings("all")
 public class askToBeInitiator extends Event {
   @SyntheticMember
   public askToBeInitiator() {
@@ -21,10 +22,7 @@ public class askToBeInitiator extends Event {
   public askToBeInitiator(final Address source) {
     super(source);
   }
-<<<<<<< HEAD
   
   @SyntheticMember
   private static final long serialVersionUID = 588368462L;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

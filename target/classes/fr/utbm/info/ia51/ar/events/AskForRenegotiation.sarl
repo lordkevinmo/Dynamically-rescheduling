@@ -1,0 +1,20 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.events
+
+/** 
+ * 
+ * <p> This event is issued by agent in order to negotiate a new 
+ * schedule with the participant of the activity or trip following
+ * a constraining situation leading an agent to reschedule his
+ * activity.
+ * </p>
+ * 
+ *  
+ * @author  komi AGOTSI
+ * 
+ */
+event AskForRenegotiation{
+	
+}

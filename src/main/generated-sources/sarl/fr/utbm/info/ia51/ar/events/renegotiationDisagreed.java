@@ -11,8 +11,9 @@ import org.eclipse.xtext.xbase.lib.util.ToStringBuilder;
 /**
  * @author Secret
  */
-@SarlSpecification("0.8")
+@SarlSpecification("0.9")
 @SarlElementType(15)
+@SuppressWarnings("all")
 public class renegotiationDisagreed extends Event {
   public Schedule newSchedule;
   
@@ -20,12 +21,14 @@ public class renegotiationDisagreed extends Event {
     this.newSchedule = schedule;
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
@@ -42,10 +45,7 @@ public class renegotiationDisagreed extends Event {
     super.toString(builder);
     builder.add("newSchedule", this.newSchedule);
   }
-<<<<<<< HEAD
   
   @SyntheticMember
   private static final long serialVersionUID = -284435076L;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

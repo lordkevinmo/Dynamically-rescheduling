@@ -6,6 +6,8 @@ import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -19,14 +21,10 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * - Location : Represent the destination or the location where the trip finished or an activity
  *   will be carried out
  */
-@SarlSpecification("0.8")
+@SarlSpecification("0.9")
 @SarlElementType(10)
-<<<<<<< HEAD
 @SuppressWarnings("all")
 public class Task {
-=======
-public abstract class Task {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   private int id;
   
   private int startTime;
@@ -35,20 +33,14 @@ public abstract class Task {
   
   private Location location;
   
-<<<<<<< HEAD
   private List<PersonnalInfo> participants;
-=======
-  private /* List<Person> */Object participants;
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   
   private DayOfWeek dayofWeek;
   
   public Task() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method super() is undefined");
+    super();
   }
   
-<<<<<<< HEAD
   public Task(final int id, final int startTime, final int duration, final Location location, final List<PersonnalInfo> participants, final DayOfWeek dayofWeek) {
     this.id = id;
     this.startTime = startTime;
@@ -56,11 +48,6 @@ public abstract class Task {
     this.location = location;
     this.participants = participants;
     this.dayofWeek = dayofWeek;
-=======
-  public Task(final int id, final int startTime, final int duration, final Location location, final /* List<Person> */Object participants, final DayOfWeek dayofWeek) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Task.participants refers to the missing type List");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
@@ -75,12 +62,7 @@ public abstract class Task {
    * Set the start time of the Task
    * @param : startTime is the start date and time
    */
-<<<<<<< HEAD
   public void setStartTime(final int startTime) {
-=======
-  /* @XmlElement()
-   */public void setStartTime(final int startTime) {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.startTime = startTime;
   }
   
@@ -96,8 +78,8 @@ public abstract class Task {
    * Set the duration of the task
    * @param duration : of the task
    */
-  /* @XmlElement()
-   */public void setDuration(final int duration) {
+  @XmlElement(name = "duration")
+  public void setDuration(final int duration) {
     this.duration = duration;
   }
   
@@ -112,13 +94,8 @@ public abstract class Task {
   /**
    * Set the location of the current task
    */
-<<<<<<< HEAD
   @XmlElement(name = "Location")
   public void setLocation(final Location location) {
-=======
-  /* @XmlElement()
-   */public void setLocation(final Location location) {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.location = location;
   }
   
@@ -126,41 +103,23 @@ public abstract class Task {
    * @return the participants of the task
    */
   @Pure
-<<<<<<< HEAD
   public List<PersonnalInfo> getParticipants() {
     return this.participants;
-=======
-  public /* List<Person> */Object getParticipants() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Task.participants refers to the missing type List");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
    * @param : participants are the list of all the participants
    * involved in the task
    */
-<<<<<<< HEAD
   @XmlElement(name = "PersonnalInfos")
   public void setParticipants(final List<PersonnalInfo> participants) {
     this.participants = participants;
-=======
-  /* @XmlElement()
-   */public void setParticipants(final /* List<Person> */Object participants) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Task.participants refers to the missing type List");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
    * @return the id of the task
    */
-<<<<<<< HEAD
   @Pure
-=======
-  /* @XmlElement()
-   */@Pure
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   public int getId() {
     return this.id;
   }
@@ -184,19 +143,15 @@ public abstract class Task {
   /**
    * @param The day on which the activity will take place
    */
-<<<<<<< HEAD
   @XmlElement(name = "dayofweek")
   public void setDayOfWeek(final DayOfWeek dayofWeek) {
-=======
-  /* @XmlElement()
-   */public void setDayOfWeek(final DayOfWeek dayofWeek) {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.dayofWeek = dayofWeek;
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -213,6 +168,7 @@ public abstract class Task {
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {

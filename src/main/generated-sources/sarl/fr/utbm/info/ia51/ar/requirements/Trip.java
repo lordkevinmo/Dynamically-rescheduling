@@ -8,6 +8,13 @@ import fr.utbm.info.ia51.ar.requirements.TravelMode;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -20,13 +27,15 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * - travel mode :
  * - path :
  */
-/* @XmlRootElement()
-@XmlAccessorType(/* name is null */./* name is null */) */@SarlSpecification("0.8")
+@XmlRootElement(name = "Trip")
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@SarlSpecification("0.9")
 @SarlElementType(10)
+@SuppressWarnings("all")
 public class Trip extends Task {
   private Location origin;
   
-  private /* String */Object path;
+  private String path;
   
   private TravelMode travelMode;
   
@@ -43,17 +52,10 @@ public class Trip extends Task {
    * @param destination of the trip
    * @param mode which the user used for traveling. -> travel mode
    */
-<<<<<<< HEAD
   public Trip(final int id, final Location origin, final int startTime, final int duration, final Location destination, final TravelMode mode, final List<PersonnalInfo> participants, final DayOfWeek dayofWeek) {
     this.origin = origin;
     this.travelMode = mode;
     this.path = null;
-=======
-  public Trip(final int id, final Location origin, final int startTime, final int duration, final Location destination, final TravelMode mode, final /* List<Person> */Object participants, final DayOfWeek dayofWeek) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe constructor Task(int, int, int, Location, List, DayOfWeek) refers to the missing type List"
-      + "\nThe field Trip.path refers to the missing type String");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
@@ -67,8 +69,8 @@ public class Trip extends Task {
   /**
    * @param origin of the trip
    */
-  /* @XmlElement()
-   */public void setOrigin(final Location origin) {
+  @XmlElement(name = "origin")
+  public void setOrigin(final Location origin) {
     this.origin = origin;
   }
   
@@ -76,17 +78,15 @@ public class Trip extends Task {
    * @return the path followed by the user for his trip
    */
   @Pure
-  public /* String */Object getPath() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Trip.path refers to the missing type String");
+  public String getPath() {
+    return this.path;
   }
   
   /**
    * @param path followed by the user for reaching his destination
    */
-  public void setPath(final /* String */Object path) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Trip.path refers to the missing type String");
+  public void setPath(final String path) {
+    this.path = path;
   }
   
   /**
@@ -100,12 +100,7 @@ public class Trip extends Task {
   /**
    * @param mode for reaching the destination
    */
-<<<<<<< HEAD
   public void setTravelMode(final TravelMode mode) {
-=======
-  /* @XmlElement()
-   */public void setTravelMode(final TravelMode mode) {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.travelMode = mode;
   }
   
@@ -113,24 +108,39 @@ public class Trip extends Task {
    * @return all the travel mode add in the enumeration TravelMode enum file.
    */
   @Pure
-  public /* ArrayList<TravelMode> */Object getAllTravelMode() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nArrayList cannot be resolved to a type."
-      + "\nArrayList cannot be resolved."
-      + "\nvalues cannot be resolved"
-      + "\nadd cannot be resolved");
+  public ArrayList<TravelMode> getAllTravelMode() {
+    ArrayList<TravelMode> modes = new ArrayList<TravelMode>();
+    TravelMode[] _values = TravelMode.values();
+    for (final TravelMode mode : _values) {
+      modes.add(mode);
+    }
+    return modes;
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Trip other = (Trip) obj;
+    if (!Objects.equals(this.path, other.path)) {
+      return false;
+    }
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
+    final int prime = 31;
+    result = prime * result + Objects.hashCode(this.path);
     return result;
   }
 }

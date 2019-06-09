@@ -1,6 +1,5 @@
 package fr.utbm.info.ia51.ar.ui;
 
-<<<<<<< HEAD
 import com.google.common.base.Objects;
 import fr.utbm.info.ia51.ar.agents.Person;
 import fr.utbm.info.ia51.ar.requirements.Persons;
@@ -134,7 +133,4 @@ public class ParticipantsController extends FxViewerController implements Initia
   public ParticipantsController() {
     super();
   }
-=======
-public class ParticipantsController {
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

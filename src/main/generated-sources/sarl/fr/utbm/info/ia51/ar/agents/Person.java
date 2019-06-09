@@ -1,14 +1,15 @@
 package fr.utbm.info.ia51.ar.agents;
 
+import com.google.common.base.Objects;
+import fr.utbm.info.ia51.ar.behaviors.participant;
 import fr.utbm.info.ia51.ar.capacities.NativeCapacity;
 import fr.utbm.info.ia51.ar.events.ConfirmInitiator;
 import fr.utbm.info.ia51.ar.events.EndRenegotiation;
+import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe;
+import fr.utbm.info.ia51.ar.events.askToBeInitiator;
 import fr.utbm.info.ia51.ar.events.perturbation;
-<<<<<<< HEAD
 import fr.utbm.info.ia51.ar.requirements.PersonnalInfo;
 import fr.utbm.info.ia51.ar.skills.NativeSkill;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import io.sarl.core.Behaviors;
 import io.sarl.core.DefaultContextInteractions;
 import io.sarl.core.Initialize;
@@ -18,15 +19,17 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Agent;
+import io.sarl.lang.core.Behavior;
+import io.sarl.lang.core.BuiltinCapacitiesProvider;
+import io.sarl.lang.core.DynamicSkillProvider;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-<<<<<<< HEAD
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
-=======
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -39,7 +42,6 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * @author Lilian Durand
  * @author Koffi Agbenya
  */
-<<<<<<< HEAD
 @SarlSpecification("0.9")
 @SarlElementType(19)
 @SuppressWarnings("all")
@@ -56,39 +58,35 @@ public class Person extends Agent {
     this.actualBehavior = null;
     NativeSkill _nativeSkill = new NativeSkill();
     this.<NativeSkill>setSkill(_nativeSkill);
-=======
-/* @XmlRootElement()
-@XmlAccessorType(/* name is null */./* name is null */) */@SarlSpecification("0.8")
-@SarlElementType(18)
-public class Person implements io.sarl.lang.core.Agent {
-  private /* List<Person> */Object myRelations;
-  
-  private /* Behavior */Object actualBehavior;
-  
-  private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method participantsRenegotiation(Object) is undefined for the type Person"
-      + "\nThe method setSkill(NativeSkill) is undefined"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   private void $behaviorUnit$perturbation$1(final perturbation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method registerBehavior(Behavior) is undefined"
-      + "\nInvalid number of arguments. The constructor participant() is not applicable for the arguments (Person)"
-      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
+    NativeCapacity _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER = this.$castSkill(NativeCapacity.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = this.$getSkill(NativeCapacity.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY);
+    boolean _isPerturbationImpacting = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER.isPerturbationImpacting(occurrence);
+    if (_isPerturbationImpacting) {
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      PerturbationImpactingMe _perturbationImpactingMe = new PerturbationImpactingMe();
+      _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_perturbationImpactingMe);
+      Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+      _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
+      participant _participant = new participant(this);
+      this.actualBehavior = _participant;
+      Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1 = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+      _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1.registerBehavior(this.actualBehavior);
+      NativeCapacity _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER_1 = this.$castSkill(NativeCapacity.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = this.$getSkill(NativeCapacity.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY);
+      boolean _wantsToBeInitiator = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER_1.wantsToBeInitiator();
+      if (_wantsToBeInitiator) {
+        DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+        askToBeInitiator _askToBeInitiator = new askToBeInitiator();
+        _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_askToBeInitiator);
+      }
+    }
   }
   
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$1(final perturbation it, final perturbation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\n=== cannot be resolved");
+    return (this.actualBehavior == null);
   }
   
   private void $behaviorUnit$perturbation$2(final perturbation occurrence) {
@@ -97,52 +95,23 @@ public class Person implements io.sarl.lang.core.Agent {
   @SyntheticMember
   @Pure
   private boolean $behaviorUnitGuard$perturbation$2(final perturbation it, final perturbation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\n!= cannot be resolved");
+    boolean _notEquals = (!Objects.equal(this.actualBehavior, null));
+    return _notEquals;
   }
   
   private void $behaviorUnit$ConfirmInitiator$3(final ConfirmInitiator occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method registerBehavior(Behavior) is undefined"
-      + "\nInvalid number of arguments. The constructor Initiator() is not applicable for the arguments (Person,Object)"
-      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\nThe field ConfirmInitiator.participants refers to the missing type Object"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
+    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
+    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1 = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER_1.registerBehavior(this.actualBehavior);
   }
   
   private void $behaviorUnit$EndRenegotiation$4(final EndRenegotiation occurrence) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method unregisterBehavior(Object) from the type Behaviors refers to the missing type Object"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior"
-      + "\nThe field Person.actualBehavior refers to the missing type Behavior");
+    Behaviors _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER = this.$castSkill(Behaviors.class, (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = this.$getSkill(Behaviors.class)) : this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS);
+    _$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER.unregisterBehavior(this.actualBehavior);
+    this.actualBehavior = null;
   }
   
-<<<<<<< HEAD
-=======
-  /**
-   * @return  List<AgentUUID>
-   * List of relations of the agent with others agents
-   */
-  @Pure
-  protected /* List<Person> */Object getRelations() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method getRelations() from the type Person refers to the missing type List");
-  }
-  
-  /**
-   * @param List<AgentUUID>
-   * List of relations of the agent with others agents
-   */
-  /* @XmlElement()
-   */protected void setRelations(final /* List<Person> */Object myRelations) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe field Person.myRelations refers to the missing type List");
-  }
-  
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   @Extension
   @ImportedCapacityFeature(Behaviors.class)
   @SyntheticMember
@@ -150,6 +119,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(Behaviors.class, ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $0$getSkill(Behaviors.class)) : $0$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS)", imported = Behaviors.class)
   private Behaviors $CAPACITY_USE$IO_SARL_CORE_BEHAVIORS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS == null || this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_BEHAVIORS = $getSkill(Behaviors.class);
@@ -164,6 +134,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
   private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
@@ -178,6 +149,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(NativeCapacity.class, ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) ? ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = $0$getSkill(NativeCapacity.class)) : $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY)", imported = NativeCapacity.class)
   private NativeCapacity $CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY$CALLER() {
     if (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY.get() == null) {
       this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_NATIVECAPACITY = $getSkill(NativeCapacity.class);
@@ -202,7 +174,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$Initialize(final Initialize occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
@@ -210,7 +182,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$ConfirmInitiator(final ConfirmInitiator occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$ConfirmInitiator(final ConfirmInitiator occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$ConfirmInitiator$3(occurrence));
@@ -218,7 +190,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$EndRenegotiation(final EndRenegotiation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$EndRenegotiation$4(occurrence));
@@ -226,7 +198,7 @@ public class Person implements io.sarl.lang.core.Agent {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$perturbation(final perturbation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$perturbation(final perturbation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     if ($behaviorUnitGuard$perturbation$1(occurrence, occurrence)) {
@@ -237,16 +209,36 @@ public class Person implements io.sarl.lang.core.Agent {
     }
   }
   
+  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final java.lang.Object obj) {
+  public boolean equals(final Object obj) {
     return super.equals(obj);
   }
   
+  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
     return result;
+  }
+  
+  @SyntheticMember
+  public Person(final UUID parentID, final UUID agentID) {
+    super(parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  @Deprecated
+  public Person(final BuiltinCapacitiesProvider provider, final UUID parentID, final UUID agentID) {
+    super(provider, parentID, agentID);
+  }
+  
+  @SyntheticMember
+  @Inject
+  public Person(final UUID parentID, final UUID agentID, final DynamicSkillProvider skillProvider) {
+    super(parentID, agentID, skillProvider);
   }
 }

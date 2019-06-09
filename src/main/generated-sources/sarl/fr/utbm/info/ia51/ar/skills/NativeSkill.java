@@ -7,31 +7,29 @@ import io.sarl.lang.annotation.ImportedCapacityFeature;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
+import io.sarl.lang.core.Agent;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
+import java.util.Random;
 import org.eclipse.xtext.xbase.lib.Extension;
+import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
  * @author Lilian Durand
  */
-<<<<<<< HEAD
 @SarlSpecification("0.9")
 @SarlElementType(22)
 @SuppressWarnings("all")
-=======
-@SarlSpecification("0.8")
-@SarlElementType(21)
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 public class NativeSkill extends Skill implements NativeCapacity {
   public void install() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method info(java.lang.String) is undefined");
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Installing the skill");
   }
   
   public void uninstall() {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method info(java.lang.String) is undefined");
+    Logging _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER = this.$castSkill(Logging.class, (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = this.$getSkill(Logging.class)) : this.$CAPACITY_USE$IO_SARL_CORE_LOGGING);
+    _$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER.info("Uninstalling the skill");
   }
   
   public boolean isPerturbationImpacting(final perturbation perturb) {
@@ -39,16 +37,8 @@ public class NativeSkill extends Skill implements NativeCapacity {
   }
   
   public boolean wantsToBeInitiator() {
-<<<<<<< HEAD
     int _nextInt = new Random().nextInt(10);
     return ((_nextInt % 2) == 0);
-=======
-    throw new Error("Unresolved compilation problems:"
-      + "\nRandom cannot be resolved."
-      + "\nnextInt cannot be resolved"
-      + "\n% cannot be resolved"
-      + "\n== cannot be resolved");
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   @Extension
@@ -58,6 +48,7 @@ public class NativeSkill extends Skill implements NativeCapacity {
   
   @SyntheticMember
   @Pure
+  @Inline(value = "$castSkill(Logging.class, ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || $0$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_LOGGING = $0$getSkill(Logging.class)) : $0$CAPACITY_USE$IO_SARL_CORE_LOGGING)", imported = Logging.class)
   private Logging $CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_LOGGING == null || this.$CAPACITY_USE$IO_SARL_CORE_LOGGING.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_LOGGING = $getSkill(Logging.class);
@@ -71,7 +62,7 @@ public class NativeSkill extends Skill implements NativeCapacity {
   }
   
   @SyntheticMember
-  public NativeSkill(final /*  */Object agent) {
+  public NativeSkill(final Agent agent) {
     super(agent);
   }
 }

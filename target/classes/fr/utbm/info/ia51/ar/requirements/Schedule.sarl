@@ -1,0 +1,56 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.requirements
+
+import java.util.List
+import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.XmlAccessorType
+import javax.xml.bind.annotation.XmlAccessType
+import javax.xml.bind.annotation.XmlElement
+
+/** 
+ * @author komi AGOTSI
+ * 
+ */
+ @XmlRootElement(name = "Schedule")
+ @XmlAccessorType(XmlAccessType.PROPERTY)
+class Schedule {
+	
+	var episodes : List<Episode>;
+	
+	new(){
+		super()
+	}
+	
+	new(episodes : List<Episode>){
+		this.episodes = episodes;
+	}
+	
+	//getters and setters
+	
+	/*
+	 * @return  List<Episode>
+	 * 						List of episodes
+	 */
+	def getEpisodes : List<Episode> {
+		this.episodes;
+	}
+
+	/** 
+	 * 
+	 * @param List<Episode>
+	 * 					List of episodes
+	 */
+	 @XmlElement(name = "Episode")
+	def setEpisodes(episodes : List<Episode>) {
+		this.episodes = episodes;
+	}
+
+	def toString : String {
+		return "Schedule [episode =" + episodes + "]";
+	}
+	
+	
+	
+}

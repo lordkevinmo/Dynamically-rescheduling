@@ -1,0 +1,104 @@
+package fr.utbm.info.ia51.ar.ui
+
+import io.sarl.javafx.FxViewerController
+import javafx.fxml.FXML
+import java.io.IOException
+import javafx.^event.ActionEvent
+import java.awt.Desktop
+import java.io.File
+import javafx.stage.FileChooser
+import javafx.scene.control.TextField
+import fr.utbm.info.ia51.ar.util.Util
+import fr.utbm.info.ia51.ar.requirements.Persons
+import javafx.collections.ObservableList
+import javafx.collections.FXCollections
+import javafx.fxml.Initializable
+import java.net.URL
+import java.util.ResourceBundle
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.PropertyValueFactory
+import fr.utbm.info.ia51.ar.agents.Person
+import javafx.scene.control.TableView
+
+/** JavaFX controller for the JavaFX application.
+ */
+class ParticipantsController extends FxViewerController implements Initializable {
+	
+	val fileChooser : FileChooser = new FileChooser();
+	
+	var desktop : Desktop = Desktop.getDesktop()	
+	var data : Persons
+	var p : Person	
+	
+	@FXML
+	var loadFileNameTf : TextField
+	
+	@FXML
+	private var table : TableView<DataModel>
+	@FXML
+	private var colId : TableColumn<DataModel, Integer>
+	@FXML
+	private var colName : TableColumn<DataModel, String>
+	@FXML
+	private var colGender : TableColumn<DataModel, Integer>
+	@FXML
+	private var colWorkStatus : TableColumn<DataModel, Integer>
+	@FXML
+	private var colDriverLicence : TableColumn<DataModel, Integer> 
+	
+	private var objectList : ObservableList<DataModel> = FXCollections.observableArrayList()	
+	
+
+	def initialize(location : URL, resources : ResourceBundle) {
+		
+		//for(elt : data.persons){
+			//elt.
+		//	objectList.add(new DataModel(elt.))
+	//	}
+		
+		colId.cellValueFactory = new PropertyValueFactory<DataModel, Integer>("id")
+		colName.cellValueFactory = new PropertyValueFactory<DataModel, String>("name")
+		colGender.cellValueFactory = new PropertyValueFactory<DataModel, Integer>("gender")
+		colWorkStatus.cellValueFactory = new PropertyValueFactory<DataModel, Integer>("Work status")
+		colDriverLicence.cellValueFactory = new PropertyValueFactory<DataModel, Integer>("Driver Licence")
+		
+		table.setItems(objectList)
+	
+	}
+
+	// code under a menu button
+	@FXML
+	private def openFile(file : File) {
+		try {
+			this.desktop.open(file);
+		} catch (ex : IOException) {
+			ex.printStackTrace();
+		}
+	}
+
+	
+	
+	@FXML
+	protected def loadData(events : ActionEvent){
+		System.out.println("loading....")		
+		var file : File = fileChooser.showOpenDialog(MyAppFxApplication.stage);
+		if (file != null) {
+			openFile(file);
+			var selectedFile : File = file;			
+			// printLog(textArea, files);
+	 		System.out.println("file name : " + selectedFile.name)	
+		    data =  Util.xmlToObject(selectedFile) as Persons
+			System.out.println("file name : " + selectedFile.name)
+			System.out.println("data : " + data)		
+		}
+	}
+
+	
+	val dataTableData : ObservableList<DataModel>  = FXCollections.observableArrayList(
+	
+	//	DataModel.newInstance()
+	)
+	
+	
+}
+

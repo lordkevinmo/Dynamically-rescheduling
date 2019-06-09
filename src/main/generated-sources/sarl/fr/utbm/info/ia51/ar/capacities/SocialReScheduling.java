@@ -4,6 +4,9 @@ import fr.utbm.info.ia51.ar.capacities.SelfReScheduling;
 import fr.utbm.info.ia51.ar.requirements.Episode;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
+import io.sarl.lang.core.AgentTrait;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,14 +17,9 @@ import io.sarl.lang.annotation.SarlSpecification;
  * 
  * @author komi AGOTSI
  */
-<<<<<<< HEAD
 @SarlSpecification("0.9")
 @SarlElementType(20)
 @SuppressWarnings("all")
-=======
-@SarlSpecification("0.8")
-@SarlElementType(19)
->>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 public interface SocialReScheduling extends SelfReScheduling {
   /**
    * make a social Re-Scheduling according into each
@@ -30,17 +28,17 @@ public interface SocialReScheduling extends SelfReScheduling {
    * @param participantEpisode
    * 						Map a participant and his episodes
    */
-  public abstract void makeSocialRescheduling(final /* Map<String, List<Episode>> */Object participantEpisode);
+  public abstract void makeSocialRescheduling(final Map<String, List<Episode>> participantEpisode);
   
   /**
    * @ExcludeFromApidoc
    */
   public static class ContextAwareCapacityWrapper<C extends SocialReScheduling> extends SelfReScheduling.ContextAwareCapacityWrapper<C> implements SocialReScheduling {
-    public ContextAwareCapacityWrapper(final C capacity, final io.sarl.lang.core.AgentTrait caller) {
+    public ContextAwareCapacityWrapper(final C capacity, final AgentTrait caller) {
       super(capacity, caller);
     }
     
-    public void makeSocialRescheduling(final /* Map<String, List<Episode>> */Object participantEpisode) {
+    public void makeSocialRescheduling(final Map<String, List<Episode>> participantEpisode) {
       try {
         ensureCallerInLocalThread();
         this.capacity.makeSocialRescheduling(participantEpisode);
