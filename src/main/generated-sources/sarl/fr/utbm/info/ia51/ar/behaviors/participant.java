@@ -13,18 +13,15 @@ import io.sarl.lang.annotation.PerceptGuardEvaluator;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import io.sarl.lang.core.Agent;
-import io.sarl.lang.core.Behavior;
 import io.sarl.lang.core.Skill;
 import io.sarl.lang.util.ClearableReference;
-import java.util.Collection;
 import org.eclipse.xtext.xbase.lib.Extension;
-import org.eclipse.xtext.xbase.lib.Inline;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
  * @author Lilian Durand
  */
+<<<<<<< HEAD
 @SarlSpecification("0.9")
 @SarlElementType(21)
 @SuppressWarnings("all")
@@ -32,18 +29,26 @@ public class participant extends Behavior {
   private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
     ManageScheduleSkill _manageScheduleSkill = new ManageScheduleSkill();
     this.<ManageScheduleSkill>setSkill(_manageScheduleSkill);
+=======
+@SarlSpecification("0.8")
+@SarlElementType(20)
+public class participant implements io.sarl.lang.core.Behavior {
+  private void $behaviorUnit$Initialize$0(final Initialize occurrence) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method setSkill(ManageScheduleSkill) is undefined");
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   private void $behaviorUnit$renegotiation$1(final renegotiation occurrence) {
-    ManageSchedule _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER = this.$castSkill(ManageSchedule.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE = this.$getSkill(ManageSchedule.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE);
+    ManageSchedule _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER = this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER();
     boolean _isNewScheduleOK = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER.isNewScheduleOK(occurrence.newSchedule);
     if (_isNewScheduleOK) {
-      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER = this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER();
       renegotiationAgreed _renegotiationAgreed = new renegotiationAgreed();
       _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER.emit(_renegotiationAgreed);
     } else {
-      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$castSkill(DefaultContextInteractions.class, (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = this.$getSkill(DefaultContextInteractions.class)) : this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS);
-      ManageSchedule _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER_1 = this.$castSkill(ManageSchedule.class, (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE.get() == null) ? (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE = this.$getSkill(ManageSchedule.class)) : this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE);
+      DefaultContextInteractions _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1 = this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER();
+      ManageSchedule _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER_1 = this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER();
       Schedule _computeNewSchedule = _$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER_1.computeNewSchedule(occurrence.perturb);
       renegotiationDisagreed _renegotiationDisagreed = new renegotiationDisagreed(_computeNewSchedule);
       _$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER_1.emit(_renegotiationDisagreed);
@@ -57,7 +62,6 @@ public class participant extends Behavior {
   
   @SyntheticMember
   @Pure
-  @Inline(value = "$castSkill(DefaultContextInteractions.class, ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) ? ($0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $0$getSkill(DefaultContextInteractions.class)) : $0$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS)", imported = DefaultContextInteractions.class)
   private DefaultContextInteractions $CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS$CALLER() {
     if (this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS == null || this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS.get() == null) {
       this.$CAPACITY_USE$IO_SARL_CORE_DEFAULTCONTEXTINTERACTIONS = $getSkill(DefaultContextInteractions.class);
@@ -72,7 +76,6 @@ public class participant extends Behavior {
   
   @SyntheticMember
   @Pure
-  @Inline(value = "$castSkill(ManageSchedule.class, ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE == null || $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE.get() == null) ? ($0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE = $0$getSkill(ManageSchedule.class)) : $0$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE)", imported = ManageSchedule.class)
   private ManageSchedule $CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE$CALLER() {
     if (this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE == null || this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE.get() == null) {
       this.$CAPACITY_USE$FR_UTBM_INFO_IA51_AR_CAPACITIES_MANAGESCHEDULE = $getSkill(ManageSchedule.class);
@@ -82,7 +85,7 @@ public class participant extends Behavior {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$Initialize(final Initialize occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$Initialize(final Initialize occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$Initialize$0(occurrence));
@@ -90,14 +93,9 @@ public class participant extends Behavior {
   
   @SyntheticMember
   @PerceptGuardEvaluator
-  private void $guardEvaluator$renegotiation(final renegotiation occurrence, final Collection<Runnable> ___SARLlocal_runnableCollection) {
+  private void $guardEvaluator$renegotiation(final renegotiation occurrence, final java.util.Collection ___SARLlocal_runnableCollection) {
     assert occurrence != null;
     assert ___SARLlocal_runnableCollection != null;
     ___SARLlocal_runnableCollection.add(() -> $behaviorUnit$renegotiation$1(occurrence));
-  }
-  
-  @SyntheticMember
-  public participant(final Agent agent) {
-    super(agent);
   }
 }

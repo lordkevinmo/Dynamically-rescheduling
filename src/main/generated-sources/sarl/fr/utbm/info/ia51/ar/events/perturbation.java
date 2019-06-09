@@ -9,9 +9,8 @@ import io.sarl.lang.core.Event;
 /**
  * @author Lilian Durand
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(15)
-@SuppressWarnings("all")
 public class perturbation extends Event {
   @SyntheticMember
   public perturbation() {
@@ -22,7 +21,10 @@ public class perturbation extends Event {
   public perturbation(final Address source) {
     super(source);
   }
+<<<<<<< HEAD
   
   @SyntheticMember
   private static final long serialVersionUID = 588368462L;
+=======
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

@@ -15,19 +15,29 @@ import io.sarl.core.MemberLeft
 
 import fr.utbm.info.ia51.ar.events.renegotiationAgreed
 import fr.utbm.info.ia51.ar.events.renegotiationDisagreed
+import io.sarl.lang.core.Address
+import java.util.List
+import fr.utbm.info.ia51.ar.events.EndRenegotiation
+import io.sarl.core.DefaultContextInteractions
 
 /** 
  * @author Koffi Agbenya
+ * @author Lilian Durand
  * 
  */
 behavior Initiator {
-	uses Logging
+	uses Logging, DefaultContextInteractions
+	
+	var nbAnswer : int
+	var participants : List<Address>
+	var nbParticipants : int
+	var nbLoop : int
+	val nbLoopMax : int = 4
 	
 	on renegotiationAgreed {
-		/**
-		 * This event is triggered when all the participants are agree with the 
-		 * last proposition
-		 */
+		if(this.nbAnswer++>=this.nbParticipants){
+			emit(new EndRenegotiation)
+		}
 	}
 	
 	on renegotiationDisagreed {
@@ -37,6 +47,9 @@ behavior Initiator {
 	}
 
 	on Initialize {
+		this.participants = occurrence.parameters.get(0) as List<Address>
+		this.nbParticipants = this.participants.size
+		
 		// Event trigger before the behavior begin to live or to be used.
 		// You should put all the initialization statements in this block of code.
 		info("The behavior was started.")

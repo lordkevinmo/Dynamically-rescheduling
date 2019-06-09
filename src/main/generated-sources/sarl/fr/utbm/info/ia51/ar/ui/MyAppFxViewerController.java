@@ -1,5 +1,6 @@
 package fr.utbm.info.ia51.ar.ui;
 
+<<<<<<< HEAD
 import com.google.common.base.Objects;
 import fr.utbm.info.ia51.ar.agents.Environment;
 import fr.utbm.info.ia51.ar.requirements.Activity;
@@ -15,6 +16,8 @@ import fr.utbm.info.ia51.ar.requirements.SocialStatus;
 import fr.utbm.info.ia51.ar.requirements.Trip;
 import fr.utbm.info.ia51.ar.ui.DataModel;
 import fr.utbm.info.ia51.ar.ui.MyAppFxApplication;
+=======
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import fr.utbm.info.ia51.ar.ui.Refresh;
 import fr.utbm.info.ia51.ar.ui.ScheduleDataModel;
 import fr.utbm.info.ia51.ar.util.Util;
@@ -23,6 +26,7 @@ import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
 import io.sarl.lang.core.Event;
+<<<<<<< HEAD
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -45,29 +49,35 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0;
+=======
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
  * JavaFX controller for the JavaFX application.
  */
-@SarlSpecification("0.9")
+@SarlSpecification("0.8")
 @SarlElementType(10)
-@SuppressWarnings("all")
 public class MyAppFxViewerController extends FxViewerController {
-  private final AtomicBoolean launched = new AtomicBoolean(false);
+  private final Object launched /* Skipped initializer because of errors */;
   
-  private UUID launchedAgent;
+  private /* UUID */Object launchedAgent;
   
-  private Desktop desktop = Desktop.getDesktop();
+  private /* Desktop */Object desktop /* Skipped initializer because of errors */;
   
-  private final FileChooser fileChooser = new FileChooser();
+  private final /* FileChooser */Object fileChooser /* Skipped initializer because of errors */;
   
+<<<<<<< HEAD
   private Persons data;
   
   private final AtomicBoolean started = new AtomicBoolean();
   
   @FXML
   private BorderPane borderPane;
+=======
+  /* @FXML
+   */private /* BorderPane */Object borderPane;
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   
   @FXML
   private VBox scheduleBox;
@@ -130,6 +140,7 @@ public class MyAppFxViewerController extends FxViewerController {
   /**
    * start Environnement Agent
    */
+<<<<<<< HEAD
   public UUID startApplication() {
     UUID _xifexpression = null;
     boolean _andSet = this.started.getAndSet(true);
@@ -139,6 +150,16 @@ public class MyAppFxViewerController extends FxViewerController {
       _xifexpression = this.startAgentApplication(Environment.class, _function);
     }
     return _xifexpression;
+=======
+  /* @FXML
+   */public UUID initialize() {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method startAgentApplication(java.lang.Class, (Object)=>java.lang.Object) is undefined"
+      + "\nThe field MyAppFxViewerController.launched refers to the missing type Object"
+      + "\nThe field MyAppFxViewerController.launchedAgent refers to the missing type UUID"
+      + "\ngetAndSet cannot be resolved"
+      + "\n! cannot be resolved");
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   @Pure
@@ -152,63 +173,62 @@ public class MyAppFxViewerController extends FxViewerController {
     this.refreshScreen();
   }
   
-  @FXML
-  protected void participants(final MouseEvent events) {
-    System.out.println("I\'am here");
-    this.loadUI("participants");
+  /* @FXML
+   */protected Object participants(final /* MouseEvent */Object events) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field System is undefined"
+      + "\nThe method loadUI(String) from the type MyAppFxViewerController refers to the missing type Object"
+      + "\nout cannot be resolved"
+      + "\nprintln cannot be resolved");
   }
   
-  @FXML
-  @Pure
-  protected void home(final MouseEvent events) {
+  /* @FXML
+   */@Pure
+  protected void home(final /* MouseEvent */Object events) {
   }
   
-  @FXML
-  @Pure
-  protected void jointrip(final MouseEvent events) {
+  /* @FXML
+   */@Pure
+  protected void jointrip(final /* MouseEvent */Object events) {
   }
   
-  @FXML
-  @Pure
-  private void simulate(final MouseEvent events) {
+  /* @FXML
+   */@Pure
+  private void simulate(final /* MouseEvent */Object events) {
   }
   
-  @FXML
-  @Pure
-  private void about(final MouseEvent events) {
+  /* @FXML
+   */@Pure
+  private void about(final /* MouseEvent */Object events) {
   }
   
-  @FXML
-  private void loadUI(final String ui) {
-    Parent root = null;
-    VBox box = null;
-    try {
-      box = FXMLLoader.<VBox>load(this.getClass().getResource((ui + ".fxml")));
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
-        final IOException ex = (IOException)_t;
-        ex.printStackTrace();
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
-    }
-    MyAppFxApplication.loadBorderPaneCenter(box);
+  /* @FXML
+   */private Object loadUI(final /* String */Object ui) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nParent cannot be resolved to a type."
+      + "\nVBox cannot be resolved to a type."
+      + "\nIOException cannot be resolved to a type."
+      + "\nThe method or field FXMLLoader is undefined"
+      + "\nThe method or field class is undefined"
+      + "\nNo exception of type IOException can be thrown; an exception type must be a subclass of Throwable"
+      + "\nload cannot be resolved"
+      + "\ngetResource cannot be resolved"
+      + "\n+ cannot be resolved"
+      + "\nprintStackTrace cannot be resolved"
+      + "\nloadBorderPaneCenter cannot be resolved");
   }
   
-  @FXML
-  private void openFile(final File file) {
-    try {
-      this.desktop.open(file);
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
-        final IOException ex = (IOException)_t;
-        ex.printStackTrace();
-      } else {
-        throw Exceptions.sneakyThrow(_t);
-      }
-    }
+  /* @FXML
+   */private Object openFile(final /* File */Object file) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nIOException cannot be resolved to a type."
+      + "\nThe field MyAppFxViewerController.desktop refers to the missing type Desktop"
+      + "\nNo exception of type IOException can be thrown; an exception type must be a subclass of Throwable"
+      + "\nopen cannot be resolved"
+      + "\nprintStackTrace cannot be resolved");
   }
   
+<<<<<<< HEAD
   /**
    * Load Schedule xml file, init TableView and start Environnement
    */
@@ -289,6 +309,24 @@ public class MyAppFxViewerController extends FxViewerController {
       this.scheduleBox.setVisible(true);
       this.initScheduleTable(displayItem);
     }
+=======
+  /* @FXML
+   */protected void loadData(final /* ActionEvent */Object events) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nFile cannot be resolved to a type."
+      + "\nList cannot be resolved to a type."
+      + "\nThe method or field System is undefined"
+      + "\nThe method or field Arrays is undefined"
+      + "\nFile cannot be resolved to a type."
+      + "\nThe field MyAppFxViewerController.fileChooser refers to the missing type FileChooser"
+      + "\nThe method openFile(File) from the type MyAppFxViewerController refers to the missing type Object"
+      + "\nout cannot be resolved"
+      + "\nprintln cannot be resolved"
+      + "\nshowOpenDialog cannot be resolved"
+      + "\nstage cannot be resolved"
+      + "\n!= cannot be resolved"
+      + "\nasList cannot be resolved");
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
@@ -391,30 +429,16 @@ public class MyAppFxViewerController extends FxViewerController {
     }
   }
   
-  @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    MyAppFxViewerController other = (MyAppFxViewerController) obj;
-    if (!java.util.Objects.equals(this.launchedAgent, other.launchedAgent)) {
-      return false;
-    }
+  public boolean equals(final java.lang.Object obj) {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {
     int result = super.hashCode();
-    final int prime = 31;
-    result = prime * result + java.util.Objects.hashCode(this.launchedAgent);
     return result;
   }
   

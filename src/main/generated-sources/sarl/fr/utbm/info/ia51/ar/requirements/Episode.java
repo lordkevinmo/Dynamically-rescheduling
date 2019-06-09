@@ -5,10 +5,6 @@ import fr.utbm.info.ia51.ar.requirements.Trip;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.annotation.SyntheticMember;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import org.eclipse.xtext.xbase.lib.Pure;
 
 /**
@@ -16,11 +12,9 @@ import org.eclipse.xtext.xbase.lib.Pure;
  * 
  * The episode class consists of a pair of activity and trip.
  */
-@XmlRootElement(name = "Episode")
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@SarlSpecification("0.9")
+/* @XmlRootElement()
+@XmlAccessorType(/* name is null */./* name is null */) */@SarlSpecification("0.8")
 @SarlElementType(10)
-@SuppressWarnings("all")
 public class Episode {
   private int id;
   
@@ -29,7 +23,8 @@ public class Episode {
   private Activity activity;
   
   public Episode() {
-    super();
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method super() is undefined");
   }
   
   public Episode(final int name, final Activity activity, final Trip trip) {
@@ -49,9 +44,14 @@ public class Episode {
   /**
    * @param newName which we set to the episode name
    */
+<<<<<<< HEAD
   @XmlElement(name = "id")
   public void setId(final int newId) {
     this.id = newId;
+=======
+  public void setId(final /* String */Object newId) {
+    this.id = (newId).StringValue();
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
   }
   
   /**
@@ -65,8 +65,13 @@ public class Episode {
   /**
    * @param: Activity: act is an activity witch is set to the episode
    */
+<<<<<<< HEAD
   @XmlElement(name = "Activity")
   public void setActivity(final Activity act) {
+=======
+  /* @XmlElement()
+   */public void setActivity(final Activity act) {
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.activity = act;
   }
   
@@ -81,12 +86,16 @@ public class Episode {
   /**
    * @param Trip : trip which is set to the episode
    */
+<<<<<<< HEAD
   @XmlElement(name = "Trip")
   public void setTrip(final Trip trip) {
+=======
+  /* @XmlElement()
+   */public void setTrip(final Trip trip) {
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
     this.trip = trip;
   }
   
-  @Override
   @Pure
   public String toString() {
     return ("id episode" + Integer.valueOf(this.id));
@@ -95,7 +104,7 @@ public class Episode {
   @Override
   @Pure
   @SyntheticMember
-  public boolean equals(final Object obj) {
+  public boolean equals(final java.lang.Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -108,7 +117,6 @@ public class Episode {
     return super.equals(obj);
   }
   
-  @Override
   @Pure
   @SyntheticMember
   public int hashCode() {

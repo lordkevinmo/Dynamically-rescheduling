@@ -1,25 +1,7 @@
 package fr.utbm.info.ia51.ar.requirements;
 
-import fr.utbm.info.ia51.ar.requirements.Episode;
-import io.sarl.lang.annotation.SarlElementType;
-import io.sarl.lang.annotation.SarlSpecification;
-import io.sarl.lang.annotation.SyntheticMember;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.eclipse.xtext.xbase.lib.Pure;
-
-/**
- * @author komi AGOTSI
- */
-@XmlRootElement(name = "Schedule")
-@XmlAccessorType(XmlAccessType.PROPERTY)
-@SarlSpecification("0.9")
-@SarlElementType(10)
-@SuppressWarnings("all")
 public class Schedule {
+<<<<<<< HEAD
   private List<Episode> episodes;
   
   public Schedule() {
@@ -67,4 +49,6 @@ public class Schedule {
     int result = super.hashCode();
     return result;
   }
+=======
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 }

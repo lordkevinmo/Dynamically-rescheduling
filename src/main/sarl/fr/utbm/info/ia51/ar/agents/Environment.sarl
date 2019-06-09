@@ -15,9 +15,19 @@ import io.sarl.core.MemberLeft
 import fr.utbm.info.ia51.ar.events.EndRenegotiation
 import fr.utbm.info.ia51.ar.events.askToBeInitiator
 import fr.utbm.info.ia51.ar.events.perturbation
+<<<<<<< HEAD
 import io.sarl.core.Lifecycle
 import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController
 import fr.utbm.info.ia51.ar.requirements.Persons
+=======
+import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe
+import io.sarl.lang.core.Address
+import java.util.List
+import io.sarl.core.DefaultContextInteractions
+import fr.utbm.info.ia51.ar.events.ConfirmInitiator
+import io.sarl.core.Schedules
+import java.util.Random;
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 
 /*
  * 
@@ -29,6 +39,7 @@ import fr.utbm.info.ia51.ar.requirements.Persons
  */
 agent Environment {
 
+<<<<<<< HEAD
 	uses Behaviors, ExternalContextAccess, Logging, Lifecycle
 
 	var javafxBehavior : FXBehavior
@@ -37,6 +48,26 @@ agent Environment {
 
 	on Initialize {
 		info("I lauching")
+=======
+	uses Behaviors, ExternalContextAccess, DefaultContextInteractions, Schedules, Logging
+
+	var javafxBehavior : FXBehavior
+	
+	var negotiationInProgress : boolean
+	//Register address of all participants for a perturbation
+	var participants : List<Address>
+	//Register the address of initiator
+	var initiator : Address
+	//Time to wait participants in ms
+	var delay = 1000
+
+	on Initialize {
+		//Initialize data
+		this.negotiationInProgress = false
+		this.participants = null
+		this.initiator = null
+		
+>>>>>>> a964ccd9ac12f65bb890ba9dff4d4bace10f9fbb
 		// The first argument within the initialization event is the JavaFX controller.
 		// It is not recommended to keep alive a reference to the controller, i.e.
 		// the JavaFX controller should not be stored within a field.
@@ -67,6 +98,17 @@ agent Environment {
 
 	on perturbation {
 
+		this.negotiationInProgress = true
+		emit(occurrence)
+		
+		//Attend les participants this.delay ms
+		in(this.delay)[
+			//Si personne n'a voulu etre initiateur alors il en choisit un au hasard
+			if (this.initiator === null) {
+				this.initiator = this.participants.get(new Random().nextInt(this.participants.size))
+				emit(new ConfirmInitiator(this.participants))[it == this.initiator]
+			}
+		]
 		/* 
 		 * Perturbation create and send by the javafx gui
 		 * If the perturbation is received by the environment,
@@ -74,8 +116,17 @@ agent Environment {
 		 */ 
 	}
 
-	on askToBeInitiator {
+	on PerturbationImpactingMe {
+		// Adding the address of the agent in the participants list
+		this.participants.add(occurrence.source)
+	}
 
+	//L'evenemtent est trigger seulement si il n'y a pas encore d'initiateur
+	on askToBeInitiator [initiator === null]{
+		this.initiator = occurrence.source
+		
+		//Envoie la confirmation à l'agent concerné
+		emit(new ConfirmInitiator(this.participants))[it == this.initiator]
 		/* 
 		 * If an pertubation is occured and sent to all the agents, one of them or all agents who's concerned
 		 * send a signal to environment for being an initiator. The first agent's response perceive by the 
@@ -84,6 +135,10 @@ agent Environment {
 	}
 
 	on EndRenegotiation {
+		
+		this.negotiationInProgress = false
+		this.participants = null
+		this.initiator = null
 
 		/* 
 		 * Event perceive by the environment when scheduling process is finished.
