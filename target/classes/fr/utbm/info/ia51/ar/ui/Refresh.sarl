@@ -1,5 +1,0 @@
-package fr.utbm.info.ia51.ar.ui
-/*
- * ** Request for refreshing the JavaFX screen.
- */
-event Refresh
