@@ -9,8 +9,26 @@ package fr.utbm.info.ia51.ar.requirements
  */
 class Constraints extends Object {
 	var type : ConstrainsType
+	var influence : int
 	
-	new(constraint : ConstrainsType) {
+	new(constraint : ConstrainsType, influence : int) {
 		this.type = constraint
+		this.influence = influence
+	}
+	
+	def getType : ConstrainsType {
+		this.type
+	}
+	
+	def setType(type : ConstrainsType) {
+		this.type = type
+	}
+	
+	def getInfluence : int {
+		this.influence
+	}
+	
+	def setInfluence(influ : int) {
+		this.influence = influ
 	}
 }
