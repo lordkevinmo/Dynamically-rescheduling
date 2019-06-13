@@ -133,7 +133,8 @@ public class MyAppFxViewerController extends FxViewerController {
   public UUID startApplication() {
     UUID _xifexpression = null;
     boolean _andSet = this.started.getAndSet(true);
-    if ((!_andSet)) {
+    boolean _not = (!_andSet);
+    if (_not) {
       final Procedure0 _function = () -> {
       };
       _xifexpression = this.startAgentApplication(Environment.class, _function);
@@ -222,7 +223,7 @@ public class MyAppFxViewerController extends FxViewerController {
         this.openFile(file);
         File selectedFile = file;
         Persons _xmlToObject = Util.xmlToObject(selectedFile);
-        this.data = _xmlToObject;
+        this.data = ((Persons) _xmlToObject);
       }
       this.initTable();
       _xblockexpression = this.startApplication();
@@ -245,10 +246,17 @@ public class MyAppFxViewerController extends FxViewerController {
         HouseholdAge _houseHoldAge = elt.getHouseHoldAge();
         String _plus = (_houseHoldAge + " || ");
         String _string_3 = elt.getHouseHoldComposition().toString();
+        String _plus_1 = (_plus + _string_3);
+        String _plus_2 = (_plus_1 + " || ");
         IncomeCategory _incomeCategory = elt.getIncomeCategory();
+        String _plus_3 = (_plus_2 + _incomeCategory);
+        String _plus_4 = (_plus_3 + " || ");
         ChildrenCategory _childrenCategory = elt.getChildrenCategory();
+        String _plus_5 = (_plus_4 + _childrenCategory);
+        String _plus_6 = (_plus_5 + " || ");
         IncomeCategory _incomeCategory_1 = elt.getIncomeCategory();
-        DataModel _dataModel = new DataModel(_id, _name, _string, _string_1, _string_2, (((((((_plus + _string_3) + " || ") + _incomeCategory) + " || ") + _childrenCategory) + " || ") + _incomeCategory_1));
+        String _plus_7 = (_plus_6 + _incomeCategory_1);
+        DataModel _dataModel = new DataModel(_id, _name, _string, _string_1, _string_2, _plus_7);
         this.objectList.add(_dataModel);
         PropertyValueFactory<DataModel, Integer> _propertyValueFactory = new PropertyValueFactory<DataModel, Integer>("id");
         this.colId.setCellValueFactory(_propertyValueFactory);
@@ -282,7 +290,8 @@ public class MyAppFxViewerController extends FxViewerController {
       for (final PersonnalInfo elt : _personalInfos) {
         int _id = elt.getId();
         int _id_1 = model.getId();
-        if ((_id == _id_1)) {
+        boolean _equals = (_id == _id_1);
+        if (_equals) {
           displayItem = elt;
         }
       }
@@ -304,7 +313,8 @@ public class MyAppFxViewerController extends FxViewerController {
   public void initScheduleTable(final PersonnalInfo personnalInfos) {
     String participants = "";
     boolean _isEmpty = personnalInfos.getSchedules().isEmpty();
-    if ((!_isEmpty)) {
+    boolean _not = (!_isEmpty);
+    if (_not) {
       List<Schedule> _schedules = personnalInfos.getSchedules();
       for (final Schedule elt : _schedules) {
         List<Episode> _episodes = elt.getEpisodes();
@@ -316,9 +326,10 @@ public class MyAppFxViewerController extends FxViewerController {
               int _id = ep.getActivity().getId();
               String _formatHour = Util.formatHour(ep.getActivity().getStartTime());
               String _string = Integer.valueOf(ep.getActivity().getDuration()).toString();
+              String _plus = (_string + " min");
               String _string_1 = ep.getActivity().getLocation().toString();
               String _string_2 = ep.getActivity().getType().toString();
-              ScheduleDataModel _scheduleDataModel = new ScheduleDataModel(_id, "", _formatHour, (_string + " min"), "", _string_1, "", participants, _string_2);
+              ScheduleDataModel _scheduleDataModel = new ScheduleDataModel(_id, "", _formatHour, _plus, "", _string_1, "", participants, _string_2);
               this.scheduleList.add(_scheduleDataModel);
             }
             Trip _trip = ep.getTrip();
@@ -331,19 +342,24 @@ public class MyAppFxViewerController extends FxViewerController {
                 for (final PersonnalInfo part : _participants_1) {
                   {
                     Relation participantRel = Relation.relation(this.data.getRelations(), personnalInfos.getId(), part.getId());
+                    String _participants_2 = participants;
                     String _name = PersonnalInfo.getPersonnalInfoById(participantRel.getSecondPerson(), this.data.getPersonalInfos()).getName();
+                    String _plus_1 = (_name + ":");
                     SocialStatus _socialStatus = participantRel.getSocialStatus();
-                    participants = (participants + (((_name + ":") + _socialStatus) + "\n"));
+                    String _plus_2 = (_plus_1 + _socialStatus);
+                    String _plus_3 = (_plus_2 + "\n");
+                    participants = (_participants_2 + _plus_3);
                   }
                 }
               }
               int _id_1 = ep.getTrip().getId();
               String _formatHour_1 = Util.formatHour(ep.getTrip().getStartTime());
               String _string_3 = Integer.valueOf(ep.getTrip().getDuration()).toString();
+              String _plus_1 = (_string_3 + " min");
               String _string_4 = ep.getTrip().getOrigin().toString();
               String _string_5 = ep.getTrip().getLocation().toString();
               String _string_6 = ep.getTrip().getTravelMode().toString();
-              ScheduleDataModel _scheduleDataModel_1 = new ScheduleDataModel(_id_1, "", _formatHour_1, (_string_3 + " min"), _string_4, _string_5, _string_6, participants, "");
+              ScheduleDataModel _scheduleDataModel_1 = new ScheduleDataModel(_id_1, "", _formatHour_1, _plus_1, _string_4, _string_5, _string_6, participants, "");
               this.scheduleList.add(_scheduleDataModel_1);
             }
           }
