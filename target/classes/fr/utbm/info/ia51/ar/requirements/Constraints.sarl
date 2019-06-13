@@ -10,10 +10,12 @@ package fr.utbm.info.ia51.ar.requirements
 class Constraints extends Object {
 	var type : ConstrainsType
 	var influence : int
+	var hour : int
 	
-	new(constraint : ConstrainsType, influence : int) {
+	new(constraint : ConstrainsType, hour : int, influence : int) {
 		this.type = constraint
 		this.influence = influence
+		this.hour = hour
 	}
 	
 	def getType : ConstrainsType {
@@ -22,6 +24,14 @@ class Constraints extends Object {
 	
 	def setType(type : ConstrainsType) {
 		this.type = type
+	}
+	
+	def getHour : int {
+		this.hour
+	}
+	
+	def setHour(h : int) {
+		this.hour = h
 	}
 	
 	def getInfluence : int {
