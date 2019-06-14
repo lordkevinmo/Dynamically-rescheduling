@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 import fr.utbm.info.ia51.ar.agents.Environment;
 import fr.utbm.info.ia51.ar.requirements.Activity;
 import fr.utbm.info.ia51.ar.requirements.ChildrenCategory;
+import fr.utbm.info.ia51.ar.requirements.ConstrainsType;
 import fr.utbm.info.ia51.ar.requirements.Episode;
 import fr.utbm.info.ia51.ar.requirements.HouseholdAge;
 import fr.utbm.info.ia51.ar.requirements.IncomeCategory;
@@ -36,6 +37,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -66,11 +68,24 @@ public class MyAppFxViewerController extends FxViewerController {
   
   private final AtomicBoolean started = new AtomicBoolean();
   
+  private ConstrainsType contraintType;
+  
+  private Trip carpolingTrip;
+  
+  private final String CENTER = "center";
+  
+  private final String RIGHT = "right";
+  
   @FXML
   private BorderPane borderPane;
   
   @FXML
   private VBox scheduleBox;
+  
+  @FXML
+  private ComboBox<String> joinTripCombo;
+  
+  private ObservableList<String> joinTripList = FXCollections.<String>observableArrayList();
   
   @FXML
   private TableView<DataModel> table;
@@ -133,8 +148,7 @@ public class MyAppFxViewerController extends FxViewerController {
   public UUID startApplication() {
     UUID _xifexpression = null;
     boolean _andSet = this.started.getAndSet(true);
-    boolean _not = (!_andSet);
-    if (_not) {
+    if ((!_andSet)) {
       final Procedure0 _function = () -> {
       };
       _xifexpression = this.startAgentApplication(Environment.class, _function);
@@ -156,7 +170,7 @@ public class MyAppFxViewerController extends FxViewerController {
   @FXML
   protected void participants(final MouseEvent events) {
     System.out.println("I\'am here");
-    this.loadUI("participants");
+    this.loadUI("participants", this.CENTER);
   }
   
   @FXML
@@ -170,8 +184,9 @@ public class MyAppFxViewerController extends FxViewerController {
   }
   
   @FXML
-  @Pure
-  private void simulate(final MouseEvent events) {
+  protected void simulate(final MouseEvent events) {
+    System.out.println("Simulate");
+    this.loadUI("controlpane", this.RIGHT);
   }
   
   @FXML
@@ -180,20 +195,38 @@ public class MyAppFxViewerController extends FxViewerController {
   }
   
   @FXML
-  private void loadUI(final String ui) {
-    Parent root = null;
-    VBox box = null;
+  private void loadUI(final String ui, final String position) {
     try {
-      box = FXMLLoader.<VBox>load(this.getClass().getResource((ui + ".fxml")));
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
-        final IOException ex = (IOException)_t;
-        ex.printStackTrace();
-      } else {
-        throw Exceptions.sneakyThrow(_t);
+      Parent root = null;
+      VBox box = null;
+      VBox otherBox = null;
+      try {
+        box = FXMLLoader.<VBox>load(this.getClass().getResource((ui + ".fxml")));
+      } catch (final Throwable _t) {
+        if (_t instanceof IOException) {
+          final IOException ex = (IOException)_t;
+          ex.printStackTrace();
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
       }
+      boolean _equals = Objects.equal(position, this.CENTER);
+      if (_equals) {
+        BorderPane _root = MyAppFxApplication.getRoot();
+        _root.setRight(null);
+        MyAppFxApplication.loadBorderPaneCenter(box);
+      } else {
+        boolean _equals_1 = Objects.equal(position, this.RIGHT);
+        if (_equals_1) {
+          otherBox = FXMLLoader.<VBox>load(this.getClass().getResource("map.fxml"));
+          MyAppFxApplication.loadBorderPaneCenter(otherBox);
+          MyAppFxApplication.loadBorderPaneRIght(box);
+          this.fillJoinTripCombo();
+        }
+      }
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
-    MyAppFxApplication.loadBorderPaneCenter(box);
   }
   
   @FXML
@@ -223,12 +256,28 @@ public class MyAppFxViewerController extends FxViewerController {
         this.openFile(file);
         File selectedFile = file;
         Persons _xmlToObject = Util.xmlToObject(selectedFile);
-        this.data = ((Persons) _xmlToObject);
+        this.data = _xmlToObject;
       }
       this.initTable();
       _xblockexpression = this.startApplication();
     }
     return _xblockexpression;
+  }
+  
+  @FXML
+  @Pure
+  protected void onCapacitySelected(final ActionEvent events) {
+  }
+  
+  @FXML
+  @Pure
+  protected void onTImeSelected(final ActionEvent events) {
+  }
+  
+  @FXML
+  protected void onStart(final ActionEvent events) {
+    throw new Error("Unresolved compilation problems:"
+      + "\npertubation cannot be resolved.");
   }
   
   /**
@@ -246,17 +295,10 @@ public class MyAppFxViewerController extends FxViewerController {
         HouseholdAge _houseHoldAge = elt.getHouseHoldAge();
         String _plus = (_houseHoldAge + " || ");
         String _string_3 = elt.getHouseHoldComposition().toString();
-        String _plus_1 = (_plus + _string_3);
-        String _plus_2 = (_plus_1 + " || ");
         IncomeCategory _incomeCategory = elt.getIncomeCategory();
-        String _plus_3 = (_plus_2 + _incomeCategory);
-        String _plus_4 = (_plus_3 + " || ");
         ChildrenCategory _childrenCategory = elt.getChildrenCategory();
-        String _plus_5 = (_plus_4 + _childrenCategory);
-        String _plus_6 = (_plus_5 + " || ");
         IncomeCategory _incomeCategory_1 = elt.getIncomeCategory();
-        String _plus_7 = (_plus_6 + _incomeCategory_1);
-        DataModel _dataModel = new DataModel(_id, _name, _string, _string_1, _string_2, _plus_7);
+        DataModel _dataModel = new DataModel(_id, _name, _string, _string_1, _string_2, (((((((_plus + _string_3) + " || ") + _incomeCategory) + " || ") + _childrenCategory) + " || ") + _incomeCategory_1));
         this.objectList.add(_dataModel);
         PropertyValueFactory<DataModel, Integer> _propertyValueFactory = new PropertyValueFactory<DataModel, Integer>("id");
         this.colId.setCellValueFactory(_propertyValueFactory);
@@ -290,14 +332,21 @@ public class MyAppFxViewerController extends FxViewerController {
       for (final PersonnalInfo elt : _personalInfos) {
         int _id = elt.getId();
         int _id_1 = model.getId();
-        boolean _equals = (_id == _id_1);
-        if (_equals) {
+        if ((_id == _id_1)) {
           displayItem = elt;
         }
       }
       this.scheduleBox.setVisible(true);
       this.initScheduleTable(displayItem);
     }
+  }
+  
+  /**
+   * Handle when select a constraint item
+   */
+  @FXML
+  @Pure
+  private void onJoinTripComboSelected(final ActionEvent events) {
   }
   
   /**
@@ -313,8 +362,7 @@ public class MyAppFxViewerController extends FxViewerController {
   public void initScheduleTable(final PersonnalInfo personnalInfos) {
     String participants = "";
     boolean _isEmpty = personnalInfos.getSchedules().isEmpty();
-    boolean _not = (!_isEmpty);
-    if (_not) {
+    if ((!_isEmpty)) {
       List<Schedule> _schedules = personnalInfos.getSchedules();
       for (final Schedule elt : _schedules) {
         List<Episode> _episodes = elt.getEpisodes();
@@ -326,10 +374,9 @@ public class MyAppFxViewerController extends FxViewerController {
               int _id = ep.getActivity().getId();
               String _formatHour = Util.formatHour(ep.getActivity().getStartTime());
               String _string = Integer.valueOf(ep.getActivity().getDuration()).toString();
-              String _plus = (_string + " min");
               String _string_1 = ep.getActivity().getLocation().toString();
               String _string_2 = ep.getActivity().getType().toString();
-              ScheduleDataModel _scheduleDataModel = new ScheduleDataModel(_id, "", _formatHour, _plus, "", _string_1, "", participants, _string_2);
+              ScheduleDataModel _scheduleDataModel = new ScheduleDataModel(_id, "", _formatHour, (_string + " min"), "", _string_1, "", participants, _string_2);
               this.scheduleList.add(_scheduleDataModel);
             }
             Trip _trip = ep.getTrip();
@@ -338,28 +385,24 @@ public class MyAppFxViewerController extends FxViewerController {
               List<PersonnalInfo> _participants = ep.getTrip().getParticipants();
               boolean _notEquals_2 = (!Objects.equal(_participants, null));
               if (_notEquals_2) {
+                this.joinTripList.add(ep.getTrip().getLocation().toString());
                 List<PersonnalInfo> _participants_1 = ep.getTrip().getParticipants();
                 for (final PersonnalInfo part : _participants_1) {
                   {
                     Relation participantRel = Relation.relation(this.data.getRelations(), personnalInfos.getId(), part.getId());
-                    String _participants_2 = participants;
                     String _name = PersonnalInfo.getPersonnalInfoById(participantRel.getSecondPerson(), this.data.getPersonalInfos()).getName();
-                    String _plus_1 = (_name + ":");
                     SocialStatus _socialStatus = participantRel.getSocialStatus();
-                    String _plus_2 = (_plus_1 + _socialStatus);
-                    String _plus_3 = (_plus_2 + "\n");
-                    participants = (_participants_2 + _plus_3);
+                    participants = (participants + (((_name + ":") + _socialStatus) + "\n"));
                   }
                 }
               }
               int _id_1 = ep.getTrip().getId();
               String _formatHour_1 = Util.formatHour(ep.getTrip().getStartTime());
               String _string_3 = Integer.valueOf(ep.getTrip().getDuration()).toString();
-              String _plus_1 = (_string_3 + " min");
               String _string_4 = ep.getTrip().getOrigin().toString();
               String _string_5 = ep.getTrip().getLocation().toString();
               String _string_6 = ep.getTrip().getTravelMode().toString();
-              ScheduleDataModel _scheduleDataModel_1 = new ScheduleDataModel(_id_1, "", _formatHour_1, _plus_1, _string_4, _string_5, _string_6, participants, "");
+              ScheduleDataModel _scheduleDataModel_1 = new ScheduleDataModel(_id_1, "", _formatHour_1, (_string_3 + " min"), _string_4, _string_5, _string_6, participants, "");
               this.scheduleList.add(_scheduleDataModel_1);
             }
           }
@@ -394,6 +437,12 @@ public class MyAppFxViewerController extends FxViewerController {
     return this.data;
   }
   
+  public void fillJoinTripCombo() {
+    System.out.println(("join trip " + this.joinTripList));
+    System.out.println(("composant " + this.joinTripCombo));
+    this.joinTripCombo.setItems(this.joinTripList);
+  }
+  
   public void receiveEvent(final Event event) {
     if (event instanceof Refresh) {
       _receiveEvent((Refresh)event);
@@ -421,6 +470,12 @@ public class MyAppFxViewerController extends FxViewerController {
     if (!java.util.Objects.equals(this.launchedAgent, other.launchedAgent)) {
       return false;
     }
+    if (!java.util.Objects.equals(this.CENTER, other.CENTER)) {
+      return false;
+    }
+    if (!java.util.Objects.equals(this.RIGHT, other.RIGHT)) {
+      return false;
+    }
     return super.equals(obj);
   }
   
@@ -431,6 +486,8 @@ public class MyAppFxViewerController extends FxViewerController {
     int result = super.hashCode();
     final int prime = 31;
     result = prime * result + java.util.Objects.hashCode(this.launchedAgent);
+    result = prime * result + java.util.Objects.hashCode(this.CENTER);
+    result = prime * result + java.util.Objects.hashCode(this.RIGHT);
     return result;
   }
   

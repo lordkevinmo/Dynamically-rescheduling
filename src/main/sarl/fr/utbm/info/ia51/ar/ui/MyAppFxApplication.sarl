@@ -50,6 +50,14 @@ class MyAppFxApplication extends FxApplication {
 		root.center = box
 	}
 
+	static def loadBorderPaneRIght(box : VBox) {
+		root.right = box
+	}
+
+	static def getRoot {
+		root
+	}
+
 	static def stage : Stage {
 		MyAppFxApplication.stage
 	}

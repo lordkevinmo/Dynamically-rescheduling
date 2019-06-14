@@ -14,17 +14,7 @@
 	</properties>
 
 	<dependencies>		
-		<dependency>
-		<groupId>org.arakhne.afc.gis</groupId>
-		<artifactId>gisroad</artifactId>
-		<version>16.0-SNAPSHOT</version>
-		</dependency>
 		
-		<dependency>
-		<groupId>io.sarl.maven</groupId>
-		<artifactId>io.sarl.maven.sdk</artifactId>
-		<version>${sarl.version}</version>
-		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

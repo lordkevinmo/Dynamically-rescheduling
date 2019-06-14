@@ -58,6 +58,15 @@ public class MyAppFxApplication extends FxApplication {
     MyAppFxApplication.root.setCenter(box);
   }
   
+  public static void loadBorderPaneRIght(final VBox box) {
+    MyAppFxApplication.root.setRight(box);
+  }
+  
+  @Pure
+  public static BorderPane getRoot() {
+    return MyAppFxApplication.root;
+  }
+  
   @Pure
   public static Stage stage() {
     return MyAppFxApplication.stage;
