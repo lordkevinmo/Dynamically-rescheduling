@@ -13,7 +13,6 @@
 		<afc.version>16.0-SNAPSHOT</afc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<dependencies>		
 		<dependency>
 			<groupId>org.arakhne.afc.gis</groupId>

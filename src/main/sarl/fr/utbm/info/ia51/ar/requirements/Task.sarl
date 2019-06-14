@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlElement
  *   will be carried out   
  */
 
-class Task {
+class Task extends Object{
 	var id : int
 	var startTime : int
 	var duration : int

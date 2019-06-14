@@ -83,6 +83,8 @@ agent Environment {
 	}
 
 	on perturbation {
+		
+	
 
 		this.negotiationInProgress = true
 		emit(occurrence)

@@ -24,6 +24,11 @@ import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 import javafx.scene.control.cell.PropertyValueFactory
 import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
+import javafx.scene.control.ComboBox
+import fr.utbm.info.ia51.ar.requirements.ConstrainsType
+import fr.utbm.info.ia51.ar.requirements.Trip
+import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Constraints
 
 /** JavaFX controller for the JavaFX application.
  */
@@ -39,13 +44,25 @@ class MyAppFxViewerController extends FxViewerController {
 	
 	var data : Persons
 
-	val started = new AtomicBoolean
+	val started = new AtomicBoolean	
+	
+	var contraintType : Constraints
+	
+	var carpolingTrip : Trip
+	
+	final val CENTER = "center"
+	final val RIGHT = "right"
 
 	//widgets on UI
 	@FXML
 	var borderPane : BorderPane
 	@FXML
 	var scheduleBox : VBox	
+	@FXML
+	var joinTripCombo : ComboBox<String>
+
+	// Participant TableView List
+	private var joinTripList : ObservableList<String> = FXCollections.observableArrayList()
 	 
 	// Participants TableView	
 	@FXML
@@ -117,7 +134,7 @@ class MyAppFxViewerController extends FxViewerController {
 	@FXML
 	protected def participants(events : MouseEvent) {
 		System.out.println("I'am here")
-		loadUI("participants")
+		loadUI("participants",CENTER)
 	}
 
 	@FXML
@@ -129,7 +146,10 @@ class MyAppFxViewerController extends FxViewerController {
 	}
 
 	@FXML
-	private def simulate(events : MouseEvent) {
+	protected def simulate(events : MouseEvent) {
+		System.out.println("Simulate")
+		loadUI("controlpane", RIGHT)
+				
 	}
 
 	@FXML
@@ -137,15 +157,24 @@ class MyAppFxViewerController extends FxViewerController {
 	}
 
 	@FXML
-	private def loadUI(ui : String) {
+	private def loadUI(ui : String,  position : String) {
 		var root : Parent
-		var box : VBox
+		var box  : VBox
+		var otherBox : VBox
 		try {
 			box = FXMLLoader.load(class.getResource(ui + ".fxml"))
 		} catch (ex : IOException) {
 			ex.printStackTrace
 		}
-		MyAppFxApplication.loadBorderPaneCenter(box)
+		if (position == CENTER) {
+		MyAppFxApplication.root.right = null	
+		MyAppFxApplication.loadBorderPaneCenter(box)			
+		} else if (position == RIGHT) {
+			otherBox = FXMLLoader.load(class.getResource("map.fxml"))
+			MyAppFxApplication.loadBorderPaneCenter(otherBox)
+			MyAppFxApplication.loadBorderPaneRIght(box)	
+			fillJoinTripCombo			
+		}
 	}
 
 	@FXML
@@ -171,6 +200,23 @@ class MyAppFxViewerController extends FxViewerController {
 		initTable()
 		startApplication();		
 	}
+
+	@FXML
+	protected def onCapacitySelected(events : ActionEvent) {	
+		
+	}
+
+	@FXML
+	protected def onTImeSelected(events : ActionEvent) {
+	}
+
+	@FXML
+	protected def onStart(events : ActionEvent) {
+		System.out.println("start")
+		UISpace.emit(ID,new perturbation(contraintType,carpolingTrip))
+	}
+	
+	
 		
 /**
  * Init the Participant TbaleView 
@@ -212,6 +258,16 @@ class MyAppFxViewerController extends FxViewerController {
 			initScheduleTable(displayItem)
 		}	
 	}
+
+/**
+ * Handle when select a constraint item
+ */
+ 	@FXML
+	private def onJoinTripComboSelected(events : ActionEvent) {
+		
+	}
+	
+	
 	/**
 	 * Reset a schedule TableView Data.
 	 */
@@ -236,6 +292,7 @@ class MyAppFxViewerController extends FxViewerController {
 			     if (ep.trip != null) {
 						if (ep.trip.participants != null)
 							{
+								joinTripList.add(ep.trip.location.toString)
 								for (part : ep.trip.participants) {
 								var participantRel : Relation = Relation.relation(data.relations, personnalInfos.id,part.id);
 								participants += PersonnalInfo.getPersonnalInfoById(participantRel.secondPerson,data.personalInfos).name+ ":" + participantRel.socialStatus+"\n" 							
@@ -245,9 +302,7 @@ class MyAppFxViewerController extends FxViewerController {
 						Util.formatHour(ep.trip.startTime), ep.trip.duration.toString+" min", ep.trip.origin.toString,
 						ep.trip.location.toString, ep.trip.travelMode.toString,participants,""))
 			     }			
-		}
-
-	
+		}	
 		}
 		}else{
 			init
@@ -263,13 +318,19 @@ class MyAppFxViewerController extends FxViewerController {
 		colType.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("type")		
 		
 
-		scheduleTable.setItems(scheduleList)
+		scheduleTable.items = scheduleList
 
 		// val dataTableData : ObservableList<DataModel> = FXCollections.observableArrayList()
 	}
 	
 	def getData() : Persons{
 		data
+	}
+	
+	def fillJoinTripCombo(){
+		System.out.println("join trip " + joinTripList)
+		System.out.println("composant " + joinTripCombo)
+		joinTripCombo.items = joinTripList
 	}
 	
 

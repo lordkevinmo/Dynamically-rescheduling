@@ -96,16 +96,16 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="160.0" prefHeight="32.0" prefWidth="134.0">
                <children>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: #03A9F4;">
+                  <Button contentDisplay="CENTER" onAction="#simulate"  mnemonicParsing="false" style="-fx-background-color: #03A9F4;">
                      <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0"  fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@simulate.png" />
                            </image>
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Simulate" textAlignment="CENTER">
+                  <Text fill="WHITE" strokeType="OUTSIDE"   onMouseClicked="#simulate" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Simulate" textAlignment="CENTER">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font>
