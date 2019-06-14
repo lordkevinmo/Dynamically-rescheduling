@@ -1,0 +1,1229 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.framework1d.fx.preferences
+
+import com.dlsc.formsfx.model.validators.DoubleRangeValidator
+import com.dlsc.formsfx.model.validators.IntegerRangeValidator
+import com.dlsc.preferencesfx.model.Setting
+import javafx.beans.property.DoubleProperty
+import javafx.beans.property.IntegerProperty
+import javafx.beans.property.SimpleDoubleProperty
+import javafx.beans.property.SimpleIntegerProperty
+import org.arakhne.afc.simulation.framework.base.fx.preferences.AbstractFxPreferenceManager
+import org.arakhne.afc.simulation.framework.base.fx.preferences.PreferenceCategoryBuilder
+import org.arakhne.afc.simulation.framework.base.preferences.PreferenceManager
+import org.arakhne.afc.simulation.framework.framework1d.preferences.PreferenceManager1d
+
+/**
+ * Manager of preferences for a simulator.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+abstract class AbstractFxPreferenceManager1d extends AbstractFxPreferenceManager implements PreferenceManager1d {
+
+	public static val PREFERENCES_CATEGORY_AGENTS = "AGENTS"
+
+	public static val PREFERENCES_GROUP_AGENTS_BODY = "BODY"
+
+	public static val PREFERENCES_GROUP_AGENTS_BEHAVIOR = "BEHAVIOR"
+
+	public static val PREFERENCES_CATEGORY_CARS = "CARS"
+
+	public static val PREFERENCES_GROUP_CARS_PROPERTIES = "CPROPERTIES"
+
+	public static val PREFERENCES_GROUP_CARS_DRAWERS = "CDRAWERS"
+
+	public static val PREFERENCES_CATEGORY_OBJS = "SOBJECTS"
+
+	public static val PREFERENCES_GROUP_OBJS_PROPERTIES = "OPROPERTIES"
+
+	public static val PREFERENCES_CATEGORY_SPAWNER = "SPAWNER"
+
+	public static val PREFERENCES_GROUP_SPAWNER_LOCATION = "SLOCATION"
+
+	public static val PREFERENCES_CATEGORY_ROADS = "ROADS"
+
+	public static val PREFERENCES_GROUP_ROADS_SPEEDLIMITS = "SPEEDLIMITS"
+
+	/** Replies the singleton.
+	 */
+	static def getSingleton : AbstractFxPreferenceManager1d {
+		PreferenceManager::singleton as AbstractFxPreferenceManager1d
+	}
+
+	def buildPreferenceCategories(extension builder : PreferenceCategoryBuilder) {
+		super.buildPreferenceCategories(builder)
+		builder.create(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BODY,
+			Setting::of(AGENT_PERCEPTION_DISTANCE, this.agentPerceptionDistanceProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+
+		builder.create(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR,
+			Setting::of(AGENT_REACTION_TIME, this.agentReactionTimeProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR,
+			Setting::of(AGENT_SECURITY_DISTANCE, this.agentSecurityDistanceProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR,
+			Setting::of(IDM_FREE_DRIVING_DISTANCE, this.idmFreeDrivingDistanceProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+
+		builder.create(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_PROPERTIES,
+			Setting::of(CAR_WIDTH, this.carWidthProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_PROPERTIES,
+			Setting::of(CAR_HEIGHT, this.carHeightProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+
+		builder.create(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_DRAWERS,
+			ofColorType(CAR_COLOR, this.carColorProperty))
+
+		builder.create(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES,
+			Setting::of(OBJECT_MAXIMUM_SPEED, this.objectMaximumSpeedProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES,
+			Setting::of(OBJECT_MAXIMUM_ACCELERATION, this.objectMaximumAccelerationProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES,
+			Setting::of(OBJECT_MAXIMUM_DECELERATION, this.objectMaximumDecelerationProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+
+		builder.create(PREFERENCES_CATEGORY_SPAWNER, PREFERENCES_GROUP_SPAWNER_LOCATION,
+			Setting::of(SPAWNER_ATTACH_TO_END_DISTANCE, this.spawnerAttachToEndDistanceProperty)
+			.validate(DoubleRangeValidator::atLeast(0.0, "MUST_BE_POSITIVE_OR_ZERO")))
+
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_BIKEWAY, this.speedLimitBikewayProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_FREEWAY, this.speedLimitFreewayProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_INTERCHANGE_RAMP, this.speedLimitInterchangeRampProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_LOCAL_ROAD, this.speedLimitLocalRoadProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_MAJOR_ROAD, this.speedLimitMajorRoadProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_MAJOR_URBAN_AXIS, this.speedLimitMajorUrbanAxisProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_OTHER, this.speedLimitOtherProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_PRIVACY_PATH, this.speedLimitPrivacyPathProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_SECONDARY_ROAD, this.speedLimitSecondaryRoadProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+		builder.create(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS,
+			Setting::of(SPEED_LIMIT_TRACK, this.speedLimitTrackProperty)
+			.validate(IntegerRangeValidator::atLeast(0, "MUST_BE_POSITIVE_OR_ZERO")))
+	}
+
+	override reset {
+		super.reset
+		resetIdmFreeDrivingDistance
+		resetAgentPerceptionDistance
+		resetAgentSecurityDistance
+		resetAgentReactionTime
+		resetObjectMaxAcceleration
+		resetObjectMaxDeceleration
+		resetObjectMaxSpeed
+		resetSpawnerAttachToEndDistance
+		resetCarColor
+		resetCarWidth
+		resetCarHeight
+		resetSpeedLimitInterchangeRamp
+		resetSpeedLimitFreeway
+		resetSpeedLimitMajorRoad
+		resetSpeedLimitSecondaryRoad
+		resetSpeedLimitLocalRoad
+		resetSpeedLimitMajorUrbanAxis
+		resetSpeedLimitPrivacyPath
+		resetSpeedLimitTrack
+		resetSpeedLimitBikeway
+		resetSpeedLimitOther
+	}
+
+	protected override saveProperties {
+		super.saveProperties
+		saveIdmFreeDrivingDistance
+		saveAgentPerceptionDistance
+		saveAgentSecurityDistance
+		saveAgentReactionTime
+		saveObjectMaxAcceleration
+		saveObjectMaxDeceleration
+		saveObjectMaxSpeed
+		saveSpawnerAttachToEndDistance
+		saveCarColor
+		saveCarWidth
+		saveCarHeight
+		saveSpeedLimitInterchangeRamp
+		saveSpeedLimitFreeway
+		saveSpeedLimitMajorRoad
+		saveSpeedLimitSecondaryRoad
+		saveSpeedLimitLocalRoad
+		saveSpeedLimitMajorUrbanAxis
+		saveSpeedLimitPrivacyPath
+		saveSpeedLimitTrack
+		saveSpeedLimitBikeway
+		saveSpeedLimitOther
+	}
+
+	
+	
+	
+	var idmFreeDrivingDistance : DoubleProperty
+
+	/** Replies the free driving distance.
+	 */
+	def getIdmFreeDrivingDistanceProperty : DoubleProperty {
+		if (this.idmFreeDrivingDistance === null) {
+			this.idmFreeDrivingDistance = new SimpleDoubleProperty(
+				this,
+				IDM_FREE_DRIVING_DISTANCE,
+				defaultIdmFreeDrivingDistance) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.idmFreeDrivingDistance
+	}
+
+	private def nameIdmFreeDrivingDistance : String {
+		name(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR, IDM_FREE_DRIVING_DISTANCE)
+	}
+
+	private def defaultIdmFreeDrivingDistance : double {
+		nameIdmFreeDrivingDistance.prefDouble(IDM_FREE_DRIVING_DISTANCE_VALUE)
+	}
+
+	private def resetIdmFreeDrivingDistance {
+		if (this.idmFreeDrivingDistance !== null) {
+			this.idmFreeDrivingDistance.set(defaultIdmFreeDrivingDistance)
+		}
+	}
+
+	private def saveIdmFreeDrivingDistance {
+		if (this.idmFreeDrivingDistance !== null) {
+			this.store.putDouble(nameIdmFreeDrivingDistance, this.idmFreeDrivingDistance.get)
+		}
+	}
+
+	override getIdmFreeDrivingDistance : double {
+		this.idmFreeDrivingDistanceProperty.get
+	}
+	
+	override setIdmFreeDrivingDistance(distance : double) {
+		this.idmFreeDrivingDistanceProperty.set(distance)
+	}
+
+
+
+
+	var agentPerceptionDistance : DoubleProperty
+
+	/** Replies the agent perception distance.
+	 */
+	def getAgentPerceptionDistanceProperty : DoubleProperty {
+		if (this.agentPerceptionDistance === null) {
+			this.agentPerceptionDistance = new SimpleDoubleProperty(this, AGENT_PERCEPTION_DISTANCE,
+				defaultAgentPerceptionDistance) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.agentPerceptionDistance
+	}
+
+	private def nameAgentPerceptionDistance : String {
+		name(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BODY, AGENT_PERCEPTION_DISTANCE)
+	}
+
+	private def defaultAgentPerceptionDistance : double {
+		nameAgentPerceptionDistance.prefDouble(AGENT_PERCEPTION_DISTANCE_VALUE)
+	}
+
+	private def resetAgentPerceptionDistance {
+		if (this.agentPerceptionDistance !== null) {
+			this.agentPerceptionDistance.set(defaultAgentPerceptionDistance)
+		}
+	}
+
+	private def saveAgentPerceptionDistance {
+		if (this.agentPerceptionDistance !== null) {
+			this.store.putDouble(nameAgentPerceptionDistance, this.agentPerceptionDistance.get)
+		}
+	}
+
+	def getAgentPerceptionDistance : double {
+		this.agentPerceptionDistanceProperty.get
+	}
+	
+	def setAgentPerceptionDistance(distance : double) {
+		this.agentPerceptionDistanceProperty.set(distance)
+	}
+
+
+
+
+	var agentSecurityDistance : DoubleProperty
+
+	/** Replies the agent security distance.
+	 */
+	def getAgentSecurityDistanceProperty : DoubleProperty {
+		if (this.agentSecurityDistance === null) {
+			this.agentSecurityDistance = new SimpleDoubleProperty(this, AGENT_SECURITY_DISTANCE,
+				defaultAgentSecurityDistance) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.agentSecurityDistance
+	}
+
+	private def nameAgentSecurityDistance : String {
+		name(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR, AGENT_SECURITY_DISTANCE)
+	}
+
+	private def defaultAgentSecurityDistance : double {
+		nameAgentSecurityDistance.prefDouble(AGENT_SECURITY_DISTANCE_VALUE)
+	}
+
+	private def resetAgentSecurityDistance {
+		if (this.agentSecurityDistance !== null) {
+			this.agentSecurityDistance.set(defaultAgentSecurityDistance)
+		}
+	}
+
+	private def saveAgentSecurityDistance {
+		if (this.agentSecurityDistance !== null) {
+			this.store.putDouble(nameAgentSecurityDistance, this.agentSecurityDistance.get)
+		}
+	}
+
+	def getAgentSecurityDistance : double {
+		this.agentSecurityDistanceProperty.get
+	}
+	
+	def setAgentSecurityDistance(distance : double) {
+		this.agentSecurityDistanceProperty.set(distance)
+	}
+
+
+
+
+	var agentReactionTime : DoubleProperty
+
+	/** Replies the agent security distance.
+	 */
+	def getAgentReactionTimeProperty : DoubleProperty {
+		if (this.agentReactionTime === null) {
+			this.agentReactionTime = new SimpleDoubleProperty(this, AGENT_REACTION_TIME,
+				defaultAgentReactionTime) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.agentReactionTime
+	}
+
+	private def nameAgentReactionTime : String {
+		name(PREFERENCES_CATEGORY_AGENTS, PREFERENCES_GROUP_AGENTS_BEHAVIOR, AGENT_REACTION_TIME)
+	}
+
+	private def defaultAgentReactionTime : double {
+		nameAgentReactionTime.prefDouble(AGENT_REACTION_TIME_VALUE)
+	}
+
+	private def resetAgentReactionTime {
+		if (this.agentReactionTime !== null) {
+			this.agentReactionTime.set(defaultAgentReactionTime)
+		}
+	}
+
+	private def saveAgentReactionTime {
+		if (this.agentReactionTime !== null) {
+			this.store.putDouble(nameAgentReactionTime, this.agentReactionTime.get)
+		}
+	}
+
+	def getAgentReactionTime : double {
+		this.agentReactionTimeProperty.get
+	}
+	
+	def setAgentReactionTime(time : double) {
+		this.agentReactionTimeProperty.set(time)
+	}
+
+
+
+
+	var objectMaxAcceleration : DoubleProperty
+
+	/** Replies the object maximum acceleration.
+	 */
+	def getObjectMaximumAccelerationProperty : DoubleProperty {
+		if (this.objectMaxAcceleration === null) {
+			this.objectMaxAcceleration = new SimpleDoubleProperty(this, OBJECT_MAXIMUM_ACCELERATION,
+				defaultObjectMaxAcceleration) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.objectMaxAcceleration
+	}
+
+	private def nameObjectMaxAcceleration : String {
+		name(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES, OBJECT_MAXIMUM_ACCELERATION)
+	}
+
+	private def defaultObjectMaxAcceleration : double {
+		nameObjectMaxAcceleration.prefDouble(OBJECT_MAXIMUM_ACCELERATION_VALUE)
+	}
+
+	private def resetObjectMaxAcceleration {
+		if (this.objectMaxAcceleration !== null) {
+			this.objectMaxAcceleration.set(defaultObjectMaxAcceleration)
+		}
+	}
+
+	private def saveObjectMaxAcceleration {
+		if (this.objectMaxAcceleration !== null) {
+			this.store.putDouble(nameObjectMaxAcceleration, this.objectMaxAcceleration.get)
+		}
+	}
+
+	def getObjectMaximumAcceleration : double {
+		this.objectMaximumAccelerationProperty.get
+	}
+	
+	def setObjectMaximumAcceleration(acceleration : double) {
+		this.objectMaximumAccelerationProperty.set(acceleration)
+	}
+
+
+
+
+	var objectMaxDeceleration : DoubleProperty
+
+	/** Replies the object maximum deceleration.
+	 */
+	def getObjectMaximumDecelerationProperty : DoubleProperty {
+		if (this.objectMaxDeceleration === null) {
+			this.objectMaxDeceleration = new SimpleDoubleProperty(this, OBJECT_MAXIMUM_DECELERATION,
+				defaultObjectMaxDeceleration) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.objectMaxDeceleration
+	}
+
+	private def nameObjectMaxDeceleration : String {
+		name(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES, OBJECT_MAXIMUM_DECELERATION)
+	}
+
+	private def defaultObjectMaxDeceleration : double {
+		nameObjectMaxDeceleration.prefDouble(OBJECT_MAXIMUM_DECELERATION_VALUE)
+	}
+
+	private def resetObjectMaxDeceleration {
+		if (this.objectMaxDeceleration !== null) {
+			this.objectMaxDeceleration.set(defaultObjectMaxDeceleration)
+		}
+	}
+
+	private def saveObjectMaxDeceleration {
+		if (this.objectMaxDeceleration !== null) {
+			this.store.putDouble(nameObjectMaxDeceleration, this.objectMaxDeceleration.get)
+		}
+	}
+
+	def getObjectMaximumDeceleration : double {
+		this.objectMaximumDecelerationProperty.get
+	}
+	
+	def setObjectMaximumDeceleration(deceleration : double) {
+		this.objectMaximumDecelerationProperty.set(deceleration)
+	}
+
+
+
+
+	var objectMaxSpeed : DoubleProperty
+
+	/** Replies the object maximum speed.
+	 */
+	def getObjectMaximumSpeedProperty : DoubleProperty {
+		if (this.objectMaxSpeed === null) {
+			this.objectMaxSpeed = new SimpleDoubleProperty(this, OBJECT_MAXIMUM_SPEED, defaultObjectMaxSpeed) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.objectMaxSpeed
+	}
+
+	private def nameObjectMaxSpeed : String {
+		name(PREFERENCES_CATEGORY_OBJS, PREFERENCES_GROUP_OBJS_PROPERTIES, OBJECT_MAXIMUM_SPEED)
+	}
+
+	private def defaultObjectMaxSpeed : double {
+		nameObjectMaxSpeed.prefDouble(OBJECT_MAXIMUM_SPEED_VALUE)
+	}
+
+	private def resetObjectMaxSpeed {
+		if (this.objectMaxSpeed !== null) {
+			this.objectMaxSpeed.set(defaultObjectMaxSpeed)
+		}
+	}
+
+	private def saveObjectMaxSpeed {
+		if (this.objectMaxSpeed !== null) {
+			this.store.putDouble(nameObjectMaxSpeed, this.objectMaxSpeed.get)
+		}
+	}
+
+	def getObjectMaximumSpeed : double {
+		this.objectMaximumSpeedProperty.get
+	}
+	
+	def setObjectMaximumSpeed(speed : double) {
+		this.objectMaximumSpeedProperty.set(speed)
+	}
+
+
+
+
+	var spawnerAttachToEndDistance : DoubleProperty
+
+	/** Replies the object maximum speed.
+	 */
+	def getSpawnerAttachToEndDistanceProperty : DoubleProperty {
+		if (this.spawnerAttachToEndDistance === null) {
+			this.spawnerAttachToEndDistance = new SimpleDoubleProperty(this, SPAWNER_ATTACH_TO_END_DISTANCE,
+				defaultSpawnerAttachToEndDistance) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.spawnerAttachToEndDistance
+	}
+
+	private def nameSpawnerAttachToEndDistance : String {
+		name(PREFERENCES_CATEGORY_SPAWNER, PREFERENCES_GROUP_SPAWNER_LOCATION, SPAWNER_ATTACH_TO_END_DISTANCE)
+	}
+
+	private def defaultSpawnerAttachToEndDistance : double {
+		nameSpawnerAttachToEndDistance.prefDouble(SPAWNER_ATTACH_TO_END_DISTANCE_VALUE)
+	}
+
+	private def resetSpawnerAttachToEndDistance {
+		if (this.spawnerAttachToEndDistance !== null) {
+			this.spawnerAttachToEndDistance.set(defaultSpawnerAttachToEndDistance)
+		}
+	}
+
+	private def saveSpawnerAttachToEndDistance {
+		if (this.spawnerAttachToEndDistance !== null) {
+			this.store.putDouble(nameSpawnerAttachToEndDistance, this.spawnerAttachToEndDistance.get)
+		}
+	}
+
+	def getSpawnerAttachToEndDistance : double {
+		this.spawnerAttachToEndDistanceProperty.get
+	}
+	
+	def setSpawnerAttachToEndDistance(distance : double) {
+		this.spawnerAttachToEndDistanceProperty.set(distance)
+	}
+
+
+
+
+	var carColor : IntegerProperty
+
+	/** Replies the car color.
+	 */
+	def getCarColorProperty : IntegerProperty {
+		if (this.carColor === null) {
+			this.carColor = new SimpleIntegerProperty(this, CAR_COLOR, defaultCarColor)
+		}
+		return this.carColor
+	}
+
+	private def nameCarColor : String {
+		name(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_DRAWERS, CAR_COLOR)
+	}
+
+	private def defaultCarColor : int {
+		nameCarColor.prefInt(CAR_COLOR_VALUE)
+	}
+
+	private def resetCarColor {
+		if (this.carColor !== null) {
+			this.carColor.set(defaultCarColor)
+		}
+	}
+
+	private def saveCarColor {
+		if (this.carColor !== null) {
+			this.store.putInt(nameCarColor, this.carColor.get)
+		}
+	}
+
+	def getCarColor : int {
+		this.carColorProperty.get
+	}
+	
+	def setCarColor(color : int) {
+		this.carColorProperty.set(color)
+	}
+
+
+
+
+	var carWidth : DoubleProperty
+
+	/** Replies the car width.
+	 */
+	def getCarWidthProperty : DoubleProperty {
+		if (this.carWidth === null) {
+			this.carWidth = new SimpleDoubleProperty(this, CAR_WIDTH, defaultCarWidth) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.carWidth
+	}
+
+	private def nameCarWidth : String {
+		name(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_PROPERTIES, CAR_WIDTH)
+	}
+
+	private def defaultCarWidth : double {
+		nameCarWidth.prefDouble(CAR_WIDTH_VALUE)
+	}
+
+	private def resetCarWidth {
+		if (this.carWidth !== null) {
+			this.carWidth.set(defaultCarWidth)
+		}
+	}
+
+	private def saveCarWidth {
+		if (this.carWidth !== null) {
+			this.store.putDouble(nameCarWidth, this.carWidth.get)
+		}
+	}
+
+	def getCarWidth : double {
+		this.carWidthProperty.get
+	}
+	
+	def setCarWidth(width : double) {
+		this.carWidthProperty.set(width)
+	}
+
+
+
+
+	var carHeight : DoubleProperty
+
+	/** Replies the car height.
+	 */
+	def getCarHeightProperty : DoubleProperty {
+		if (this.carHeight === null) {
+			this.carHeight = new SimpleDoubleProperty(this, CAR_HEIGHT, defaultCarHeight) {
+				protected override invalidated {
+					var value = get
+					if (value < 0.0) {
+						set(0.0)
+					}
+				}
+			}
+		}
+		return this.carHeight
+	}
+
+	private def nameCarHeight : String {
+		name(PREFERENCES_CATEGORY_CARS, PREFERENCES_GROUP_CARS_PROPERTIES, CAR_HEIGHT)
+	}
+
+	private def defaultCarHeight : double {
+		nameCarHeight.prefDouble(CAR_HEIGHT_VALUE)
+	}
+
+	private def resetCarHeight {
+		if (this.carHeight !== null) {
+			this.carHeight.set(defaultCarHeight)
+		}
+	}
+
+	private def saveCarHeight {
+		if (this.carHeight !== null) {
+			this.store.putDouble(nameCarHeight, this.carHeight.get)
+		}
+	}
+
+	def getCarHeight : double {
+		this.carHeightProperty.get
+	}
+	
+	def setCarHeight(height : double) {
+		this.carHeightProperty.set(height)
+	}
+
+
+
+
+	var speedLimitInterchangeRamp : IntegerProperty
+
+	/** Replies the speed limit for interchange ramp.
+	 */
+	def getSpeedLimitInterchangeRampProperty : IntegerProperty {
+		if (this.speedLimitInterchangeRamp === null) {
+			this.speedLimitInterchangeRamp = new SimpleIntegerProperty(this, SPEED_LIMIT_INTERCHANGE_RAMP,
+				defaultSpeedLimitInterchangeRamp) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitInterchangeRamp
+	}
+
+	private def nameSpeedLimitInterchangeRamp : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_INTERCHANGE_RAMP)
+	}
+
+	private def defaultSpeedLimitInterchangeRamp : int {
+		nameSpeedLimitInterchangeRamp.prefInt(SPEED_LIMIT_INTERCHANGE_RAMP_VALUE)
+	}
+
+	private def resetSpeedLimitInterchangeRamp {
+		if (this.speedLimitInterchangeRamp !== null) {
+			this.speedLimitInterchangeRamp.set(defaultSpeedLimitInterchangeRamp)
+		}
+	}
+
+	private def saveSpeedLimitInterchangeRamp {
+		if (this.speedLimitInterchangeRamp !== null) {
+			this.store.putDouble(nameSpeedLimitInterchangeRamp, this.speedLimitInterchangeRamp.get)
+		}
+	}
+
+	def getSpeedLimitInterchangeRamp : int {
+		this.speedLimitInterchangeRampProperty.get
+	}
+	
+	def setSpeedLimitInterchangeRamp(limit : int) {
+		this.speedLimitInterchangeRampProperty.set(limit)
+	}
+
+
+
+	var speedLimitFreeway : IntegerProperty
+
+	/** Replies the speed limit for freeway.
+	 */
+	def getSpeedLimitFreewayProperty : IntegerProperty {
+		if (this.speedLimitFreeway === null) {
+			this.speedLimitFreeway = new SimpleIntegerProperty(this, SPEED_LIMIT_FREEWAY, defaultSpeedLimitFreeway) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitFreeway
+	}
+
+	private def nameSpeedLimitFreeway : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_FREEWAY)
+	}
+
+	private def defaultSpeedLimitFreeway : int {
+		nameSpeedLimitFreeway.prefInt(SPEED_LIMIT_FREEWAY_VALUE)
+	}
+
+	private def resetSpeedLimitFreeway {
+		if (this.speedLimitFreeway !== null) {
+			this.speedLimitFreeway.set(defaultSpeedLimitFreeway)
+		}
+	}
+
+	private def saveSpeedLimitFreeway {
+		if (this.speedLimitFreeway !== null) {
+			this.store.putDouble(nameSpeedLimitFreeway, this.speedLimitFreeway.get)
+		}
+	}
+
+	def getSpeedLimitFreeway : int {
+		this.speedLimitFreewayProperty.get
+	}
+	
+	def setSpeedLimitFreeway(limit : int) {
+		this.speedLimitFreewayProperty.set(limit)
+	}
+
+
+
+
+	var speedLimitMajorRoad : IntegerProperty
+
+	/** Replies the speed limit for major road.
+	 */
+	def getSpeedLimitMajorRoadProperty : IntegerProperty {
+		if (this.speedLimitMajorRoad === null) {
+			this.speedLimitMajorRoad = new SimpleIntegerProperty(this, SPEED_LIMIT_MAJOR_ROAD,
+				defaultSpeedLimitMajorRoad) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitMajorRoad
+	}
+
+	private def nameSpeedLimitMajorRoad : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_MAJOR_ROAD)
+	}
+
+	private def defaultSpeedLimitMajorRoad : int {
+		nameSpeedLimitMajorRoad.prefInt(SPEED_LIMIT_MAJOR_ROAD_VALUE)
+	}
+
+	private def resetSpeedLimitMajorRoad {
+		if (this.speedLimitMajorRoad !== null) {
+			this.speedLimitMajorRoad.set(defaultSpeedLimitMajorRoad)
+		}
+	}
+
+	private def saveSpeedLimitMajorRoad {
+		if (this.speedLimitMajorRoad !== null) {
+			this.store.putDouble(nameSpeedLimitMajorRoad, this.speedLimitMajorRoad.get)
+		}
+	}
+	
+	def getSpeedLimitMajorRoad : int {
+		this.speedLimitMajorRoadProperty.get
+	}
+	
+	def setSpeedLimitMajorRoad(limit : int) {
+		this.speedLimitMajorRoadProperty.set(limit)
+	}
+
+
+
+	var speedLimitSecondaryRoad : IntegerProperty
+
+	/** Replies the speed limit for secondary road.
+	 */
+	def getSpeedLimitSecondaryRoadProperty : IntegerProperty {
+		if (this.speedLimitSecondaryRoad === null) {
+			this.speedLimitSecondaryRoad = new SimpleIntegerProperty(this, SPEED_LIMIT_SECONDARY_ROAD,
+				defaultSpeedLimitSecondaryRoad) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitSecondaryRoad
+	}
+
+	private def nameSpeedLimitSecondaryRoad : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_SECONDARY_ROAD)
+	}
+
+	private def defaultSpeedLimitSecondaryRoad : int {
+		nameSpeedLimitSecondaryRoad.prefInt(SPEED_LIMIT_SECONDARY_ROAD_VALUE)
+	}
+
+	private def resetSpeedLimitSecondaryRoad {
+		if (this.speedLimitSecondaryRoad !== null) {
+			this.speedLimitSecondaryRoad.set(defaultSpeedLimitSecondaryRoad)
+		}
+	}
+
+	private def saveSpeedLimitSecondaryRoad {
+		if (this.speedLimitSecondaryRoad !== null) {
+			this.store.
+				putDouble(nameSpeedLimitSecondaryRoad, this.speedLimitSecondaryRoad.get)
+		}
+	}
+
+	def getSpeedLimitSecondaryRoad : int {
+		this.speedLimitSecondaryRoadProperty.get
+	}
+
+	def setSpeedLimitSecondaryRoad(limit : int) {
+		this.speedLimitSecondaryRoadProperty.set(limit)
+	}
+
+
+
+	var speedLimitLocalRoad : IntegerProperty
+
+	/** Replies the speed limit for local road.
+	 */
+	def getSpeedLimitLocalRoadProperty : IntegerProperty {
+		if (this.speedLimitLocalRoad === null) {
+			this.speedLimitLocalRoad = new SimpleIntegerProperty(this, SPEED_LIMIT_LOCAL_ROAD,
+				defaultSpeedLimitLocalRoad) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitLocalRoad
+	}
+
+	private def nameSpeedLimitLocalRoad : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_LOCAL_ROAD)
+	}
+
+	private def defaultSpeedLimitLocalRoad : int {
+		nameSpeedLimitLocalRoad.prefInt(SPEED_LIMIT_LOCAL_ROAD_VALUE)
+	}
+
+	private def resetSpeedLimitLocalRoad {
+		if (this.speedLimitLocalRoad !== null) {
+			this.speedLimitLocalRoad.set(defaultSpeedLimitLocalRoad)
+		}
+	}
+
+	private def saveSpeedLimitLocalRoad {
+		if (this.speedLimitLocalRoad !== null) {
+			this.store.putDouble(nameSpeedLimitLocalRoad, this.speedLimitLocalRoad.get)
+		}
+	}
+
+	def getSpeedLimitLocalRoad : int {
+		this.speedLimitLocalRoadProperty.get
+	}
+	
+	def setSpeedLimitLocalRoad(limit : int) {
+		this.speedLimitLocalRoadProperty.set(limit)
+	}
+
+
+
+	var speedLimitMajorUrbanAxis : IntegerProperty
+
+	/** Replies the speed limit for major urban axis.
+	 */
+	def getSpeedLimitMajorUrbanAxisProperty : IntegerProperty {
+		if (this.speedLimitMajorUrbanAxis === null) {
+			this.speedLimitMajorUrbanAxis = new SimpleIntegerProperty(this, SPEED_LIMIT_MAJOR_URBAN_AXIS,
+				defaultSpeedLimitMajorUrbanAxis) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitMajorUrbanAxis
+	}
+
+	private def nameSpeedLimitMajorUrbanAxis : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_MAJOR_URBAN_AXIS)
+	}
+
+	private def defaultSpeedLimitMajorUrbanAxis : int {
+		nameSpeedLimitMajorUrbanAxis.prefInt(SPEED_LIMIT_MAJOR_URBAN_AXIS_VALUE)
+	}
+
+	private def resetSpeedLimitMajorUrbanAxis {
+		if (this.speedLimitMajorUrbanAxis !== null) {
+			this.speedLimitMajorUrbanAxis.set(defaultSpeedLimitMajorUrbanAxis)
+		}
+	}
+
+	private def saveSpeedLimitMajorUrbanAxis {
+		if (this.speedLimitMajorUrbanAxis !== null) {
+			this.store.
+				putDouble(nameSpeedLimitMajorUrbanAxis, this.speedLimitMajorUrbanAxis.get)
+		}
+	}
+
+	def getSpeedLimitMajorUrbanAxis : int {
+		this.speedLimitMajorUrbanAxisProperty.get
+	}
+	
+	def setSpeedLimitMajorUrbanAxis(limit : int) {
+		this.speedLimitMajorUrbanAxisProperty.set(limit)
+	}
+
+
+
+
+	var speedLimitPrivacyPath : IntegerProperty
+
+	/** Replies the speed limit for privacy path.
+	 */
+	def getSpeedLimitPrivacyPathProperty : IntegerProperty {
+		if (this.speedLimitPrivacyPath === null) {
+			this.speedLimitPrivacyPath = new SimpleIntegerProperty(this, SPEED_LIMIT_PRIVACY_PATH,
+				defaultSpeedLimitPrivacyPath) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitPrivacyPath
+	}
+
+	private def nameSpeedLimitPrivacyPath : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_PRIVACY_PATH)
+	}
+
+	private def defaultSpeedLimitPrivacyPath : int {
+		nameSpeedLimitPrivacyPath.prefInt(SPEED_LIMIT_PRIVACY_PATH_VALUE)
+	}
+
+	private def resetSpeedLimitPrivacyPath {
+		if (this.speedLimitPrivacyPath !== null) {
+			this.speedLimitPrivacyPath.set(defaultSpeedLimitPrivacyPath)
+		}
+	}
+
+	private def saveSpeedLimitPrivacyPath {
+		if (this.speedLimitPrivacyPath !== null) {
+			this.store.putDouble(nameSpeedLimitPrivacyPath, this.speedLimitPrivacyPath.get)
+		}
+	}
+
+	def getSpeedLimitPrivacyPath : int {
+		this.speedLimitPrivacyPathProperty.get
+	}
+	
+	def setSpeedLimitPrivacyPath(limit : int) {
+		this.speedLimitPrivacyPathProperty.set(limit)
+	}
+
+
+
+
+	var speedLimitTrack : IntegerProperty
+
+	/** Replies the speed limit for track.
+	 */
+	def getSpeedLimitTrackProperty : IntegerProperty {
+		if (this.speedLimitTrack === null) {
+			this.speedLimitTrack = new SimpleIntegerProperty(this, SPEED_LIMIT_TRACK, defaultSpeedLimitTrack) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitTrack
+	}
+
+	private def nameSpeedLimitTrack : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_TRACK)
+	}
+
+	private def defaultSpeedLimitTrack : int {
+		nameSpeedLimitTrack.prefInt(SPEED_LIMIT_TRACK_VALUE)
+	}
+
+	private def resetSpeedLimitTrack {
+		if (this.speedLimitTrack !== null) {
+			this.speedLimitTrack.set(defaultSpeedLimitTrack)
+		}
+	}
+
+	private def saveSpeedLimitTrack {
+		if (this.speedLimitTrack !== null) {
+			this.store.putDouble(nameSpeedLimitTrack, this.speedLimitTrack.get)
+		}
+	}
+
+	def getSpeedLimitTrack : int {
+		this.speedLimitTrackProperty.get
+	}
+	
+	def setSpeedLimitTrack(limit : int) {
+		this.speedLimitTrackProperty.set(limit)
+	}
+
+
+
+	var speedLimitBikeway : IntegerProperty
+
+	/** Replies the speed limit for bikeway.
+	 */
+	def getSpeedLimitBikewayProperty : IntegerProperty {
+		if (this.speedLimitBikeway === null) {
+			this.speedLimitBikeway = new SimpleIntegerProperty(this, SPEED_LIMIT_BIKEWAY, defaultSpeedLimitBikeway) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitBikeway
+	}
+
+	private def nameSpeedLimitBikeway : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_BIKEWAY)
+	}
+
+	private def defaultSpeedLimitBikeway : int {
+		nameSpeedLimitBikeway.prefInt(SPEED_LIMIT_BIKEWAY_VALUE)
+	}
+
+	private def resetSpeedLimitBikeway {
+		if (this.speedLimitBikeway !== null) {
+			this.speedLimitBikeway.set(defaultSpeedLimitBikeway)
+		}
+	}
+
+	private def saveSpeedLimitBikeway {
+		if (this.speedLimitBikeway !== null) {
+			this.store.putDouble(nameSpeedLimitBikeway, this.speedLimitBikeway.get)
+		}
+	}
+
+	def getSpeedLimitBikeway : int {
+		this.speedLimitBikewayProperty.get
+	}
+	
+	def setSpeedLimitBikeway(limit : int) {
+		this.speedLimitBikewayProperty.set(limit)
+	}
+
+
+
+	var speedLimitOther: IntegerProperty
+
+	/** Replies the speed limit for other way.
+	 */
+	def getSpeedLimitOtherProperty : IntegerProperty {
+		if (this.speedLimitOther === null) {
+			this.speedLimitOther = new SimpleIntegerProperty(this, SPEED_LIMIT_OTHER, defaultSpeedLimitOther) {
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(0)
+					}
+				}
+			}
+		}
+		return this.speedLimitOther
+	}
+
+	private def nameSpeedLimitOther : String {
+		name(PREFERENCES_CATEGORY_ROADS, PREFERENCES_GROUP_ROADS_SPEEDLIMITS, SPEED_LIMIT_OTHER)
+	}
+
+	private def defaultSpeedLimitOther : int {
+		nameSpeedLimitOther.prefInt(SPEED_LIMIT_OTHER_VALUE)
+	}
+
+	private def resetSpeedLimitOther {
+		if (this.speedLimitOther !== null) {
+			this.speedLimitOther.set(defaultSpeedLimitOther)
+		}
+	}
+
+	private def saveSpeedLimitOther {
+		if (this.speedLimitOther !== null) {
+			this.store.putDouble(nameSpeedLimitOther, this.speedLimitOther.get)
+		}
+	}
+
+	def getSpeedLimitOther : int {
+		this.speedLimitOtherProperty.get
+	}
+	
+	def setSpeedLimitOther(limit : int) {
+		this.speedLimitOtherProperty.set(limit)
+	}
+	
+}

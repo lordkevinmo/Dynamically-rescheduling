@@ -1,0 +1,106 @@
+/* 
+ * $Id$
+ * 
+ * Copyright (c) 2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fr.ciadlab.fogsimu.behaviors
+
+import io.sarl.core.Initialize
+import org.arakhne.afc.gis.road.path.RoadPath
+import org.arakhne.afc.simulation.framework.framework1d.agents.path.PathSelection
+import org.arakhne.afc.simulation.framework.framework1d.agents.path.RandomPathSelection
+import org.arakhne.afc.simulation.framework.framework1d.events.RoadPerception
+import org.arakhne.afc.simulation.framework.framework1d.skills.RoadEnvironment
+import org.arakhne.afc.simulation.framework.framework1d.agents.speed.SpeedSelection
+import org.arakhne.afc.simulation.framework.framework1d.agents.speed.IdmSpeedSelection
+import org.arakhne.afc.vmutil.json.JsonBuffer
+import org.arakhne.afc.gis.road.path.astar.RoadAStar
+import org.arakhne.afc.gis.primitive.FlagContainer
+import java.util.prefs.Preferences
+import fr.ciadlab.fogsimu.preferences.FogPreferenceManager
+import io.sarl.core.Logging
+
+/**
+ * The agent that supports the driver behavior.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+behavior Driver {
+
+	uses RoadEnvironment, PathSelection, SpeedSelection, Logging
+
+	var securityDistanceValue : double
+
+	var reactionTimeValue : double
+	
+	var path = new RoadPath
+
+	var fakeCount = 0
+
+	def getSecurityDistance : double {
+		if (this.securityDistanceValue < 0.0) {
+			this.securityDistanceValue = FogPreferenceManager.singleton.agentSecurityDistance
+		}
+		return this.securityDistanceValue
+	}
+
+	def getReactionTime : double {
+		if (this.reactionTimeValue < 0.0) {
+			this.reactionTimeValue = FogPreferenceManager.singleton.agentReactionTime
+		}
+		return this.reactionTimeValue
+	}
+
+	
+	on Initialize {
+		setSkill(new RandomPathSelection)
+		setSkill(new IdmSpeedSelection)
+	}
+
+	on RoadPerception {
+		info("Run Driver " + this.fakeCount)
+		this.fakeCount++
+
+		var body = occurrence.body
+
+		this.path.updatePath(occurrence.roads, body.position, body.directionOnRoad)
+
+		for (road : this.path) {
+			road.flag = FlagContainer::FLAG_SELECTED
+		}
+
+		/* for (segment : this.path) {
+			segment.flag = FlagContainer::FLAG_SELECTED
+		}
+
+		/* var acc = computeAcceleration(
+    		this.path, 
+    		occurrence.objects,
+    		body.position,
+			body.directionOnRoad,
+            body.linearVelocity,
+            body.maxLinearSpeed,
+            body.maxLinearAcceleration,
+            body.maxLinearDeceleration,
+            body.bounds,
+            MINIMAL_DISTANCE,
+            REACTION_TIME)
+
+		this.path.move(acc)*/
+		doNothing
+	}
+
+}

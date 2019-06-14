@@ -1,0 +1,110 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.framework1d.environment
+
+import java.util.UUID
+import org.arakhne.afc.gis.mapelement.MapPoint
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import org.arakhne.afc.math.geometry.d1.Point1D
+import org.arakhne.afc.math.geometry.d1.d.Point1d
+import org.arakhne.afc.math.geometry.d1.d.Rectangle1d
+import org.arakhne.afc.math.geometry.d2.d.Rectangle2d
+import org.arakhne.afc.math.MathUtil
+
+/** 
+ * Road object that is a map point.
+ * This objects does not map the 1.5D position and the 2D position.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ * @see AbstractMapPointRoadObject
+ */
+abstract class AbstractMapPointSideRoadObject extends MapPoint implements RoadObject {
+
+	protected var position : Point1d
+
+	protected val bounds = new Rectangle1d
+
+	new (id : UUID, position1d : Point1d, width : double, height : double, x2d : double, y2d : double) {
+		super(id, x2d, y2d)
+		this.bounds.width = width
+		this.bounds.height = height
+		assert position1d !== null
+		setRoadPosition(position1d)
+	}
+
+	def getRoadSegment : RoadSegment {
+		this.position.segment as RoadSegment
+	}
+	
+	def getRoadPosition : Point1D<?, ?, ?> {
+		this.position.toUnmodifiable
+	}
+
+	protected def setRoadPosition(position : Point1d) {
+		this.position = if(position === null) new Point1d else position
+		this.bounds.segment = position.segment
+		var dwidth = this.bounds.width / 2.0
+		var dheight = this.bounds.height / 2.0
+		this.bounds.setFromCorners(position.x - dwidth, position.y - dheight, position.x + dwidth, position.y + dheight)
+	}
+
+	protected override calcBounds : Rectangle2d {
+		var x = this.x
+		var y = this.y
+
+		var segment = this.bounds.segment as RoadSegment
+		
+		var tangent = segment.getTangentAt(this.position.x)
+
+		var width = this.bounds.width
+		var height = this.bounds.height
+
+		var xv = tangent * (width / 2.0)
+		var yv = tangent.toOrthogonalVector * (height / 2.0)
+		
+		var x0 = x - xv.x
+		var x1 = x + xv.x
+		var x2 = x - yv.x
+		var x3 = x + yv.x
+		
+		var minx = MathUtil::min(x0, x1, x2, x3)
+		var maxx = MathUtil::max(x0, x1, x2, x3)
+
+		var y0 = y - xv.y
+		var y1 = y + xv.y
+		var y2 = y - yv.y
+		var y3 = y + yv.y
+
+		var miny = MathUtil::min(y0, y1, y2, y3)
+		var maxy = MathUtil::max(y0, y1, y2, y3)
+
+		var rectangle = new Rectangle2d
+		rectangle.setFromCorners(minx, miny, maxx, maxy)
+		return rectangle
+	}
+
+	override getBounds : Rectangle1d {
+		this.bounds.toBoundingBox
+	}
+
+}

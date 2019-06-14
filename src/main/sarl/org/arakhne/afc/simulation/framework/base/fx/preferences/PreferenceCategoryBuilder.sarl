@@ -1,0 +1,97 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.base.fx.preferences
+
+import com.dlsc.formsfx.model.structure.Field
+import com.dlsc.preferencesfx.model.Category
+import com.dlsc.preferencesfx.model.Group
+import com.dlsc.preferencesfx.model.Setting
+import javafx.beans.property.IntegerProperty
+import org.eclipse.fx.core.ReflectionUtil
+
+/** 
+ * Builder of categories for the preference dialog.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class PreferenceCategoryBuilder {
+
+	var categories = <String, Category>newTreeMap(null)
+
+	/** Create a settings.
+	 *
+	 * @param name the name of the category.
+	 * @return the category.
+	 */
+	def create(category : String, group : String, settings : Setting<?, ?>) : Category {
+		var cat = this.categories.get(category)
+		if (cat === null) {
+			cat = Category::of(category)
+			this.categories.put(category, cat)
+		}
+		var groupObj = cat.ensureGroup(group)
+		
+		var sets = groupObj.settings
+		if (sets === null) {
+			sets = newArrayList
+			ReflectionUtil::setFieldValue(groupObj, "settings", sets)
+		}
+		sets += settings
+		return cat
+	}
+
+	private def ensureGroup(category : Category, name : String) : Group {
+		var grps = category.groups
+		if (grps !== null && !grps.empty) {
+			for (grp : grps) {
+				if (grp.description == name) {
+					return grp
+				}
+			}
+		}
+		var grp = Group::of(name)
+		var sets = newArrayList
+		ReflectionUtil::setFieldValue(grp, "settings", sets)
+		if (grps === null) {
+			grps = newArrayList
+			ReflectionUtil::setFieldValue(category, "groups", grps)
+		}
+		grps += grp
+		return grp
+	}
+
+	/** Replies the categories. */
+	def getCategories : Category[] {
+		var tab = newArrayOfSize(this.categories.size)
+		this.categories.values.toArray(tab)
+		return tab
+	}
+
+	/** Build a settings for a color.
+	 */
+	def ofColorType(description : String, property : IntegerProperty) : Setting<?, IntegerProperty> {
+		var field = Field::ofIntegerType(property).render(new ColorSelectionControl)
+		return Setting::of(description, field, property)
+	}
+
+}

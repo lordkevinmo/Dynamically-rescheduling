@@ -1,0 +1,118 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.arakhne.afc.simulation.framework.base.environment
+
+import io.sarl.lang.core.Agent
+import java.util.UUID
+import java.util.concurrent.TimeUnit
+import org.arakhne.afc.math.stochastic.StochasticLaw
+import org.arakhne.afc.simulation.framework.base.time.TimeManager
+
+/**
+ * Spawner of agents and their associated bodies.
+ *
+ * @param <EM> the type of the environment model.
+ * @param <B> the type of the agent bodies.
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+abstract class Spawner<EM extends AbstractEnvironmentModel<B>, B extends AgentBody> {
+
+	var id : UUID
+
+	var law : StochasticLaw
+
+	var agentType : Class<? extends Agent>
+
+	var bodyType : Class<? extends B>
+
+	var budget : int
+
+	var memorizedAmount = 0.0
+	
+	new (id : UUID = null, law : StochasticLaw, budget : int, agentType : Class<? extends Agent>,
+		bodyType : Class<? extends B>) {
+		assert law !== null
+		this.id = if (id === null) UUID::randomUUID else id
+		this.law = law
+		this.agentType = agentType
+		this.bodyType = bodyType
+		this.budget = budget
+	}
+
+	def getID : UUID {
+		this.id
+	}
+
+	def getLaw : StochasticLaw {
+		this.law
+	}
+
+	def getAgentType : Class<? extends Agent> {
+		this.agentType
+	}
+
+	def getBodyType : Class<? extends B> {
+		this.bodyType
+	}
+
+	def getBudget : int {
+		this.budget
+	}
+
+	def spawnableAt(timeManager : TimeManager) : int {
+		var b = getBudget
+		if (b > 0) {
+			var amountPerHour = this.law.generateRandomValue
+			if (amountPerHour > 0.0) {
+				var stepDuration = timeManager.dt.convertFromTo(TimeUnit::SECONDS, TimeUnit::HOURS)
+				this.memorizedAmount += stepDuration * amountPerHour
+				if (this.memorizedAmount >= 1.0) {
+					var a = this.memorizedAmount as int
+					if (a < 0) {
+						return 0
+					}
+					if (a > b) {
+						return b
+					}
+					return a
+				}
+			}
+		}
+		return 0
+	}
+
+	def spawned(count : int) : void {
+		this.budget -= count
+		if (this.budget < 0) {
+			this.budget = 0
+		}
+		this.memorizedAmount -= count
+		if (this.memorizedAmount < 0.0) {
+			this.memorizedAmount = 0.0
+		}
+	}
+
+	abstract def createBody(environmentModel : EM) : B 
+
+}

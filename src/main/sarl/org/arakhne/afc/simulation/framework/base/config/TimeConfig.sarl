@@ -1,0 +1,149 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.base.config
+
+import javafx.beans.property.DoubleProperty
+import javafx.beans.property.IntegerProperty
+import org.arakhne.afc.simulation.framework.base.fx.preferences.AbstractFxPreferenceManager
+import org.arakhne.afc.vmutil.json.JsonBuffer
+import org.arakhne.afc.vmutil.json.JsonableObject
+
+/**
+ * Configuration.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class TimeConfig implements JsonableObject {
+
+	var startValue : DoubleProperty
+
+	var stepValue : DoubleProperty
+
+	var stopValue : DoubleProperty
+
+	var delayValue : IntegerProperty
+
+	def getStartProperty : DoubleProperty {
+		if (this.startValue === null) {
+			this.startValue = AbstractFxPreferenceManager::singleton.simulationStartTimeProperty
+		}
+		return this.startValue
+	}
+
+	/** The starting time in seconds. */
+	def getStart : double {
+		this.startProperty.get
+	}
+
+	/** The starting time in seconds.
+	 */
+	def setStart(t : double) : void {
+		if (t < 0.0) {
+			this.startProperty.set(0.0)
+		} else {
+			this.startProperty.set(t)
+		}
+	}
+
+	def getStepProperty : DoubleProperty {
+		if (this.stepValue === null) {
+			this.stepValue = AbstractFxPreferenceManager::singleton.simulationStepDurationProperty
+		}
+		return this.stepValue
+	}
+
+	/** The step duration in seconds.
+	 */
+	def getStep : double {
+		this.stepProperty.get
+	}
+
+	/** The step duration in seconds.
+	 */
+	def setStep(d : double) : void {
+		if (d <= 0.0) {
+			this.stepProperty.set(0.0)
+		} else {
+			this.stepProperty.set(d)
+		}
+	}
+
+	def getSimulationDelayProperty : IntegerProperty {
+		if (this.delayValue === null) {
+			this.delayValue = AbstractFxPreferenceManager::singleton.simulationLoopDelayProperty
+		}
+		return this.delayValue
+	}
+
+	def getSimulationDelay : int {
+		this.simulationDelayProperty.get
+	}
+
+	def setSimulationDelay(d : int) {
+		if (d <= 0) {
+			this.simulationDelayProperty.set(0)
+		} else {
+			this.simulationDelayProperty.set(d)
+		}
+	}
+
+	def getStopProperty : DoubleProperty {
+		if (this.stopValue === null) {
+			this.stopValue = AbstractFxPreferenceManager::singleton.simulationStopTimeProperty
+		}
+		return this.stopValue
+	}
+
+	/** The stop time in seconds.
+	 */
+	def getStop : Double {
+		this.stopProperty.get
+	}
+
+	/** The stop time in seconds.
+	 */
+	def setStop(d : Double) {
+		if (d === null) {
+			this.stopProperty.set(Double::NEGATIVE_INFINITY)
+		} else {
+			this.stopProperty.set(d.doubleValue)
+		}
+	}
+
+	def toJson(buffer : JsonBuffer) : void {
+		buffer.add("start", getStart)
+		buffer.add("step", getStep)
+		var e = getStop
+		if (e !== null) {
+			buffer.add("stop", e)
+		}
+		buffer.add("simulationDelay", getSimulationDelay)
+	}
+
+	override toString : String {
+		var buffer = new JsonBuffer
+		toJson(buffer)
+		return buffer.toString as String
+	}
+
+}

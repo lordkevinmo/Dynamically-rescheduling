@@ -1,0 +1,82 @@
+/* 
+ * $Id$
+ * 
+ * Copyright (c) 2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fr.ciadlab.fogsimu.scenario
+
+import fr.ciadlab.fogsimu.config.Configuration
+import fr.ciadlab.fogsimu.config.FogZoneConfig
+import fr.ciadlab.fogsimu.environment.FogZone
+import fr.ciadlab.fogsimu.preferences.FogPreferenceManager
+import java.io.File
+import org.arakhne.afc.simulation.framework.framework1d.scenario.AbstractXmlConfigurationReader1d
+import org.w3c.dom.Document
+
+import static extension org.arakhne.afc.inputoutput.xml.XMLUtil.*
+import java.util.ResourceBundle
+
+/**
+ * Reader of xml file.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class XmlReader extends AbstractXmlConfigurationReader1d<Configuration> {
+
+	var defaultRadius = Double::NEGATIVE_INFINITY
+
+	var defaultVisibility = Double::NEGATIVE_INFINITY
+
+	def getDefaultRadius : double {
+		if (this.defaultRadius <= 0.0) {
+			this.defaultRadius = FogPreferenceManager::singleton.fogDefaultRadius
+		}
+		return this.defaultRadius
+	}
+
+	def getDefaultVisibility : double {
+		if (this.defaultVisibility <= 0.0) {
+			this.defaultVisibility = FogPreferenceManager::singleton.fogDefaultVisibilityDistance
+		}
+		return this.defaultVisibility
+	}
+	
+	/** Read a simulation configuration
+	 *
+	 * @param file the file to read.
+	 * @return the configuration.
+	 */
+	override loadXmlConfiguration(config : Configuration, file : File, xml : Document, extension bundle : ResourceBundle) {
+		super.loadXmlConfiguration(config, file, xml, bundle)
+		for (child : xml.getElementsFromPath("scenario", "fogZones", "fogZone")) {
+			if (child.getAttributeBooleanWithDefault(true, "enable")) {
+				var fog = new FogZoneConfig
+				fog.ID = child.getAttributeUUID("id", "fogzone")
+				fog.x = child.getAttributeDoubleWithDefault(0.0, "x")
+				fog.y = child.getAttributeDoubleWithDefault(0.0, "y")
+				fog.type = child.getAttributeClassWithDefault(null, "class") as Class<? extends FogZone>
+				fog.radius = child.getAttributeDoubleWithDefault(getDefaultRadius, "radius")
+				fog.visibility = child.getAttributeDoubleWithDefault(getDefaultVisibility, "visibility")
+				config.fogZones += fog
+			}
+		}
+	}
+	
+	def createConfigurationInstance : Configuration {
+		new Configuration
+	}
+	
+}

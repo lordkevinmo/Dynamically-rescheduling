@@ -1,0 +1,137 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.base.skills.toagent
+
+import io.sarl.core.Behaviors
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Time
+import io.sarl.lang.core.Address
+import io.sarl.lang.core.Behavior
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.EventListener
+import io.sarl.lang.core.Scope
+import io.sarl.lang.util.SynchronizedIterable
+import io.sarl.util.OpenEventSpace
+import java.util.concurrent.TimeUnit
+
+/** 
+ * Skill to synchronize. This skill is owned by customer and company agents in order
+ * to manage the incoming and outgoing events.
+ * 
+ * @author $Author: sgalland$
+ * @author $Author: gcich$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+skill DefaultSynchronizationSkill implements Behaviors, Time {
+
+	uses DefaultContextInteractions
+
+	/** 
+	 * indicates whether the skill is installed
+	 */
+	var installed = false
+
+	/** 
+	 * Reference to the original Behaviors skill
+	 */
+	val behaviorDelegate : Behaviors
+
+	/** 
+	 * Buffer that holds the events in a synchronized way
+	 */
+	var buffer : SynchronizedEventBuffer
+
+	/** 
+	 * Constructor
+	 * 
+	 * @param behaviorDelegate the original Behaviors skill
+	 */
+	new(behaviorDelegate : Behaviors) {
+		this.behaviorDelegate = behaviorDelegate
+	}
+
+	/** 
+	 * Initializes the skill
+	 */
+	override install {
+		if (!this.installed) {
+			// Creation of the internal event buffer
+			this.buffer = new SynchronizedEventBuffer(owner.ID, this.behaviorDelegate)
+			var ^space = (defaultSpace as OpenEventSpace)
+			^space.unregister(this.behaviorDelegate.asEventListener)
+			^space.register(this.buffer)
+			this.installed = true
+		}
+	}
+
+	override asEventListener : EventListener {
+		this.buffer
+	}
+	
+	def getRegisteredBehaviors : SynchronizedIterable<Behavior> {
+		this.behaviorDelegate.getRegisteredBehaviors
+	}
+	
+	def hasRegisteredBehavior : boolean {
+		this.behaviorDelegate.hasRegisteredBehavior
+	}
+	
+	def registerBehavior(beh : Behavior, filter : (Event)=>Boolean = null, params : Object*) : Behavior {
+		this.behaviorDelegate.registerBehavior(beh, filter, params)
+	}
+	
+	def unregisterBehavior(beh : Behavior) : Behavior {
+		this.behaviorDelegate.unregisterBehavior(beh)
+	}
+	
+	def wake(^event : Event, scope : Scope<Address> = null) {
+		this.buffer.wake(^event, scope)
+	}
+		
+	def getTime(unit : TimeUnit = null) : double {
+		if (unit === null) {
+			return this.buffer.currentTime
+		}
+		return this.buffer.currentTime.convertFromTo(TimeUnit::SECONDS, unit)
+	}
+
+	def getOSTimeFactor : double {
+		this.buffer.getOSTimeFactor
+	}
+
+	def toOSDuration(duration : double) : double {
+		getOSTimeFactor * duration
+	}
+
+	def fromOSDuration(duration : double) : double {
+		duration / getOSTimeFactor
+	}
+
+	def fromOSTime(time : double) : double {
+		getOSTimeFactor * time
+	}
+
+	def toOSTime(time : double) : double {
+		time / getOSTimeFactor
+	}
+	
+}

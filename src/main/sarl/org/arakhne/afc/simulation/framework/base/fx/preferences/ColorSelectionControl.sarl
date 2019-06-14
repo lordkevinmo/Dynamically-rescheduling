@@ -1,0 +1,151 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.base.fx.preferences
+
+import com.dlsc.formsfx.model.structure.IntegerField
+import com.dlsc.preferencesfx.formsfx.view.controls.SimpleControl
+import java.lang.ref.WeakReference
+import javafx.beans.binding.Bindings
+import javafx.beans.value.ChangeListener
+import javafx.beans.value.ObservableValue
+import javafx.collections.ObservableList
+import javafx.geometry.Pos
+import javafx.scene.control.ColorPicker
+import javafx.scene.control.Label
+import javafx.scene.layout.StackPane
+import javafx.scene.paint.Color
+import javafx.util.StringConverter
+
+/** 
+ * Control for selecting a color into the preferences.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class ColorSelectionControl extends SimpleControl<IntegerField, StackPane> {
+
+	// The node is a StackPane to hold the field and read only label.
+
+	/** The color picker is the button for selecting the color.
+	 */
+	var colorPicker : ColorPicker
+
+	/** The readOnlyLabel is used to show the current selection in read only.
+	 */
+	var readOnlyLabel : Label
+
+	override initializeParts {
+		super.initializeParts
+		this.node = new StackPane
+		this.fieldLabel = new Label
+		this.readOnlyLabel = new Label
+		this.colorPicker = new ColorPicker(Converter::string2color(this.field.userInput))
+	}
+
+	override layoutParts {
+		this.readOnlyLabel.styleClass += "read-only-label"
+		this.node.children.addAll(this.colorPicker, this.readOnlyLabel)
+		this.node.alignment = Pos::CENTER_LEFT
+		this.colorPicker.maxWidth = Double::MAX_VALUE
+		this.colorPicker.styleClass += "split-button"
+	}
+
+	override setupBindings {
+		super.setupBindings
+		this.colorPicker.visibleProperty.bind(this.field.editableProperty)
+		this.readOnlyLabel.visibleProperty.bind(this.field.editableProperty.not)
+		Bindings::bindBidirectional(
+			this.field.userInputProperty,
+			this.colorPicker.valueProperty,
+			new Converter)
+		this.readOnlyLabel.textProperty.bind(this.field.userInputProperty)
+	}
+
+	override setupValueChangedListeners {
+		super.setupValueChangedListeners
+		this.colorPicker.focusedProperty.addListener [toggleTooltip(this.colorPicker)]
+    	this.field.tooltipProperty.addListener [toggleTooltip(this.colorPicker)]
+    	/*TODO: var listener : ChangeListener<ObservableList<String>> = [
+			toggleTooltip(this.colorPicker)
+    	]*/
+    	this.field.errorMessagesProperty.addListener(new TempClass(this))
+	}
+
+	/** 
+	 * Control for selecting a color into the preferences.
+	 * 
+	 * @author $Author: sgalland$
+	 * @version $FullVersion$
+	 * @mavengroupid $GroupId$
+	 * @mavenartifactid $ArtifactId$
+	 */
+	static class TempClass implements ChangeListener<ObservableList<String>> {
+		val parent : WeakReference<ColorSelectionControl>
+		new (parent : ColorSelectionControl) {
+			this.parent = new WeakReference(parent)
+		}
+		def changed(arg0 : ObservableValue<? extends ObservableList<String>>, arg1 : ObservableList<String>,
+			arg2 : ObservableList<String>) {
+			var p = this.parent.get
+			p.toggleTooltip(p.colorPicker)
+		}
+	}
+
+	/** 
+	 * Converter from the color object to the string representation of the color
+	 * 
+	 * @author $Author: sgalland$
+	 * @version $FullVersion$
+	 * @mavengroupid $GroupId$
+	 * @mavenartifactid $ArtifactId$
+	 */
+	static class Converter extends StringConverter<Color> {
+
+		def fromString(text : String) : Color {
+			text.string2color
+		}
+		
+		def toString(color : Color) : String {
+			var red = color.red.toColorInt
+			var green = color.green.toColorInt
+			var blue = color.blue.toColorInt
+			var intColor = (red << 16).bitwiseOr(green << 8).bitwiseOr(blue)
+			return String.valueOf(intColor) as String
+		}
+
+		private def toColorInt(value : double) : int {
+			((value * 255.0) as int).bitwiseAnd(0xFF)
+		}
+
+		/** Convert a string to its equivalent color.
+		 */
+		static def string2color(text : String) : Color {
+			var intColor = Integer.parseInt(text) as int
+			val red = intColor.bitwiseAnd(0xFF0000) >> 16
+			val green = intColor.bitwiseAnd(0x00FF00) >> 8
+			var blue = intColor.bitwiseAnd(0x0000FF)
+			return Color::rgb(red, green, blue)
+		}
+	
+	}
+
+}

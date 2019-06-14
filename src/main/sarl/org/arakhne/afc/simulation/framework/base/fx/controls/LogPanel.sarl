@@ -1,0 +1,340 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.base.fx.controls
+
+import java.io.PrintWriter
+import java.lang.ref.WeakReference
+import java.util.logging.ErrorManager
+import java.util.logging.Handler
+import java.util.logging.Level
+import java.util.logging.LogRecord
+import java.util.logging.Logger
+import java.util.logging.SimpleFormatter
+import javafx.application.Platform
+import javafx.beans.NamedArg
+import javafx.beans.property.BooleanProperty
+import javafx.beans.property.IntegerProperty
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.scene.paint.Color
+import org.arakhne.afc.simulation.framework.base.preferences.PreferenceManager
+import org.fxmisc.richtext.InlineCssTextArea
+
+/** JavaFX panel that is able to display logged messages.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class LogPanel extends InlineCssTextArea {
+
+	/** The maximum length. */
+	public val MAX_LENGTH = 512000
+
+	var maxContentLength : IntegerProperty
+
+	var scrollToBottom : BooleanProperty
+
+	new(@NamedArg("text") text : String = null) {
+		this.editable = false
+		this.wrapText = true
+		if (!text.nullOrEmpty) {
+			insertText(0, text)
+		}
+	}
+
+	private def clearConsoleStart(newContentLength : int) {
+		var max = getMaxContentLength
+		var currentLength = this.length
+		while (currentLength + newContentLength >= max) {
+			var paragraph = getParagraph(0)
+			deleteText(0, paragraph.length)
+			currentLength = this.length
+		}
+	}
+
+	/** Replies the property that contains the maximum length of the panel content.
+	 */
+	def maxContentLengthProperty : IntegerProperty {
+		if (this.maxContentLength === null) {
+			this.maxContentLength = new SimpleIntegerProperty(this, "maxContentLength", MAX_LENGTH) {
+
+				protected override invalidated {
+					var value = get
+					if (value < 0) {
+						set(value)
+					} else if (value > MAX_LENGTH) {
+						set(MAX_LENGTH)
+					}
+				}
+				
+			}
+		}
+		return this.maxContentLength
+	}
+
+	/** Replies the maximum length of the panel content.
+	 */
+	def getMaxContentLength : int {
+		return this.maxContentLengthProperty.get
+	}
+
+	/** Change the maximum length of the panel content.
+	 */
+	def setMaxContentLength(length : int) {
+		this.maxContentLengthProperty.set(length)
+	}
+
+	/** Replies the property for the flag to stick the view to the bottom.
+	 */
+	def scrollToBottomProperty : BooleanProperty {
+		if (this.scrollToBottom === null) {
+			this.scrollToBottom = new SimpleBooleanProperty(this, "scrollToBottom", true)
+		}
+		return this.scrollToBottom
+	}
+
+	/** Replies if the log panel view sticks to the last line into the log.
+	 */
+	def getScrollToBottom : boolean {
+		this.scrollToBottomProperty.get
+	}
+
+	/** Change the flag if the log panel view sticks to the last line into the log.
+	 */
+	def setScrollToBottom(stick : boolean) {
+		this.scrollToBottomProperty.set(stick)
+	}
+
+	/** Write an information message.
+	 */
+	protected def writeInfo(text : String) {
+		if (!text.nullOrEmpty) {
+			var css = PreferenceManager.singleton.logInfoColor.toCSS
+			Platform::runLater [
+				clearConsoleStart(text.length)
+				var index = this.length
+				insertText(index, text)
+				setStyle(index, this.length, css)
+				if (getScrollToBottom) {
+					showParagraphAtBottom(getParagraphs().size)
+				}
+			]
+		}
+	}
+
+	/** Write a warning message.
+	 */
+	protected def writeWarning(text : String) {
+		if (!text.nullOrEmpty) {
+			var css = PreferenceManager.singleton.logWarningColor.toCSS
+			Platform::runLater [
+				clearConsoleStart(text.length)
+				var index = this.length
+				insertText(index, text)
+				setStyle(index, this.length, css)
+				if (getScrollToBottom) {
+					showParagraphAtBottom(getParagraphs().size)
+				}
+			]
+		}
+	}
+
+	/** Write an error message.
+	 */
+	protected def writeError(text : String) {
+		if (!text.nullOrEmpty) {
+			var css = PreferenceManager.singleton.logErrorColor.toCSS
+			Platform::runLater [
+				clearConsoleStart(text.length)
+				var index = this.length
+				insertText(index, text)
+				setStyle(index, this.length, css)
+				if (getScrollToBottom) {
+					showParagraphAtBottom(getParagraphs().size)
+				}
+			]
+		}
+	}
+
+	/** Replies the content of the console.
+	 */
+	override toString : String {
+		getText(0, this.length)
+	}
+
+	/** Replies the content of the console.
+	 */
+	def save(stream : PrintWriter) {
+		stream.write(toString)
+	}
+
+	private static def getRootLogger(logger : Logger) : Logger {
+		var l = logger
+		if (l !== null) {
+			while (l.parent !== null && l.parent !== l) {
+				l.useParentHandlers = true
+				l = l.parent
+			}
+		}
+		return l
+	}
+
+	private static def getHandler(logger : Logger) : Handler {
+		if (logger !== null) {
+			for (handler : logger.handlers) {
+				if (handler instanceof LogPanelHandler) {
+					return handler
+				}
+			}
+		}
+		return null
+	} 
+
+	/** Bind this panel to the logger.
+	 *
+	 * @param logger the logger to bind to.
+	 * @param removeOtherHandlers indicates if the other handlers must be removed from the logger.
+	 */
+	def bindTo(logger : Logger, removeOtherHandlers : boolean = false) : void {
+		var root = logger.rootLogger
+		if (root.handler === null) {
+			var julHandler = new LogPanelHandler(this)
+			root.addHandler(julHandler)
+			if (removeOtherHandlers) {
+				for (handler : root.handlers) {
+					if (handler !== julHandler) {
+						root.removeHandler(handler)
+					}
+				}
+			}
+		}
+	}
+
+	/** Unbind this panel from the logger.
+	 *
+	 * @param logger the logger to unbind from.
+	 */
+	def unbindFrom(logger : Logger) : void {
+		var root = logger.rootLogger
+		var handler = root.handler
+		if (handler !== null) {
+			root.removeHandler(handler)
+		}
+	}
+
+	/** Convert the int color to JavaFX color.
+	 */
+	protected static def rgba(color : int) : Color {
+		val red = color.bitwiseAnd(0xFF0000) >> 16
+		val green = color.bitwiseAnd(0x00FF00) >> 8
+		var blue = color.bitwiseAnd(0x0000FF)
+		return Color::rgb(red, green, blue)
+	}
+
+	/** Convert a color component in double to its equivalent in int. */
+	protected static def toColorInt(value : double) : int {
+		(value * 255.0) as int
+	}
+
+	/** Convert the JavaFX color to CSS color.
+	 */
+	protected static def toJavaFX(color : Color) : String {
+		val red = color.red.toColorInt
+		val green = color.green.toColorInt
+		val blue = color.blue.toColorInt
+		return "rgb(" + red + ", " + green + ", " + blue + ")"
+	}
+
+	/** Convert the color color to CSS color.
+	 */
+	protected static def toCSS(color : int) : String {
+		"-fx-text-fill: " + color.rgba.toJavaFX + ";"
+	}
+	
+	/** Handler for the JavaFX log panel.
+	 * 
+	 * @author $Author: sgalland$
+	 * @version $FullVersion$
+	 * @mavengroupid $GroupId$
+	 * @mavenartifactid $ArtifactId$
+	 */
+	protected static class LogPanelHandler extends Handler {
+	
+		var doneHeader = false
+	
+		val parent : WeakReference<LogPanel>
+
+		new (parent : LogPanel) {
+			this.parent = new WeakReference(parent)
+			this.level = Level::ALL
+			this.formatter = new SimpleFormatter
+		}
+	
+		def close {
+			//
+		}
+		
+		def flush {
+			//
+		}
+		
+		def publish(record : LogRecord) {
+			if (!record.isLoggable) {
+				return
+			}
+			var msg : String
+			try {
+				msg = this.formatter.format(record)
+			} catch (ex : Exception) {
+				// We don't want to throw an exception here, but we
+				// report the exception to any registered ErrorManager.
+				reportError(null, ex, ErrorManager::FORMAT_FAILURE)
+				return
+			}
+
+			try {
+				if (!this.doneHeader) {
+					var header = this.formatter.getHead(this)
+					this.doneHeader = true
+					this.parent.get.writeInfo(header)
+				}
+				switch (record.level) {
+					case Level::SEVERE: {
+						this.parent.get.writeError(msg)
+					}
+					case Level::WARNING: {
+						this.parent.get.writeWarning(msg)
+					}
+					default: {
+						this.parent.get.writeInfo(msg)
+					}
+				}
+			} catch (ex : Exception) {
+				// We don't want to throw an exception here, but we
+            	// report the exception to any registered ErrorManager.
+            	reportError(null, ex, ErrorManager::WRITE_FAILURE)
+			}
+		}
+
+	}
+
+}

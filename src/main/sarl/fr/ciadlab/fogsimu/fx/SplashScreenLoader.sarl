@@ -1,0 +1,90 @@
+/* 
+ * $Id$
+ * 
+ * Copyright (c) 2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package fr.ciadlab.fogsimu.fx
+
+import javafx.application.Preloader
+import javafx.stage.Stage
+import javafx.scene.Scene
+import javafx.scene.layout.StackPane
+import javafx.scene.image.ImageView
+import javafx.scene.image.Image
+import org.arakhne.afc.vmutil.Resources
+import javafx.stage.StageStyle
+import javafx.stage.Screen
+import javafx.scene.paint.Color
+import javafx.scene.effect.DropShadow
+import javafx.application.Preloader.StateChangeNotification
+import javafx.application.Preloader.ErrorNotification
+
+/** Splash screen for the JavaFX application.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class SplashScreenLoader extends Preloader {
+
+	static val SPLASH_WIDTH = 300
+
+	static val SPLASH_HEIGHT = 200
+
+	var splashScreen : Stage
+
+    override start(stage : Stage) {
+        this.splashScreen = stage
+        this.splashScreen.scene = createScene
+        this.splashScreen.alwaysOnTop = true
+        this.splashScreen.resizable = false
+		this.splashScreen.initStyle = StageStyle::TRANSPARENT
+		var bounds = Screen.primary.bounds
+		this.splashScreen.x = bounds.minX + bounds.width / 2 - SPLASH_WIDTH / 2
+		this.splashScreen.y = bounds.minY + bounds.height / 2 - SPLASH_HEIGHT / 2
+        splashScreen.show
+    }
+
+	def createScene : Scene {
+		var img = new Image(Resources::getResourceAsStream(typeof(SplashScreenLoader), "/splash.jpg"))
+		var view = new ImageView
+		view.image = img
+        var root = new StackPane
+        root.children += view
+		root.style = "-fx-padding: 5; "
+			+ "-fx-background-color: cornsilk; "
+			+ "-fx-border-width:5; "
+			+ "-fx-border-color: "
+			+ "linear-gradient("
+			+ "to bottom, "
+			+ "chocolate, "
+			+ "derive(chocolate, 50%));"
+		root.effect = new DropShadow
+        var scene = new Scene(root, SPLASH_WIDTH, SPLASH_HEIGHT, Color::TRANSPARENT)
+        return scene
+    }
+
+	override handleStateChangeNotification(notification : StateChangeNotification) {
+		if (notification.type == StateChangeNotification::Type::BEFORE_START) {
+			this.splashScreen.close
+		}
+	}
+
+	override handleErrorNotification(arg0 : ErrorNotification) : boolean {
+		this.splashScreen.close
+		// Return false for showing the default event message
+		return false
+	}
+
+}

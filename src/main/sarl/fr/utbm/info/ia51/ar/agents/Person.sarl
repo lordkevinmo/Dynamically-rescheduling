@@ -18,6 +18,8 @@ import io.sarl.core.Initialize
 import io.sarl.lang.core.Behavior
 import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
 import io.sarl.core.Logging
+import fr.utbm.info.ia51.ar.requirements.Schedule
+import java.util.List
 
 /** 
  * <p> This class define the mind and the body for agent.
@@ -37,12 +39,13 @@ agent Person {
 
 	//var inRelationsWith : List<Person>
 	var actualBehavior : Behavior
+	var x : PersonnalInfo
 
 	// EVENT SECTION
 	on Initialize {
 		info("Initializing me")
-		var x = occurrence.parameters.get(0) as PersonnalInfo
-		info("my data"+x)
+		x = occurrence.parameters.get(0) as PersonnalInfo
+		info("my data "+x)
 		//this.participantsRenegotiation = null
 		this.actualBehavior = null
 		setSkill(new NativeSkill)
@@ -53,7 +56,6 @@ agent Person {
 	// Reception d'une perturbation par l'agent seulement si 
 	on perturbation [this.actualBehavior === null] {
 
-		
 		// L'agent determine si la perturbation l'impacte ou non
 		if (isPerturbationImpacting(occurrence)) {
 			// L'agent previent l'environnement qu'il est impacté par la pertubation

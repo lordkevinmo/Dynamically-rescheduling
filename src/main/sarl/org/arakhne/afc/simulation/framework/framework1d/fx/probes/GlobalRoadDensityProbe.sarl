@@ -1,0 +1,118 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.framework1d.fx.probes
+
+import com.opencsv.CSVWriter
+import java.io.File
+import javafx.scene.chart.XYChart.Data
+import javafx.scene.chart.XYChart.Series
+import org.arakhne.afc.gis.location.GeoId
+import org.arakhne.afc.simulation.framework.base.time.TimeManager
+import org.arakhne.afc.simulation.framework.framework1d.environment.EnvironmentModel1d
+import java.util.Random
+
+/**
+ * A probe for measuring the
+ * {@link https://en.wikipedia.org/wiki/Traffic_flow#Density density of cars on a road}.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class GlobalRoadDensityProbe extends AbstractCsvFxEnvironmentProbe1d<EnvironmentModel1d> {
+
+	private def density(nbBodies : int, roadLength : double) : double {
+		nbBodies / roadLength
+	}
+
+	override probe(environment : EnvironmentModel1d, time : TimeManager, rootFolder : File, output : CSVWriter) {
+		var densities = <GeoId, Pair<Double, org.arakhne.afc.simulation.framework.framework1d.probes.Accumulator>>newTreeMap(null)
+		var carAccumulator = new org.arakhne.afc.simulation.framework.framework1d.probes.Counter
+		var segmentAccumulator = new org.arakhne.afc.simulation.framework.framework1d.probes.Accumulator
+		for (body : environment.agentBodies) {
+			var road = body.roadSegment
+			var key = road.geoId
+			var pair = densities.get(key)
+			if (pair === null) {
+				var accumulator = new org.arakhne.afc.simulation.framework.framework1d.probes.Accumulator
+				pair = Pair::of(road.length, accumulator)
+				densities.put(key, pair)
+			}
+			var width = body.bounds.width
+			pair.value.increment(width)
+			carAccumulator.increment
+			segmentAccumulator.increment(road.length)
+		}
+		
+		var t = time.current
+
+		for (entry : densities.entrySet) {
+			var pr = entry.value
+			var acc = pr.value
+			var nbBodies = acc.count
+			if (nbBodies > 0) {
+				var bodiesSize = acc.value
+				var roadLength = pr.key
+				var bodySize = bodiesSize / nbBodies
+				var k = density(nbBodies, roadLength)
+				var s = 1.0 / k 
+				output.writeNext(#[
+					String.valueOf(t) as String,
+					entry.key.toString as String,
+					String.valueOf(nbBodies) as String,
+					String.valueOf(bodySize) as String,
+					String.valueOf(roadLength) as String,
+					String.valueOf(s) as String,
+					String.valueOf(k) as String
+				])
+				output.flushQuietly
+			}
+		}
+
+		var series = chartSeries
+		if (series !== null) {
+			var k = rnd.nextDouble * 50.0 //density(carAccumulator.value, segmentAccumulator.value)
+			var data = new Data
+			data.XValue = time.current
+			data.YValue = k
+			series.updateWith(data)
+		}
+	}
+
+	val rnd = new Random
+	
+	def getCsvHeader : String[] {
+		#[
+			"t",
+			"Segment Id",
+			"Nb bodies (#)",
+			"Body size (m)",
+			"Segment length (m)",
+			"Spacing (m)",
+			"Density (#/m)"
+		]
+	}
+
+	override getChartSeries : Series<Double, Double> {
+		return ensureSeries
+	}
+	
+}

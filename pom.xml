@@ -10,20 +10,55 @@
 	<properties>
 		<sarl.version>0.9.0</sarl.version>
 		<compiler.level>1.8</compiler.level>
+		<afc.version>16.0-SNAPSHOT</afc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>		
 		<dependency>
-		<groupId>org.arakhne.afc.gis</groupId>
-		<artifactId>gisroad</artifactId>
-		<version>16.0-SNAPSHOT</version>
+			<groupId>org.arakhne.afc.gis</groupId>
+			<artifactId>gisroad</artifactId>
+			<version>${afc.version}</version>
 		</dependency>
-		
 		<dependency>
-		<groupId>io.sarl.maven</groupId>
-		<artifactId>io.sarl.maven.sdk</artifactId>
-		<version>${sarl.version}</version>
+			<groupId>org.arakhne.afc.gis.ui</groupId>
+			<artifactId>gisroadfx</artifactId>
+			<version>${afc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arakhne.afc.core</groupId>
+			<artifactId>mathphysics</artifactId>
+			<version>${afc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arakhne.afc.core</groupId>
+			<artifactId>mathstochastic</artifactId>
+			<version>${afc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.arakhne.afc.core</groupId>
+			<artifactId>vmutils</artifactId>
+			<version>${afc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dlsc.preferencesfx</groupId>
+			<artifactId>preferencesfx-core</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fxmisc.richtext</groupId>
+			<artifactId>richtextfx</artifactId>
+			<version>0.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>4.6</version>
+		</dependency>
+		<dependency>
+			<groupId>io.sarl.maven</groupId>
+			<artifactId>io.sarl.maven.sdk</artifactId>
+			<version>${sarl.version}</version>
 		</dependency>
 	</dependencies>
 	<repositories>

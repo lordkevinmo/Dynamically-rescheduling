@@ -1,0 +1,101 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2000-2012 Stephane GALLAND.
+ * Copyright (c) 2005-10, Multiagent Team, Laboratoire Systemes et Transports,
+ * Universite de Technologie de Belfort-Montbeliard.
+ * Copyright (c) 2013-2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.arakhne.afc.simulation.framework.framework1d.environment
+
+import io.sarl.lang.core.Agent
+import java.util.Random
+import java.util.UUID
+import org.arakhne.afc.gis.road.primitive.RoadConnection
+import org.arakhne.afc.gis.road.primitive.RoadSegment
+import org.arakhne.afc.math.geometry.d1.Point1D
+import org.arakhne.afc.math.geometry.d1.d.Point1d
+import org.arakhne.afc.math.stochastic.StochasticLaw
+import org.arakhne.afc.simulation.framework.base.environment.Spawner
+import org.arakhne.afc.simulation.framework.framework1d.preferences.PreferenceManager1d
+
+/**
+ * Spawner of agents and their associated bodies.
+ *
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class Spawner1d extends Spawner<EnvironmentModel1d, MobileAgentBody> {
+
+	static val RANDOM = new Random
+
+	val position = new Point1d
+
+	val entryPoint : RoadConnection
+
+	val width : double
+
+	val height : double
+
+	var attachToEndDistance = Double::NEGATIVE_INFINITY
+	
+	new (position : Point1d, width : double, height : double, id : UUID,
+		law : StochasticLaw, budget : int, agentType : Class<? extends Agent>,
+		bodyType : Class<? extends MobileAgentBody>) {
+		super(id, law, budget, agentType, bodyType)
+		this.width = width
+		this.height = height
+		this.position.set(position)
+		var segment = position.segment as RoadSegment
+		val ad = getAttachToEndDistance
+		if (position.curvilineCoordinate < ad) {
+			this.entryPoint = segment.beginPoint
+		} else if (position.curvilineCoordinate > segment.length - ad) {
+			this.entryPoint = segment.endPoint
+		} else {
+			this.entryPoint = null
+		}
+	}
+
+	protected def getAttachToEndDistance : double {
+		if (this.attachToEndDistance < 0.0) {
+			this.attachToEndDistance = PreferenceManager1d::singleton.spawnerAttachToEndDistance
+		}
+		return this.attachToEndDistance
+	}
+
+	def getPosition : Point1D<?, ?, ?> {
+		this.position.toUnmodifiable
+	}
+	
+	override createBody(environmentModel : EnvironmentModel1d) : MobileAgentBody {
+		var ep = this.entryPoint
+		if (ep === null) {
+			var segment = position.segment as RoadSegment
+			if (RANDOM.nextBoolean) {
+				ep = segment.beginPoint
+			} else {
+				ep = segment.endPoint
+			}
+		}
+		return environmentModel.createAgentBody(
+			this.bodyType,
+			this.position, ep,
+			this.width, this.height)
+	}
+	
+}

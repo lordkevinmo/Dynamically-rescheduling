@@ -12,8 +12,8 @@ class Constraints extends Object {
 	var influence : int
 	var hour : int
 	
-	new(constraint : ConstrainsType, hour : int, influence : int) {
-		this.type = constraint
+	new(type : ConstrainsType, hour : int, influence : int) {
+		this.type = type
 		this.influence = influence
 		this.hour = hour
 	}

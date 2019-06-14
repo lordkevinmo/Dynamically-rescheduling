@@ -28,7 +28,6 @@ class Trip extends Task {
 	var path : String
 	var travelMode : TravelMode
 	
-	
 	new() {
 		//Empty constructor
 		super()

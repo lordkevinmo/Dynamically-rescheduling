@@ -1,0 +1,115 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.framework1d.fx.drawers
+
+import java.util.Collection
+import javafx.scene.paint.Color
+import org.arakhne.afc.gis.road.RoadPolyline
+import org.arakhne.afc.gis.road.ui.drawers.RoadPolylineDrawer
+import org.arakhne.afc.math.geometry.d2.d.OrientedRectangle2d
+import org.arakhne.afc.math.geometry.d2.d.Point2d
+import org.arakhne.afc.math.geometry.d2.d.Vector2d
+import org.arakhne.afc.nodefx.LevelOfDetails
+import org.arakhne.afc.nodefx.ZoomableGraphicsContext
+import org.arakhne.afc.simulation.framework.framework1d.environment.EnvironmentModel1d
+import org.arakhne.afc.simulation.framework.framework1d.environment.MobileRoadObject
+import org.arakhne.afc.simulation.framework.framework1d.preferences.PreferenceManager1d
+
+/** Drawer of the roads and the traffic.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class TrafficRoadPolylineDrawer extends RoadPolylineDrawer {
+
+	var carColor : Color
+
+	def getCarColor(gc : ZoomableGraphicsContext) : Color {
+		if (this.carColor === null) {
+			var c = PreferenceManager1d::singleton.carColor
+			this.carColor = gc.rgb(c)
+		}
+		return this.carColor
+	}
+
+	override draw(gc : ZoomableGraphicsContext, element : RoadPolyline) {
+		if (gc.state === TrafficRoadNetworkDrawer::DRAWING_STATE_VEHICLES
+			&& gc.levelOfDetails !== LevelOfDetails::LOW) {
+			var vehicles : Collection<? extends MobileRoadObject> = element.getUserDataCollection(EnvironmentModel1d::MOBILE_OBJECTS_ATTRIBUTE_NAME)
+			if (!vehicles.empty) {
+				val position2d = new Point2d
+				val tangent2d = new Vector2d
+				var c = gc.carColor
+				gc.fill = c
+				gc.stroke = c
+
+				//var visibleArea = gc.visibleArea
+
+				for (vehicle : vehicles) {
+					gc.save
+					var position = vehicle.roadPosition
+					element.projectsOnPlane(position.curvilineCoordinate, position.lateralDistance, position2d,
+						tangent2d)
+					var bounds = vehicle.bounds
+					var width = bounds.width
+					var height = bounds.height
+					var r = new OrientedRectangle2d(
+						position2d.x, position2d.y, 1, 0, width / 2.0, height / 2.0)
+					r.rotate(tangent2d.orientationAngle)
+
+					var iterator = r.pathIterator
+					gc.beginPath
+					while (iterator.hasNext) {
+						var cmp = iterator.next
+						switch (cmp.type) {
+							case MOVE_TO: {
+								gc.moveTo(cmp.toX, cmp.toY)
+							}
+							case LINE_TO: {
+								gc.lineTo(cmp.toX, cmp.toY)
+							}
+							case CLOSE: {
+								gc.closePath
+							}
+							default:
+								throw new IllegalStateException
+						}
+					}
+					gc.fill()
+
+					/*gc.beginPath
+					gc.lineWidthInPixels = 3
+					gc.moveTo(position2d.x, position2d.y)
+					gc.lineTo(visibleArea.minX, visibleArea.minY)
+					gc.moveTo(position2d.x, position2d.y)
+					gc.lineTo(visibleArea.maxX, visibleArea.minY)
+					gc.moveTo(position2d.x, position2d.y)
+					gc.lineTo(visibleArea.maxX, visibleArea.maxY)
+					gc.moveTo(position2d.x, position2d.y)
+					gc.lineTo(visibleArea.minX, visibleArea.maxY)
+					gc.stroke()*/
+					gc.restore
+				}
+			}
+		} else {
+			super.draw(gc, element)
+		}
+	}
+
+}

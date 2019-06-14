@@ -1,0 +1,52 @@
+/* 
+ * $Id$
+ * This file is a part of the Arakhne Foundation Classes, http://www.arakhne.org/afc
+ * 
+ * Copyright (c) 2019 The original authors, and other authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.arakhne.afc.simulation.framework.framework1d.fx.drawers
+
+import org.arakhne.afc.gis.mapelement.GISElementContainer
+import org.arakhne.afc.gis.road.RoadPolyline
+import org.arakhne.afc.gis.road.ui.drawers.RoadNetworkDrawer
+import org.arakhne.afc.nodefx.Drawer
+import org.arakhne.afc.nodefx.ZoomableGraphicsContext
+import org.arakhne.afc.nodefx.LevelOfDetails
+
+/** Drawer of the roads and the traffic.
+ * This drawer delegates to the road network drawer, and adds the drawings for the cars.
+ * 
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+class TrafficRoadNetworkDrawer extends RoadNetworkDrawer {
+
+	public static val DRAWING_STATE_VEHICLES = 3
+
+	protected override draw(gc : ZoomableGraphicsContext, primitive : GISElementContainer<RoadPolyline>,
+			drawer : Drawer<? super RoadPolyline>) : Drawer<? super RoadPolyline> {
+		// Draw the roads
+		var drw = super.draw(gc, primitive, drawer)
+		val lod = gc.levelOfDetails
+		if (lod !== LevelOfDetails::LOW) {
+			gc.save
+			gc.setState(DRAWING_STATE_VEHICLES)
+			drawPrimitives(gc, primitive, drw)
+			gc.restore
+		}
+		return drw
+	}
+
+}
