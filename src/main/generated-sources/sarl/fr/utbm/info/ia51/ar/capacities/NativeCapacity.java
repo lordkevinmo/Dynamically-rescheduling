@@ -4,7 +4,6 @@ import fr.utbm.info.ia51.ar.events.perturbation;
 import io.sarl.lang.annotation.SarlElementType;
 import io.sarl.lang.annotation.SarlSpecification;
 import io.sarl.lang.core.AgentTrait;
-import io.sarl.lang.core.Capacity;
 
 /**
  * @author Lilian Durand
@@ -12,7 +11,7 @@ import io.sarl.lang.core.Capacity;
 @SarlSpecification("0.9")
 @SarlElementType(20)
 @SuppressWarnings("all")
-public interface NativeCapacity extends Capacity {
+public interface NativeCapacity {
   public abstract boolean isPerturbationImpacting(final perturbation perturb);
   
   public abstract boolean wantsToBeInitiator();
@@ -20,7 +19,7 @@ public interface NativeCapacity extends Capacity {
   /**
    * @ExcludeFromApidoc
    */
-  public static class ContextAwareCapacityWrapper<C extends NativeCapacity> extends Capacity.ContextAwareCapacityWrapper<C> implements NativeCapacity {
+  public static class ContextAwareCapacityWrapper<C extends NativeCapacity> implements NativeCapacity {
     public ContextAwareCapacityWrapper(final C capacity, final AgentTrait caller) {
       super(capacity, caller);
     }
