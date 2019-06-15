@@ -28,8 +28,14 @@ import javafx.scene.control.ComboBox
 import fr.utbm.info.ia51.ar.requirements.ConstrainsType
 import fr.utbm.info.ia51.ar.requirements.Trip
 import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Constraints
+import javafx.scene.control.RadioButton
+import javafx.scene.control.ChoiceBox
+import java.util.ArrayList
+import java.util.List
 
 /** JavaFX controller for the JavaFX application.
+ * @author Koffi AGBENYA, Komi AGOTSI
  */
 class MyAppFxViewerController extends FxViewerController {
 
@@ -45,7 +51,7 @@ class MyAppFxViewerController extends FxViewerController {
 
 	val started = new AtomicBoolean	
 	
-	var contraintType : ConstrainsType
+	var contraintType : Constraints
 	
 	var carpolingTrip : Trip
 	
@@ -58,10 +64,14 @@ class MyAppFxViewerController extends FxViewerController {
 	@FXML
 	var scheduleBox : VBox	
 	@FXML
-	var joinTripCombo : ComboBox<String>
+	var joinTripCombo : ChoiceBox<String>
+	@FXML
+	var capacityR : RadioButton
+	@FXML
+	var timeR : RadioButton
 
 	// Participant TableView List
-	private var joinTripList : ObservableList<String> = FXCollections.observableArrayList()
+	private static var joinTripList : List<Trip>
 	 
 	// Participants TableView	
 	@FXML
@@ -146,9 +156,9 @@ class MyAppFxViewerController extends FxViewerController {
 
 	@FXML
 	protected def simulate(events : MouseEvent) {
-		System.out.println("Simulate")
+		System.out.println("Simulate")		
 		loadUI("controlpane", RIGHT)
-				
+								
 	}
 
 	@FXML
@@ -167,12 +177,13 @@ class MyAppFxViewerController extends FxViewerController {
 		}
 		if (position == CENTER) {
 		MyAppFxApplication.root.right = null	
-		MyAppFxApplication.loadBorderPaneCenter(box)			
+		MyAppFxApplication.loadBorderPaneCenter(box)
+			//				 				
 		} else if (position == RIGHT) {
 			otherBox = FXMLLoader.load(class.getResource("map.fxml"))
 			MyAppFxApplication.loadBorderPaneCenter(otherBox)
 			MyAppFxApplication.loadBorderPaneRIght(box)	
-			fillJoinTripCombo			
+					
 		}
 	}
 
@@ -197,22 +208,30 @@ class MyAppFxViewerController extends FxViewerController {
 			data = Util.xmlToObject(selectedFile) as Persons							
 		}
 		initTable()
+		//jointrip
 		startApplication();		
 	}
 
 	@FXML
-	protected def onCapacitySelected(events : ActionEvent) {	
-		
+	protected def onCapacitySelected(events : ActionEvent) {
+		System.out.println("capcity" + capacityR.selected)	
+		if(capacityR.selected){
+			contraintType = new Constraints(ConstrainsType.CAPACITY,2)
+		}
 	}
 
 	@FXML
 	protected def onTImeSelected(events : ActionEvent) {
+		if (capacityR.selected) {
+			contraintType = new Constraints(ConstrainsType.TRAFFICJAMS,3)
+		}
+		
 	}
 
 	@FXML
 	protected def onStart(events : ActionEvent) {
 		System.out.println("start")
-		UISpace.emit(ID,new pertubation(contraintType,carpolingTrip))
+		UISpace.emit(ID,new perturbation(contraintType,carpolingTrip))
 	}
 	
 	
@@ -237,6 +256,8 @@ class MyAppFxViewerController extends FxViewerController {
 		table.setItems(objectList)
 	}
 }
+
+	
 
 /**
  * This method handle the display the selected participant 
@@ -263,6 +284,7 @@ class MyAppFxViewerController extends FxViewerController {
  */
  	@FXML
 	private def onJoinTripComboSelected(events : ActionEvent) {
+		//joinTripCombo.selectionModel
 		
 	}
 	
@@ -290,8 +312,7 @@ class MyAppFxViewerController extends FxViewerController {
 			     }
 			     if (ep.trip != null) {
 						if (ep.trip.participants != null)
-							{
-								joinTripList.add(ep.trip.location.toString)
+							{							
 								for (part : ep.trip.participants) {
 								var participantRel : Relation = Relation.relation(data.relations, personnalInfos.id,part.id);
 								participants += PersonnalInfo.getPersonnalInfoById(participantRel.secondPerson,data.personalInfos).name+ ":" + participantRel.socialStatus+"\n" 							
@@ -302,7 +323,7 @@ class MyAppFxViewerController extends FxViewerController {
 						ep.trip.location.toString, ep.trip.travelMode.toString,participants,""))
 			     }			
 		}	
-		}
+		}		
 		}else{
 			init
 		}
@@ -321,16 +342,13 @@ class MyAppFxViewerController extends FxViewerController {
 
 		// val dataTableData : ObservableList<DataModel> = FXCollections.observableArrayList()
 	}
-	
+
 	def getData() : Persons{
 		data
 	}
 	
-	def fillJoinTripCombo(){
-		System.out.println("join trip " + joinTripList)
-		System.out.println("composant " + joinTripCombo)
-		joinTripCombo.items = joinTripList
-	}
+	
+		
 	
 
 }

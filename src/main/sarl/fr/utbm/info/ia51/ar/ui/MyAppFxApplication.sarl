@@ -41,6 +41,7 @@ class MyAppFxApplication extends FxApplication {
 		stage.centerOnScreen
 		stage.width = 1200
 		stage.height = 1000
+		stage.resizable = false		
 		MyAppFxApplication.stage = stage
 
 		return loader

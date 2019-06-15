@@ -1,0 +1,139 @@
+package fr.utbm.info.ia51.ar.ui
+
+import io.sarl.javafx.FxViewerController
+import javafx.fxml.FXML
+import javafx.scene.input.MouseEvent
+import javafx.^event.ActionEvent
+import java.io.File
+import fr.utbm.info.ia51.ar.util.Util
+import fr.utbm.info.ia51.ar.requirements.Persons
+import fr.utbm.info.ia51.ar.requirements.Relation
+import javafx.scene.control.TableView
+import javafx.scene.control.TableColumn
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.scene.control.cell.PropertyValueFactory
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
+import fr.utbm.info.ia51.ar.requirements.ConstrainsType
+import fr.utbm.info.ia51.ar.requirements.Trip
+import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Constraints
+import javafx.scene.control.RadioButton
+import javafx.fxml.Initializable
+import java.net.URL
+import java.util.ResourceBundle
+
+/** JavaFX silulation controller 
+ * @author : Komi AGOTSI
+ */
+class SimulationController extends FxViewerController implements Initializable {
+	
+	var contraintType : Constraints
+
+	var carpolingTrip : Trip
+	
+	@FXML
+	var capacityR : RadioButton
+	@FXML
+	var timeR : RadioButton
+
+
+	// Trip TableView
+	@FXML
+	private var tripTable : TableView<TripModel>
+	@FXML
+	private var colLocation : TableColumn<TripModel, String>
+	@FXML
+	private var colParticipants : TableColumn<TripModel, String>
+
+	// Trip TableView List
+	private var tripList : ObservableList<TripModel> = FXCollections.observableArrayList()
+	
+
+	protected def refreshScreen {
+		// TODO: Refresh the JavaFX screen
+	}
+
+	/** React to any request from the agent refresh the UI.
+	 */
+	dispatch def receiveEvent(^event : Refresh) {
+		refreshScreen
+	}
+
+	// code under a menu button
+	//when a capacity radio button is selected
+	@FXML
+	protected def onCapacitySelected(events : ActionEvent) {
+		System.out.println("capcity" + capacityR.selected)
+		if (capacityR.selected) {
+			contraintType = new Constraints(ConstrainsType.CAPACITY, 2)
+		}
+	}
+	// when a time constraint radio button is selected
+	@FXML
+	protected def onTImeSelected(events : ActionEvent) {
+		if (capacityR.selected) {
+			contraintType = new Constraints(ConstrainsType.TRAFFICJAMS, 3)
+		}
+
+	}
+	// when we selected a join trip row
+	@FXML
+	protected def setTrip(events : MouseEvent) {
+		var model : TripModel = tripTable.selectionModel.selectedItem
+		System.out.println("Model" + model)
+		carpolingTrip = model.trip
+	}
+
+// send a pertubation to environnement
+	@FXML
+	protected def onStart(events : ActionEvent) {
+		System.out.println("start"+contraintType+carpolingTrip)
+		UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))
+	}
+
+
+	// init trip table
+	def jointrip() {
+		//
+		var dataJ = Util.xmlToObject(new File(class.getResource("dataset.xml").file)) as Persons
+		System.out.println("data trip" + dataJ)
+		for (elt : dataJ.personalInfos) {
+			var participants : String = ""		
+		if (!elt.schedules.isEmpty) {
+				for (s : elt.schedules) {
+					if (s.episodes != null) {
+						for (ep : s.episodes) {
+							if (ep.trip != null) {
+								if (ep.trip.participants != null) {
+									System.out.println("ici" + ep.trip)
+									
+									for (part : ep.trip.participants) {
+										var participantRel : Relation = Relation.relation(dataJ.relations, elt.id,
+											part.id);
+										participants +=
+											PersonnalInfo.getPersonnalInfoById(participantRel.secondPerson,
+												dataJ.personalInfos).name + ":" + participantRel.socialStatus + "\n"
+									}
+									tripList.add(
+										new TripModel(ep.trip.location.toString, participants,ep.trip)
+									)									
+								}
+
+							}
+
+						}
+					}
+				}
+			}
+		}	
+		colLocation.cellValueFactory = new PropertyValueFactory<TripModel, String>("location")
+		colParticipants.cellValueFactory = new PropertyValueFactory<TripModel, String>("participants")
+		tripTable.items = tripList	
+	}
+	
+	def initialize(location : URL, resources : ResourceBundle) {
+		jointrip
+	}
+	
+}

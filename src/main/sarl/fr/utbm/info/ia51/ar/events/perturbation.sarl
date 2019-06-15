@@ -5,6 +5,7 @@ package fr.utbm.info.ia51.ar.events
 
 import fr.utbm.info.ia51.ar.requirements.Constraints
 import fr.utbm.info.ia51.ar.requirements.Episode
+import fr.utbm.info.ia51.ar.requirements.Trip
 
 /** 
  * @author Lilian Durand
@@ -12,12 +13,13 @@ import fr.utbm.info.ia51.ar.requirements.Episode
  */
 event perturbation {
 	
-	var constraint : Constraints
-	var episode : Episode
+	var contraints: Constraints
+	var trip : Trip
 	
-	new(constraint : Constraints,episode : Episode){
-		this.constraint = constraint
-		this.episode = episode
-	}	
+	new (contraints : Constraints, trip : Trip){
+		this.trip = trip
+		this.contraints = contraints
+	}
+	
 
 }
