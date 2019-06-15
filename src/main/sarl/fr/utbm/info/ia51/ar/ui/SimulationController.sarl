@@ -28,7 +28,7 @@ import java.util.ResourceBundle
  */
 class SimulationController extends FxViewerController implements Initializable {
 	
-	var contraintType : Constraints
+	static var contraintType : Constraints
 
 	var carpolingTrip : Trip
 	
@@ -64,7 +64,7 @@ class SimulationController extends FxViewerController implements Initializable {
 	//when a capacity radio button is selected
 	@FXML
 	protected def onCapacitySelected(events : ActionEvent) {
-		System.out.println("capcity" + capacityR.selected)
+		System.out.println("capacity" + capacityR.selected)
 		if (capacityR.selected) {
 			contraintType = new Constraints(ConstrainsType.CAPACITY, 2)
 		}
@@ -72,6 +72,7 @@ class SimulationController extends FxViewerController implements Initializable {
 	// when a time constraint radio button is selected
 	@FXML
 	protected def onTImeSelected(events : ActionEvent) {
+		System.out.println("time constraints " + capacityR.selected)
 		if (capacityR.selected) {
 			contraintType = new Constraints(ConstrainsType.TRAFFICJAMS, 3)
 		}
@@ -88,8 +89,11 @@ class SimulationController extends FxViewerController implements Initializable {
 // send a pertubation to environnement
 	@FXML
 	protected def onStart(events : ActionEvent) {
-		System.out.println("start"+contraintType+carpolingTrip)
-		UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))
+		System.out.println("start "+ contraintType.influence + " and " +carpolingTrip)
+		//UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))
+		var app : MyAppFxViewerController
+		app = new MyAppFxViewerController
+		app.emitConstraint(contraintType, carpolingTrip)
 	}
 
 
@@ -100,12 +104,12 @@ class SimulationController extends FxViewerController implements Initializable {
 		System.out.println("data trip" + dataJ)
 		for (elt : dataJ.personalInfos) {
 			var participants : String = ""		
-		if (!elt.schedules.isEmpty) {
+			if (!elt.schedules.isEmpty) {
 				for (s : elt.schedules) {
-					if (s.episodes != null) {
+					if (s.episodes !== null) {
 						for (ep : s.episodes) {
-							if (ep.trip != null) {
-								if (ep.trip.participants != null) {
+							if (ep.trip !== null) {
+								if (ep.trip.participants !== null) {
 									System.out.println("ici" + ep.trip)
 									
 									for (part : ep.trip.participants) {
@@ -116,12 +120,12 @@ class SimulationController extends FxViewerController implements Initializable {
 												dataJ.personalInfos).name + ":" + participantRel.socialStatus + "\n"
 									}
 									tripList.add(
-										new TripModel(ep.trip.location.toString, participants,ep.trip)
+										new TripModel(ep.trip.location.toString, participants, ep.trip)
 									)									
 								}
-
+	
 							}
-
+	
 						}
 					}
 				}

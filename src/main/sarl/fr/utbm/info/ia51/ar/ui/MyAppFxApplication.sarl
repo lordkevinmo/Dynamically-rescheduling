@@ -1,13 +1,13 @@
-package fr.utbm.info.ia51.ar.ui 
+package fr.utbm.info.ia51.ar.ui
+
+import io.sarl.javafx.FxApplication
 import java.util.ResourceBundle
 import javafx.fxml.FXMLLoader
 import javafx.fxml.JavaFXBuilderFactory
-import javafx.scene.Parent
 import javafx.scene.Scene
-import javafx.stage.Stage
-import io.sarl.javafx.FxApplication
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
+import javafx.stage.Stage
 
 /** Definition of the JavaFX application.
  */

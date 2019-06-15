@@ -1,30 +1,31 @@
 package fr.utbm.info.ia51.ar.agents
-import io.sarl.core.Behaviors
-import io.sarl.core.ExternalContextAccess
-import io.sarl.core.Initialize
-import io.sarl.javafx.FXBehavior
+
+import fr.utbm.info.ia51.ar.events.ConfirmInitiator
+import fr.utbm.info.ia51.ar.events.EndRenegotiation
+import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe
+import fr.utbm.info.ia51.ar.events.askToBeInitiator
+import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Persons
+import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController
 import fr.utbm.info.ia51.ar.ui.Refresh
 import io.sarl.core.AgentKilled
 import io.sarl.core.AgentSpawned
+import io.sarl.core.Behaviors
 import io.sarl.core.ContextJoined
 import io.sarl.core.ContextLeft
+import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Destroy
+import io.sarl.core.ExternalContextAccess
+import io.sarl.core.Initialize
 import io.sarl.core.Logging
 import io.sarl.core.MemberJoined
 import io.sarl.core.MemberLeft
-import fr.utbm.info.ia51.ar.events.EndRenegotiation
-import fr.utbm.info.ia51.ar.events.askToBeInitiator
-import fr.utbm.info.ia51.ar.events.perturbation
-import io.sarl.core.Lifecycle
-import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController
-import fr.utbm.info.ia51.ar.requirements.Persons
-import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe
+import io.sarl.core.Schedules
+import io.sarl.javafx.FXBehavior
 import io.sarl.lang.core.Address
 import java.util.List
-import io.sarl.core.DefaultContextInteractions
-import fr.utbm.info.ia51.ar.events.ConfirmInitiator
-import io.sarl.core.Schedules
-import java.util.Random;
+import java.util.Random
+import fr.utbm.info.ia51.ar.events.Constrains
 
 /*
  * 
@@ -84,8 +85,8 @@ agent Environment {
 
 	on perturbation {
 		
-	
-
+		info("Fanta orange sans orange")
+		/*
 		this.negotiationInProgress = true
 		emit(occurrence)
 		
@@ -97,11 +98,17 @@ agent Environment {
 				emit(new ConfirmInitiator(this.participants))[it == this.initiator]
 			}
 		]
+		* 
+		*/
 		/* 
 		 * Perturbation create and send by the javafx gui
 		 * If the perturbation is received by the environment,
 		 * it emit the occurrence to all the agents
 		 */ 
+	}
+	
+	on Constrains {
+		info("Constraints are sent")
 	}
 
 	on PerturbationImpactingMe {

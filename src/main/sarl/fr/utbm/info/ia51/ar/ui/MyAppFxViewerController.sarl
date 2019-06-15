@@ -1,0 +1,370 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.ui
+
+import fr.utbm.info.ia51.ar.agents.Environment
+import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.ConstrainsType
+import fr.utbm.info.ia51.ar.requirements.Constraints
+import fr.utbm.info.ia51.ar.requirements.PersonnalInfo
+import fr.utbm.info.ia51.ar.requirements.Persons
+import fr.utbm.info.ia51.ar.requirements.Relation
+import fr.utbm.info.ia51.ar.requirements.Trip
+import fr.utbm.info.ia51.ar.util.Util
+import io.sarl.javafx.FxViewerController
+import java.awt.Desktop
+import java.io.File
+import java.io.IOException
+import java.util.List
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import javafx.collections.FXCollections
+import javafx.collections.ObservableList
+import javafx.^event.ActionEvent
+import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.control.ChoiceBox
+import javafx.scene.control.RadioButton
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.input.MouseEvent
+import javafx.scene.layout.BorderPane
+import javafx.scene.layout.VBox
+import javafx.stage.FileChooser
+import fr.utbm.info.ia51.ar.events.Constrains
+import io.sarl.util.OpenEventSpace
+
+/** JavaFX controller for the JavaFX application.
+ * @author Koffi AGBENYA, Komi AGOTSI
+ */
+class MyAppFxViewerController extends FxViewerController {
+
+	val launched = new AtomicBoolean(false)
+
+	var launchedAgent : UUID
+
+	var desktop : Desktop = Desktop.getDesktop()
+
+	val fileChooser : FileChooser = new FileChooser()
+
+	var data : Persons
+
+	val started = new AtomicBoolean
+
+	var contraintType : Constraints
+
+	var carpolingTrip : Trip
+
+	final val CENTER = "center"
+	final val RIGHT = "right"
+
+	// widgets on UI
+	@FXML
+	var borderPane : BorderPane
+	@FXML
+	var scheduleBox : VBox
+	@FXML
+	var joinTripCombo : ChoiceBox<String>
+	@FXML
+	var capacityR : RadioButton
+	@FXML
+	var timeR : RadioButton
+
+	// Participant TableView List
+	private static var joinTripList : List<Trip>
+
+	// Participants TableView
+	@FXML
+	private var table : TableView<DataModel>
+	@FXML
+	private var colId : TableColumn<DataModel, Integer>
+	@FXML
+	private var colName : TableColumn<DataModel, String>
+	@FXML
+	private var colGender : TableColumn<DataModel, String>
+	@FXML
+	private var colWorkStatus : TableColumn<DataModel, String>
+	@FXML
+	private var colDriverLicence : TableColumn<DataModel, String>
+	@FXML
+	private var colHouseHold : TableColumn<DataModel, String>
+
+	// Participant TableView List
+	private var objectList : ObservableList<DataModel> = FXCollections.observableArrayList()
+
+	// Schedule TableView
+	@FXML
+	private var scheduleTable : TableView<ScheduleDataModel>
+	@FXML
+	private var colIds : TableColumn<ScheduleDataModel, Integer>
+	@FXML
+	private var colDay : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colStartTime : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colDuration : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colOrigin : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colDestination : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colTravelMode : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colParticipant : TableColumn<ScheduleDataModel, String>
+	@FXML
+	private var colType : TableColumn<ScheduleDataModel, String>
+
+	// ScheduleTable List
+	private var scheduleList : ObservableList<ScheduleDataModel>;
+	
+	static private var ^space : OpenEventSpace
+	 
+	def emitConstraint(constraints : Constraints, trip : Trip) {
+		 ^space.emit(ID, new perturbation(constraints, trip))
+		//System.out.println("Bonjour le controleur \n")
+		//emitToAgents(new Constrains())
+		
+		//UISpace.emit(ID, new perturbation(constraints, trip))
+	}
+
+	/** 
+	 * start Environnement Agent
+	 */
+	def startApplication() {
+		
+		if (!started.getAndSet(true)) {
+			startAgentApplication(typeof(Environment)) [
+				//
+			]
+			
+		}
+
+		if (getUISpace() !== null) {
+			^space = getUISpace()
+			getUISpace.emit(getID, new Constrains())
+		}
+	}
+
+	protected def refreshScreen {
+		// TODO: Refresh the JavaFX screen
+	}
+
+	/** React to any request from the agent refresh the UI.
+	 */
+	dispatch def receiveEvent(^event : Refresh) {
+		refreshScreen
+	}
+
+	// code under a menu button
+	@FXML
+	protected def participants(events : MouseEvent) {
+		System.out.println("I'am here")
+		loadUI("participants", CENTER)
+	}
+
+	@FXML
+	protected def home(events : MouseEvent) {
+	}
+
+	@FXML
+	protected def jointrip(events : MouseEvent) {
+	}
+
+	@FXML
+	protected def simulate(events : MouseEvent) {
+		System.out.println("Simulate")
+		loadUI("controlpane", RIGHT)
+								
+	}
+
+	@FXML
+	private def about(events : MouseEvent) {
+	}
+
+	@FXML
+	private def loadUI(ui : String, position : String) {
+		var root : Parent
+		var box : VBox
+		var otherBox : VBox
+		try {
+			box = FXMLLoader.load(class.getResource(ui + ".fxml"))
+		} catch (ex : IOException) {
+			ex.printStackTrace
+		}
+		if (position == CENTER) {
+			MyAppFxApplication.root.right = null
+			MyAppFxApplication.loadBorderPaneCenter(box)
+			//
+		} else if (position == RIGHT) {
+			otherBox = FXMLLoader.load(class.getResource("map.fxml"))
+			MyAppFxApplication.loadBorderPaneCenter(otherBox)
+			MyAppFxApplication.loadBorderPaneRIght(box)
+
+		}
+	}
+
+	@FXML
+	private def openFile(file : File) {
+		try {
+			this.desktop.open(file);
+		} catch (ex : IOException) {
+			ex.printStackTrace();
+		}
+	}
+
+	/** 
+	 * Load Schedule xml file, init TableView and start Environnement
+	 */
+	@FXML
+	protected def loadData(events : ActionEvent) {
+		var file : File = fileChooser.showOpenDialog(MyAppFxApplication.stage);
+		if (file !== null) {
+			openFile(file);
+			var selectedFile : File = file;
+			data = Util.xmlToObject(selectedFile) as Persons
+		}
+		initTable()
+		// jointrip
+		startApplication();		
+	}
+
+	@FXML
+	protected def onCapacitySelected(events : ActionEvent) {
+		System.out.println("capcity" + capacityR.selected)
+		if (capacityR.selected) {
+			contraintType = new Constraints(ConstrainsType.CAPACITY, 2)
+		}
+	}
+
+	@FXML
+	protected def onTImeSelected(events : ActionEvent) {
+		if (capacityR.selected) {
+			contraintType = new Constraints(ConstrainsType.TRAFFICJAMS, 3)
+		}
+
+	}
+
+	@FXML
+	protected def onStart(events : ActionEvent) {
+		System.out.println("start")
+		//var fx : FXBehavior
+		//fx.UISpace.emit(getID, new perturbation(contraintType, carpolingTrip))
+		//UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))
+	}
+
+	/** 
+	 * Init the Participant TbaleView 
+	 */
+	def initTable() {
+		for (elt : data.personalInfos) {
+			// set data to a TableView List
+			objectList.add(
+				new DataModel(elt.id, elt.name, elt.gender.toString, elt.workStatus.toString, elt.driver.toString,
+					elt.houseHoldAge + " || " + elt.houseHoldComposition.toString + " || " + elt.incomeCategory +
+					" || " + elt.childrenCategory + " || " + elt.incomeCategory)
+			)
+			colId.cellValueFactory = new PropertyValueFactory<DataModel, Integer>("id")
+			colName.cellValueFactory = new PropertyValueFactory<DataModel, String>("name")
+		colGender.cellValueFactory = new PropertyValueFactory<DataModel, String>("gender")
+			colWorkStatus.cellValueFactory = new PropertyValueFactory<DataModel, String>("workStatus")
+			colDriverLicence.cellValueFactory = new PropertyValueFactory<DataModel, String>("driverLicence")
+			colHouseHold.cellValueFactory = new PropertyValueFactory<DataModel, String>("houseHold")
+		
+		// set List to populate table
+			table.setItems(objectList)
+		}
+	}
+
+	/** 
+ * This method handle the display the selected participant 
+	 * and show participant Schedule
+	 */
+	@FXML
+	private def displayItem(events : MouseEvent) {
+		var item : PersonnalInfo
+		var model : DataModel = table.selectionModel.selectedItem
+		init
+		if (model !== null) {
+			for (elt : data.personalInfos) {
+				if (elt.id == model.getId) {
+					item = elt;
+				}
+			}
+			scheduleBox.visible = true
+			initScheduleTable(item)
+		}
+	}
+
+	/** 
+ * Handle when select a constraint item
+	 */
+	@FXML
+	private def onJoinTripComboSelected(events : ActionEvent) {
+		// joinTripCombo.selectionModel
+	}
+	
+	
+	/** 
+	 * Reset a schedule TableView Data.
+	 */
+	def init() {
+		scheduleList = FXCollections.observableArrayList()
+	}
+
+	/** 
+	 * init schedule Table
+	 */
+	def initScheduleTable(personnalInfos : PersonnalInfo) {
+		var participants : String = ""
+		if (!personnalInfos.schedules.isEmpty) {
+			for (elt : personnalInfos.schedules) {
+				for (ep : elt.episodes) {
+					if (ep.activity !== null) {
+						scheduleList.add(
+							new ScheduleDataModel(ep.activity.id, "", Util.formatHour(ep.activity.startTime),
+							ep.activity.duration.toString + " min", "", ep.activity.location.toString, "", participants,
+							ep.activity.type.toString))
+					}
+					if (ep.trip !== null) {
+						if (ep.trip.participants !== null) {
+							for (part : ep.trip.participants) {
+								var participantRel : Relation = Relation.relation(data.relations, personnalInfos.id,
+									part.id);
+								participants +=
+									PersonnalInfo.getPersonnalInfoById(participantRel.secondPerson, data.personalInfos).
+										name + ":" + participantRel.socialStatus + "\n"
+							}
+						}
+						scheduleList.add(new ScheduleDataModel(ep.trip.id, "",
+						Util.formatHour(ep.trip.startTime), ep.trip.duration.toString + " min", ep.trip.origin.toString,
+							ep.trip.location.toString, ep.trip.travelMode.toString, participants, ""))
+			     }
+				}
+			}
+		} else {
+			init
+		}
+		colIds.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, Integer>("id")
+		colDay.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("day")
+		colStartTime.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("startTime")
+		colDuration.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("duration")
+		colOrigin.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("origin")
+		colDestination.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("destination")
+	    colTravelMode.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("travelMode")
+		colParticipant.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("participant")
+		colType.cellValueFactory = new PropertyValueFactory<ScheduleDataModel, String>("type")		
+		
+
+		scheduleTable.items = scheduleList
+
+		// val dataTableData : ObservableList<DataModel> = FXCollections.observableArrayList()
+	}
+
+	def getData() : Persons {
+		data
+	}
+
+}
