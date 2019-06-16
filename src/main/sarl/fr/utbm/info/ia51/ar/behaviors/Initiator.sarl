@@ -53,7 +53,6 @@ behavior Initiator {
 	}
 
 	on renegotiationDisagreed {
-		info("1 participant disagreed")
 		// Create a new renegotiation only if it remains time
 		if (occurrence.renegotiationID == this.renegotiationID) {
 			this.renegotiationID++

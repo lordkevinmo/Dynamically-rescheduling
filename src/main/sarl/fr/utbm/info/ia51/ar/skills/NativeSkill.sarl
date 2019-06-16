@@ -19,18 +19,17 @@ skill NativeSkill implements NativeCapacity {
 	def install {
 		// Function invoked when the skill is installed in the owner.
 		// You should put all the initialization statements in this block of code.
-		info("I am able to do some basic stuff")
+		//info("I am able to do some basic stuff")
 	}
 
 	def uninstall {
 		// Function invoked when the skill is uninstalled from the owner.
 		// You should put all the resource release statements in this block of code.
-		info("I know nothing. J.S.")
+		//info("I know nothing. J.S.")
 	}
 
 	def isPerturbationImpacting(perturb : perturbation) : boolean {
-		// return new Random().nextInt(10) % 2 == 0
-		return true
+		return new Random().nextInt(10) % 2 == 0
 	}
 
 	def wantsToBeInitiator : boolean {

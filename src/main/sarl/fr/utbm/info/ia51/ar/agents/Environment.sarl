@@ -87,10 +87,18 @@ agent Environment {
 			info("Sending event")
 			emit(new perturbation(null, null))
 			in(this.delay) [
+				info(this.participants.size + " participants registered")
 				// Si personne n'a voulu etre initiateur alors il en choisit un au hasard
-				if (this.initiator === null && this.participants.size > 0) {
-					info("Choosing randomly initiator")
-					this.initiator = this.participants.get(new Random().nextInt(this.participants.size))
+				if(this.participants.size < 2){
+					info("Not enought participant, endding renegotiation")
+					emit(new EndRenegotiation(null))
+				}
+				else {
+					if (this.initiator === null) {
+						info("Choosing randomly initiator")
+						this.initiator = this.participants.get(new Random().nextInt(this.participants.size))
+					}
+					// Envoie la confirmation à l'agent concerné
 					emit(new ConfirmInitiator(this.participants))[it == this.initiator]
 				}
 			]
@@ -117,7 +125,7 @@ agent Environment {
 
 	on perturbation [!isMe(occurrence.source) && this.negotiationInProgress] {
 		info("perturbation received but another one is in renegotiation")
-		info("Adding perturbation to queue")
+		info("Adding perturbation to queue(size : " + (this.queue.size + 1) + ")")
 		this.negotiationInProgress = true
 
 		this.queue.add(occurrence)
@@ -130,18 +138,7 @@ agent Environment {
 
 	// L'evenemtent est trigger seulement si il n'y a pas encore d'initiateur
 	on askToBeInitiator [this.initiator === null] {
-		if (this.initiator === null) {
-			this.initiator = occurrence.source
-
-			// Envoie la confirmation à l'agent concerné
-			emit(new ConfirmInitiator(this.participants))[it == this.initiator]
-		}
-
-	/* 
-	 * If an pertubation is occured and sent to all the agents, one of them or all agents who's concerned
-	 * send a signal to environment for being an initiator. The first agent's response perceive by the 
-	 * environment will be the initiator. 
-	 */
+		this.initiator = occurrence.source
 	}
 
 	on EndRenegotiation {
@@ -152,7 +149,7 @@ agent Environment {
 		this.initiator = null
 
 		if (this.queue.size > 0) {
-			info("Renegotiate with first pertubation in queue")
+			info("Renegotiate with first pertubation in queue (" + (this.queue.size - 1) + " remains)")
 			initRenegotiation(this.queue.get(0))
 			this.queue.remove(0)
 		}
