@@ -14,7 +14,7 @@
    <left>
       <VBox prefHeight="510.0" prefWidth="144.0" style="-fx-background-color: #03A9F4;" BorderPane.alignment="CENTER">
          <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Appname" wrappingWidth="100.19677734375">
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Projet 4" wrappingWidth="100.19677734375">
                <font>
                   <Font name="Segoe UI" size="21.0" />
                </font>
@@ -101,7 +101,7 @@
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="28.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@simulate.png" />
+                              <Image url="@about.png" />
                            </image>
                         </ImageView>
                      </graphic>
