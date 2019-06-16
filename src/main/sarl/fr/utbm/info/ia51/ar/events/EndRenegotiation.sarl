@@ -3,8 +3,16 @@
  */
 package fr.utbm.info.ia51.ar.events
 
+import fr.utbm.info.ia51.ar.requirements.Trip
+
 /** 
- * @author koffi Agbenya
+ * @author Lilian Durand
  * 
  */
-event EndRenegotiation
+event EndRenegotiation {
+	var newTrip : Trip
+
+	new (newTrip : Trip) {
+		this.newTrip = newTrip
+	}
+}

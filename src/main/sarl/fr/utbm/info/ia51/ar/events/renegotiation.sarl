@@ -3,13 +3,21 @@
  */
 package fr.utbm.info.ia51.ar.events
 
-import fr.utbm.info.ia51.ar.requirements.Schedule
+import fr.utbm.info.ia51.ar.requirements.Trip
 
 /** 
  * @author Lilian Durand
  * 
  */
 event renegotiation {
-	var newSchedule : Schedule
+	var newTrip : Trip
 	var perturb : perturbation
+	var id : int
+
+	new(newTrip : Trip, perturb : perturbation, id : int) {
+		this.newTrip = newTrip
+		this.perturb = perturb
+		this.id = id
+	}
+
 }

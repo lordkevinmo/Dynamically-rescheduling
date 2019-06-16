@@ -3,16 +3,18 @@
  */
 package fr.utbm.info.ia51.ar.events
 
-import fr.utbm.info.ia51.ar.requirements.Schedule
+import fr.utbm.info.ia51.ar.requirements.Trip
 
 /** 
  * @author Secret
  * 
  */
 event renegotiationDisagreed {
-	var newSchedule : Schedule
+	var newTrip : Trip
+	var renegotiationID : int
 
-	new (schedule : Schedule) {
-		this.newSchedule = schedule
+	new (newTrip : Trip, renegotiationID : int) {
+		this.newTrip = newTrip
+		this.renegotiationID = renegotiationID
 	}
 }

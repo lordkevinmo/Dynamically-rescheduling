@@ -8,7 +8,9 @@ package fr.utbm.info.ia51.ar.events
  * 
  */
 event renegotiationAgreed {
-	
-	
-	
+	var renegotiationID : int
+
+	new (renegotiationID : int) {
+		this.renegotiationID = renegotiationID
+	}
 }

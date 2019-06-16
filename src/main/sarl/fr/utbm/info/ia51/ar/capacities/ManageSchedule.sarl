@@ -3,8 +3,8 @@
  */
 package fr.utbm.info.ia51.ar.capacities
 
-import fr.utbm.info.ia51.ar.requirements.Schedule
 import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Trip
 
 /** 
  * @author Lilian Durand
@@ -12,8 +12,8 @@ import fr.utbm.info.ia51.ar.events.perturbation
  */
 capacity ManageSchedule {
 
-	def isNewScheduleOK(schedule : Schedule) : boolean
+	def isNewTripOK(trip : Trip) : boolean
 
-	def computeNewSchedule(perturb : perturbation) : Schedule
+	def computeNewTrip(perturb : perturbation) : Trip
 
 }

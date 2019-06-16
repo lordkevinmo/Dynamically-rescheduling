@@ -3,10 +3,11 @@
  */
 package fr.utbm.info.ia51.ar.skills
 
-import io.sarl.core.Logging
 import fr.utbm.info.ia51.ar.capacities.ManageSchedule
-import fr.utbm.info.ia51.ar.requirements.Schedule
 import fr.utbm.info.ia51.ar.events.perturbation
+import fr.utbm.info.ia51.ar.requirements.Trip
+import io.sarl.core.Logging
+import java.util.Random
 
 /** 
  * @author Lilian Durand
@@ -18,21 +19,21 @@ skill ManageScheduleSkill implements ManageSchedule {
 	def install {
 		// Function invoked when the skill is installed in the owner.
 		// You should put all the initialization statements in this block of code.
-		info("Installing the skill")
+		info("I am able to manage my schedules now")
 	}
 
 	def uninstall {
 		// Function invoked when the skill is uninstalled from the owner.
 		// You should put all the resource release statements in this block of code.
-		info("Uninstalling the skill")
+		info("I am not able to manage my schedules now")
 	}
-	
-	def isNewScheduleOK(schedule : Schedule) : boolean {
-		return true
+
+	def isNewTripOK(trip : Trip) : boolean {
+		return new Random().nextInt(10) % 2 == 0
 	}
-	
-	def computeNewSchedule(perturb : perturbation) : Schedule {
-		return new Schedule(null)
+
+	def computeNewTrip(perturb : perturbation) : Trip {
+		return new Trip()
 	}
-	
+
 }
