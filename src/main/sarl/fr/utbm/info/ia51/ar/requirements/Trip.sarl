@@ -48,6 +48,7 @@ class Trip extends Task {
 		this.travelMode = mode
 		this.path = null
 	}
+	
 
 	/** 
 	 * 

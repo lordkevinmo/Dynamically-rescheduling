@@ -36,9 +36,10 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
+import fr.utbm.info.ia51.ar.events.EndRenegotiation
 
 /** JavaFX controller for the JavaFX application.
- * @author Koffi AGBENYA, Komi AGOTSI
+ * @author Koffi AGBENYA, Komi AGOTSI, Lilian Durand
  */
 class MyAppFxViewerController extends FxViewerController {
 
@@ -151,11 +152,19 @@ class MyAppFxViewerController extends FxViewerController {
 	protected def refreshScreen {
 		// TODO: Refresh the JavaFX screen
 	}
+	
+	protected def displayNegotiation(trip : Trip) {
+		
+	}
 
 	/** React to any request from the agent refresh the UI.
 	 */
 	dispatch def receiveEvent(^event : Refresh) {
 		refreshScreen
+	}
+
+	dispatch def receiveEvent(^event : EndRenegotiation) {
+		displayNegotiation(^event.newTrip)
 	}
 
 	// code under a menu button

@@ -6,6 +6,7 @@ import fr.utbm.info.ia51.ar.events.PerturbationImpactingMe
 import fr.utbm.info.ia51.ar.events.askToBeInitiator
 import fr.utbm.info.ia51.ar.events.perturbation
 import fr.utbm.info.ia51.ar.requirements.Persons
+import fr.utbm.info.ia51.ar.requirements.Trip
 import fr.utbm.info.ia51.ar.ui.MyAppFxViewerController
 import fr.utbm.info.ia51.ar.ui.Refresh
 import io.sarl.core.AgentKilled
@@ -24,7 +25,9 @@ import io.sarl.core.Schedules
 import io.sarl.javafx.FXBehavior
 import io.sarl.lang.core.Address
 import java.util.ArrayList
+import java.util.LinkedList
 import java.util.List
+import java.util.Queue
 import java.util.Random
 
 /* 
@@ -33,6 +36,7 @@ import java.util.Random
  * 
  * @author : Koffi Agbenya
  * @author : Komi AGOTSI
+ * @author : Lilian Durand
  * 
  */
 agent Environment {
@@ -49,14 +53,14 @@ agent Environment {
 	// Time to wait participants in ms
 	var delay = 5000
 	var data : Persons
-	var queue : List<perturbation>
+	var queue : Queue<perturbation>
 
 	on Initialize {
 		setLoggingName("Environment")
 		// Initialize data
 		this.negotiationInProgress = false
 		this.participants = new ArrayList
-		this.queue = new ArrayList
+		this.queue = new LinkedList
 		this.initiator = null
 
 		// The first argument within the initialization event is the JavaFX controller.
@@ -114,6 +118,7 @@ agent Environment {
 	on perturbation [!isMe(occurrence.source) && !this.negotiationInProgress] {
 		info("Perturbation received")
 		this.negotiationInProgress = true
+		info("Another trip " + occurrence.trip)
 		initRenegotiation(occurrence)
 
 	/* 
@@ -141,17 +146,20 @@ agent Environment {
 		this.initiator = occurrence.source
 	}
 
-	on EndRenegotiation {
+	on EndRenegotiation [!isMe(occurrence.source)]{
 		info("Renegotiation finished")
 
 		this.negotiationInProgress = false
 		this.participants = new ArrayList
 		this.initiator = null
-
+		
+		info("new trip : " + occurrence.newTrip)
+		
+		javafxBehavior.UISpace.emit(new EndRenegotiation(occurrence.newTrip))
 		if (this.queue.size > 0) {
 			info("Renegotiate with first pertubation in queue (" + (this.queue.size - 1) + " remains)")
-			initRenegotiation(this.queue.get(0))
-			this.queue.remove(0)
+			initRenegotiation(this.queue.poll)
+			
 		}
 
 	/* 
