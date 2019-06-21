@@ -41,13 +41,13 @@ behavior Initiator {
 	var newTrip : Trip
 	var renegotiationID : int
 	var tRenegotiationStart : long
-	val tMax : int = 10000 // maximum time in seconds for initialize a new renegotiation
+	val tMax : int = 10 // maximum time in ms for initialize a new renegotiation
 
 	on renegotiationAgreed {
 		if ((this.nbAnswer++ >= this.nbParticipants - 2) && !this.finished &&
 			(occurrence.renegotiationID == this.renegotiationID)) {
 			this.finished = true
-			info("Ending successfuly renegotiation all participants agreed")
+			info("Ending successfuly renegotiation all participants agreed after " + (this.renegotiationID + 1) + " try")
 			emit(new EndRenegotiation(this.newTrip))
 		}
 	}
@@ -56,19 +56,25 @@ behavior Initiator {
 		// Create a new renegotiation only if it remains time
 		if (occurrence.renegotiationID == this.renegotiationID) {
 			this.renegotiationID++
+			val t = Instant.now().toEpochMilli() - this.tRenegotiationStart
 			if (Instant.now().toEpochMilli() - this.tRenegotiationStart < this.tMax) {
-				info("starting new renegotiation")
-				if (isNewTripOK(occurrence.newTrip))
-					this.newTrip = occurrence.newTrip
-				else
+				if (isNewTripOK(occurrence.newTrip)) {
+					info("I agree with new Trip")
+					this.newTrip = occurrence.newTrip	
+				}
+				else {
+					info("I disagree with new trip and I calculate a new one")
 					this.newTrip = computeNewTrip(this.perturb)
-				this.nbAnswer = 0
+				}
 
+				info("Starting new renegotiation")
+				this.nbAnswer = 0
 				emit(new renegotiation(this.newTrip, this.perturb, this.renegotiationID))
-			} else {
+			} 
+			else {
 				if (!this.finished) {
 					this.finished = true
-					info("Ending renegotiation cause of lack of time")
+					info("Ending renegotiation cause of lack of time (" + t + "ms)")
 					emit(new EndRenegotiation(this.newTrip))
 				}
 			}
@@ -80,7 +86,10 @@ behavior Initiator {
 
 		this.participants = occurrence.parameters.get(0) as List<Address>
 		this.perturb = occurrence.parameters.get(1) as perturbation
+		
+		info("Calculating new Trip")
 		this.newTrip = computeNewTrip(this.perturb)
+		
 		this.nbParticipants = this.participants.size
 		this.nbAnswer = 0
 		this.tRenegotiationStart = Instant.now().toEpochMilli()

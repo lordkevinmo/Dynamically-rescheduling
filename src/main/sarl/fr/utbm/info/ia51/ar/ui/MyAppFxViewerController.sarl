@@ -37,6 +37,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
 import fr.utbm.info.ia51.ar.events.EndRenegotiation
+import fr.utbm.info.ia51.ar.requirements.Trip
 
 /** JavaFX controller for the JavaFX application.
  * @author Koffi AGBENYA, Komi AGOTSI, Lilian Durand
@@ -170,7 +171,7 @@ class MyAppFxViewerController extends FxViewerController {
 	// code under a menu button
 	@FXML
 	protected def participants(events : MouseEvent) {
-		System.out.println("I'am here")
+		//System.out.println("I'am here")
 		loadUI("participants", CENTER)
 	}
 
@@ -184,7 +185,7 @@ class MyAppFxViewerController extends FxViewerController {
 
 	@FXML
 	protected def simulate(events : MouseEvent) {
-		System.out.println("Simulate")
+		//System.out.println("Simulate")
 		loadUI("controlpane", RIGHT)
 								
 	}
@@ -242,7 +243,7 @@ class MyAppFxViewerController extends FxViewerController {
 
 	@FXML
 	protected def onCapacitySelected(events : ActionEvent) {
-		System.out.println("capcity" + capacityR.selected)
+		//System.out.println("capcity" + capacityR.selected)
 		if (capacityR.selected) {
 			contraintType = new Constraints(ConstrainsType.CAPACITY, 2)
 		}
@@ -258,7 +259,7 @@ class MyAppFxViewerController extends FxViewerController {
 
 	@FXML
 	protected def onStart(events : ActionEvent) {
-		System.out.println("start")
+		//System.out.println("start")
 		//var fx : FXBehavior
 		//fx.UISpace.emit(getID, new perturbation(contraintType, carpolingTrip))
 		//UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))

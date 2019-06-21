@@ -51,7 +51,7 @@ agent Environment {
 	// Register the address of initiator
 	var initiator : Address
 	// Time to wait participants in ms
-	var delay = 5000
+	var delay = 2000
 	var data : Persons
 	var queue : Queue<perturbation>
 
@@ -87,15 +87,17 @@ agent Environment {
 	}
 	
 	def initRenegotiation(perturb : perturbation) : void {
+		this.negotiationInProgress = true
 		in(2000) [
+			info("Trip " + System.identityHashCode(perturb.trip) + " is perturbed by constraint " + System.identityHashCode(perturb.contraints))
 			info("Sending event")
-			emit(new perturbation(null, null))
+			emit(new perturbation(perturb))
 			in(this.delay) [
 				info(this.participants.size + " participants registered")
 				// Si personne n'a voulu etre initiateur alors il en choisit un au hasard
 				if(this.participants.size < 2){
 					info("Not enought participant, endding renegotiation")
-					emit(new EndRenegotiation(null))
+					emit(new EndRenegotiation(perturb.trip))
 				}
 				else {
 					if (this.initiator === null) {
@@ -117,8 +119,6 @@ agent Environment {
 
 	on perturbation [!isMe(occurrence.source) && !this.negotiationInProgress] {
 		info("Perturbation received")
-		this.negotiationInProgress = true
-		info("Another trip " + occurrence.trip)
 		initRenegotiation(occurrence)
 
 	/* 
@@ -131,7 +131,6 @@ agent Environment {
 	on perturbation [!isMe(occurrence.source) && this.negotiationInProgress] {
 		info("perturbation received but another one is in renegotiation")
 		info("Adding perturbation to queue(size : " + (this.queue.size + 1) + ")")
-		this.negotiationInProgress = true
 
 		this.queue.add(occurrence)
 	}
@@ -149,23 +148,29 @@ agent Environment {
 	on EndRenegotiation [!isMe(occurrence.source)]{
 		info("Renegotiation finished")
 
+		finishRenegotiation(occurrence.newTrip)
+	}
+
+	on EndRenegotiation [isMe(occurrence.source) && this.negotiationInProgress] {
+		info("Renegotiation finished, not enough participant")
+
+		finishRenegotiation(occurrence.newTrip)
+	}
+	
+	def finishRenegotiation(newTrip : Trip) {
 		this.negotiationInProgress = false
 		this.participants = new ArrayList
 		this.initiator = null
-		
-		info("new trip : " + occurrence.newTrip)
-		
-		javafxBehavior.UISpace.emit(new EndRenegotiation(occurrence.newTrip))
+
+		info("New trip : " + newTrip)
+
+		javafxBehavior.UISpace.emit(new EndRenegotiation(newTrip))
+
 		if (this.queue.size > 0) {
 			info("Renegotiate with first pertubation in queue (" + (this.queue.size - 1) + " remains)")
 			initRenegotiation(this.queue.poll)
-			
-		}
 
-	/* 
-	 * Event perceive by the environment when scheduling process is finished.
-	 * It send to javafx gui the new schedule
-	 */
+		}
 	}
 
 	on AgentSpawned {

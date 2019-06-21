@@ -21,4 +21,9 @@ event perturbation {
 		this.contraints = contraints
 	}
 
+	new (perturb : perturbation) {
+		this.trip = perturb.trip
+		this.contraints = perturb.contraints
+	}
+
 }

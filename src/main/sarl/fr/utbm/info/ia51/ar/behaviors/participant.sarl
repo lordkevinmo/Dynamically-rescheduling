@@ -27,10 +27,10 @@ behavior participant {
 		info("Renegotiation received")
 		// Determine si le nouvel episode ne change pas son schedule
 		if (isNewTripOK(occurrence.newTrip)) {
-			info("I agree")
+			info("I agree with new Trip")
 			emit(new renegotiationAgreed(occurrence.id))
 		} else {
-			info("I disagree")
+			info("I disagree with new trip and I calculate a new one")
 			// L'agent renvoit un nouvel edt à l'initiateur
 			emit(new renegotiationDisagreed(computeNewTrip(occurrence.perturb), occurrence.id))
 		}

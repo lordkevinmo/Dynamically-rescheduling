@@ -64,7 +64,7 @@ class SimulationController extends FxViewerController implements Initializable {
 	//when a capacity radio button is selected
 	@FXML
 	protected def onCapacitySelected(events : ActionEvent) {
-		System.out.println("capacity" + capacityR.selected)
+		//System.out.println("capacity" + capacityR.selected)
 		if (capacityR.selected) {
 			contraintType = new Constraints(ConstrainsType.CAPACITY, 2)
 		}
@@ -72,7 +72,7 @@ class SimulationController extends FxViewerController implements Initializable {
 	// when a time constraint radio button is selected
 	@FXML
 	protected def onTImeSelected(events : ActionEvent) {
-		System.out.println("time constraints " + capacityR.selected)
+		//System.out.println("time constraints " + capacityR.selected)
 		if (capacityR.selected) {
 			contraintType = new Constraints(ConstrainsType.TRAFFICJAMS, 3)
 		}
@@ -82,14 +82,14 @@ class SimulationController extends FxViewerController implements Initializable {
 	@FXML
 	protected def setTrip(events : MouseEvent) {
 		var model : TripModel = tripTable.selectionModel.selectedItem
-		System.out.println("Model" + model)
+		//System.out.println("Model" + model)
 		carpolingTrip = model.trip
 	}
 
 // send a pertubation to environnement
 	@FXML
 	protected def onStart(events : ActionEvent) {
-		System.out.println("start "+ contraintType.influence + " and " +carpolingTrip)
+		//System.out.println("start "+ contraintType.influence + " and " +carpolingTrip)
 		//UISpace.emit(ID, new perturbation(contraintType, carpolingTrip))
 		var app : MyAppFxViewerController
 		app = new MyAppFxViewerController
@@ -101,7 +101,7 @@ class SimulationController extends FxViewerController implements Initializable {
 	def jointrip() {
 		//
 		var dataJ = Util.xmlToObject(new File(class.getResource("dataset.xml").file)) as Persons
-		System.out.println("data trip" + dataJ)
+		//System.out.println("data trip" + dataJ)
 		for (elt : dataJ.personalInfos) {
 			var participants : String = ""		
 			if (!elt.schedules.isEmpty) {
@@ -110,7 +110,7 @@ class SimulationController extends FxViewerController implements Initializable {
 						for (ep : s.episodes) {
 							if (ep.trip !== null) {
 								if (ep.trip.participants !== null) {
-									System.out.println("ici" + ep.trip)
+									//System.out.println("ici" + ep.trip)
 									
 									for (part : ep.trip.participants) {
 										var participantRel : Relation = Relation.relation(dataJ.relations, elt.id,
