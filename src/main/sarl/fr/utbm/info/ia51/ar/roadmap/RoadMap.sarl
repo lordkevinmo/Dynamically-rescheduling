@@ -31,5 +31,11 @@ class RoadMap extends Object {
 		map.addVertex(location)
 	}
 	
-	
+	/**
+	 * 
+	 */
+	def addLocation(place : String, position : double) {
+		var newLocation : Vertex<Double> = new Vertex(place, position)
+		map.addEdge(location, newLocation, position as int)
+	}
 }
