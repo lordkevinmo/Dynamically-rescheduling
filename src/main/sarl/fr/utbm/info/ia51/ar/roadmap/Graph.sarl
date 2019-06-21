@@ -1,0 +1,283 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+import java.util.ArrayList
+import java.util.LinkedList
+import java.util.Comparator
+
+/** 
+ * 
+ * A directed graph data structure.
+ * 
+ * @author Koffi Agbenya
+ * @param <T>
+ */
+class Graph<T> implements GraphInterface<T> {
+
+	/*
+	 ** Color used to mark unvisited nodes
+	 */
+	val static final VISIT_COLOR_WHITE : int = 1
+
+    /** Color used to mark nodes as they are first visited in DFS order */
+    val static final VISIT_COLOR_GREY : int = 2
+
+    /** Color used to mark nodes after descendants are completely visited */
+    val static final VISIT_COLOR_BLACK : int = 3
+
+    /** Vector<Vertex> of graph verticies */
+    var verticies : List<Vertex<T>>
+
+    /** Vector<Edge> of edges in the graph */
+    var edges : List<Edge<T>>
+
+    /** The vertex identified as the root of the graph */
+    var rootVertex : Vertex<T>
+    
+    /** 
+	 * Construct a new graph without any vertices or edges
+	 */
+     new() {
+        verticies = new ArrayList
+        edges = new ArrayList
+    }
+
+	override isEmpty : boolean{
+        return verticies.size() == 0
+	}
+
+	override addVertex(v : Vertex<T>) : boolean {
+        var added : boolean = false
+        if (!verticies.contains(v)) {
+            added = verticies.add(v)
+        }
+        return added
+	}
+	
+	override size : int{
+	    return verticies.size()
+	}
+	
+	override getRootVertex : Vertex<T> {
+	    return rootVertex
+	}
+	
+	override setRootVertex(root : Vertex<T>) {
+        this.rootVertex = root
+        if (!verticies.contains(root))
+            this.addVertex(root)
+	}
+	
+	override getVertex(n : int) : Vertex<T> {
+	    return verticies.get(n)
+	}
+	
+	override getVerticies : List<Vertex<T>> {
+	    return this.verticies
+	}
+	
+	override addEdge(from : Vertex<T>, to : Vertex<T>, cost : int) : boolean throws IllegalArgumentException {
+        if (!verticies.contains(from))
+            throw new IllegalArgumentException("from is not in graph")
+        if (!verticies.contains(to))
+            throw new IllegalArgumentException("to is not in graph")
+
+        var e : Edge<T> = new Edge(from, to, cost)
+        if (from.findEdge(to) !== null)
+            return false
+        else {
+            from.addEdge(e)
+            to.addEdge(e)
+            edges.add(e)
+            return true
+        }
+	 }
+	
+	 override insertBiEdge(from : Vertex<T>, to : Vertex<T>, cost : int) : boolean
+	            throws IllegalArgumentException {
+        return addEdge(from, to, cost) && addEdge(to, from, cost)
+	 }
+	
+	override getEdges() : List<Edge<T>> {
+        return this.edges
+	 }
+	
+	override removeVertex(v : Vertex<T>) : boolean {
+        if (!verticies.contains(v))
+            return false
+
+        verticies.remove(v)
+        if (v == rootVertex)
+            rootVertex = null
+
+        // Remove the edges associated with v
+        for (var n = 0; n < v.getOutgoingEdgeCount(); n++) {
+            var e : Edge<T> = v.getOutgoingEdge(n)
+            v.remove(e)
+            var to : Vertex<T> = e.getDestination()
+            to.remove(e)
+            edges.remove(e)
+        }
+        for (var n = 0; n < v.getIncomingEdgeCount(); n++) {
+            var e : Edge<T> = v.getIncomingEdge(n)
+            v.remove(e)
+            var predecessor : Vertex<T > = e.getSource();
+            predecessor.remove(e)
+        }
+        return true
+	 }
+	
+	override removeEdge(from : Vertex<T>, to : Vertex<T>) : boolean {
+	        var e : Edge<T> = from.findEdge(to)
+	        if (e === null)
+	            return false
+	        else {
+	            from.remove(e)
+	            to.remove(e)
+	            edges.remove(e)
+	            return true
+	        }
+	    }
+	
+	override clearMark {
+        for (w as Vertex < T > : verticies)
+            w.clearMark()
+	}
+	
+	override clearEdges() {
+        for (e as Edge<T> : edges) {
+            e.clearMarks()   
+       }
+	}
+	
+	override depthFirstSearch(v : Vertex<T>,  visitor : Visitor<T>) {
+		var wrapper : VisitorEx<T, RuntimeException> = new VisitorEx<T, RuntimeException>() {
+		
+			def visit(g : Graph<T>, v : Vertex<T>) throws RuntimeException {
+			    if (visitor !== null)
+			        visitor.visit(g, v)
+			}
+		};
+	    this.depthFirstSearch(v, wrapper)
+	}
+	
+	override <E extends Exception> depthFirstSearch(v : Vertex<T>, visitor : VisitorEx<T, E>) throws E {
+	        if (visitor !== null){
+	            visitor.visit(this, v)
+	        }
+	        v.visit()
+	        for (var i = 0; i < v.getOutgoingEdgeCount(); i++) {
+	            var e : Edge<T> = v.getOutgoingEdge(i)
+	            if (!e.getDestination().visited()) {
+	                depthFirstSearch(e.getDestination(), visitor)
+	            }
+	        }
+	 }
+	
+	override breadthFirstSearch(v : Vertex<T>, visitor : Visitor<T>) {
+        var wrapper : VisitorEx<T, RuntimeException> = new VisitorEx<T, RuntimeException>() {
+
+			def visit(g : Graph<T>, v : Vertex<T>) throws RuntimeException {
+                if (visitor !== null){
+                    visitor.visit(g, v)
+                }
+			}
+		};
+        this.breadthFirstSearch(v, wrapper);
+	}
+	
+	override <E extends Exception> breadthFirstSearch(v : Vertex<T>, visitor : VisitorEx<T, E>)
+	            throws E {
+	        var q : LinkedList<Vertex<T>> = new LinkedList
+	        q.add(v)
+	        if (visitor !== null){
+	            visitor.visit(this, v)
+	        }
+	        v.visit()
+	        while (!q.isEmpty()) {
+	            v = q.removeFirst()
+	            for (var i = 0; i < v.getOutgoingEdgeCount(); i++) {
+	                var e : Edge<T> = v.getOutgoingEdge(i)
+	                var to : Vertex<T> = e.getDestination
+	                if (!to.visited()) {
+	                    q.add(to)
+	                    if (visitor !== null)
+	                        visitor.visit(this, to)
+	                    to.visit()
+	                }
+	            }
+	        }
+	    }
+	
+	override dfsSpanningTree(v : Vertex<T>, visitor : DFSVisitor<T>) {
+	        v.visit()
+	        if (visitor !== null){
+	            visitor.visit(this, v)
+			}
+	        for (var i = 0; i < v.getOutgoingEdgeCount(); i++) {
+	            var e : Edge<T> = v.getOutgoingEdge(i)
+	            if (!e.getDestination().visited()) {
+	                if (visitor !== null){
+	                    visitor.visit(this, v, e)
+	                }
+	                e.mark()
+	                dfsSpanningTree(e.getDestination(), visitor)
+	            }
+	        }
+	 }
+	
+	override findVertexByName(name : String) : Vertex<T> {
+	        var match : Vertex<T> = null
+	        for (v as Vertex<T> : verticies) {
+	            if (name.equals(v.getName())) {
+	                match = v
+	                break
+	            }
+	        }
+	        return match
+	}
+	
+	override findVertexByData(data : T, compare : Comparator<T>) : Vertex<T> {
+	        var match : Vertex<T> = null
+	        for (v as Vertex<T> : verticies) {
+	            if (compare.compare(data, v.getData()) == 0) {
+	                match = v
+	                break
+	            }
+	        }
+	        return match
+	}
+	
+	override findCycles : Edge<T>[] {
+	        var cycleEdges : ArrayList<Edge<T>> = new ArrayList
+	        // Mark all verticies as white
+	        for (var n = 0; n < verticies.size(); n++) {
+	            var v : Vertex<T> = getVertex(n)
+	            v.setMarkState(VISIT_COLOR_WHITE)
+	        }
+	        for (var n = 0; n < verticies.size(); n++) {
+	            var v : Vertex<T> = getVertex(n)
+	            visit(v, cycleEdges)
+	        }
+	
+	        var cycles : Edge<T>[] = newArrayOfSize(cycleEdges.size())
+	        cycleEdges.toArray(cycles)
+	        return cycles
+	}
+	
+	def visit(v : Vertex<T>, cycleEdges : ArrayList<Edge<T>>) {
+	        v.setMarkState(VISIT_COLOR_GREY)
+	        var count : int = v.getOutgoingEdgeCount()
+	        for (var n = 0; n < count; n++) {
+	            var e : Edge<T> = v.getOutgoingEdge(n)
+	            var u : Vertex<T > = e.getDestination()
+	            if (u.getMarkState() == VISIT_COLOR_GREY) {
+	                // A cycle Edge<T>
+	                cycleEdges.add(e)
+	            } else if (u.getMarkState() == VISIT_COLOR_WHITE) {
+	                visit(u, cycleEdges)
+	            }
+	        }
+	        v.setMarkState(VISIT_COLOR_BLACK)
+	    }
+}

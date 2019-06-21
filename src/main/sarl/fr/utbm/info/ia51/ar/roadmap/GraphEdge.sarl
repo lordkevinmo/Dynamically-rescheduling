@@ -1,0 +1,63 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+/** 
+ * This is the definition of the interface of an edge in the Graph data structure
+ * This interface is implemented by the AbstractGraphEdge abstract class
+ * 
+ * @author Koffi Agbenya
+ * @param <T> generic data type for the edge
+ */
+interface GraphEdge<T> {
+
+	/** 
+	 * 
+	 * @return the data contain in an edge
+	 */
+     def getCost : int
+
+
+    /**
+     * Get the starting vertex
+     *
+     * @return starting vertex
+     */
+     def getSource : Vertex<T>
+
+    /**
+     * Get the ending vertex
+     *
+     * @return ending vertex
+     */
+     def getDestination : Vertex<T>
+
+    /**
+     * The method set the source node for the edge
+     *
+     * @param source is the node from where the edge is provide
+     */
+     def setSource(source : Vertex<T>)
+
+    /**
+     * The method set the destination node for the edge
+     *
+     * @param destination is the destination to the edge
+     */
+     def setDestination(destination : Vertex<T>)
+
+    /**
+     * Set the mark flag of the edge
+     */
+     def mark
+
+    /**
+     * Clear the mark edge flag
+     */
+     def clearMarks
+
+    /**
+     *Get the edge mark flag
+     *
+     * @return edge mark flag
+     */
+     def isMarked : boolean
+}

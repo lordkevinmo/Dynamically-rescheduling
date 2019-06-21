@@ -1,0 +1,75 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+/** 
+ * @author Koffi Agbenya
+ * 
+ */
+class Vertex<T> extends AbstractGraphVertex<T> {
+	var incomingEdges : List<Edge<T>>
+
+    var outgoingEdges : List<Edge<T>>
+
+    new() {
+        super()
+    }
+
+	new(n : String) {
+	    super(n)
+	}
+	
+	new(n : String , data : T) {
+	      super(n, data)
+	}
+	
+	override addEdge(e : Edge<T>) : boolean {
+        if (e.getSource() == this) {
+            outgoingEdges.add(e)
+        } else if (e.getDestination() == this) {
+            incomingEdges.add(e)
+        } else
+            return false
+        return true
+	}
+	
+	override addOutgoingEdge(to : Vertex<T>, cost : int) {
+        var out : Edge<T> = new Edge<T>(this, to, cost)
+        outgoingEdges.add(out)
+	}
+	
+	override addIncomingEdge(from : Vertex<T>, cost : int) {
+        var out : Edge<T> = new Edge<T>(this, from, cost)
+        incomingEdges.add(out)
+	}
+	
+	override hasEdge(e : Edge<T>) : boolean {
+        if (e.getSource() == this) {
+            return incomingEdges.contains(e)    
+        }
+        else if (e.getDestination() == this) {
+            return outgoingEdges.contains(e)
+        }else
+            return false
+	}
+	
+	override remove(e : Edge<T>) : boolean {
+        if (e.getSource() == this){
+            incomingEdges.remove(e);
+        }else if (e.getDestination() == this) {
+            outgoingEdges.remove(e)
+        }else
+            return false
+        return true
+	}
+	
+	override cost(dest : Vertex<T>) : int {
+        if (dest == this)
+            return 0;
+
+        var e : Edge<T> = findEdge(dest);
+        var cost : int = Integer.MAX_VALUE;
+        if (e !== null)
+            cost = e.getCost();
+        return cost;
+	 }
+}

@@ -1,0 +1,200 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+
+/** 
+ * A named graph vertex with optional data.
+ * 
+ * @author Koffi Agbenya
+ * @param <T>
+ */
+interface GraphVertex<T> {
+
+	/** 
+	 * @return the possibly null name of the vertex
+	 */
+	def getName : String
+    
+    /** 
+	 * @return the possibly null data of the vertex
+     */
+	def getData : T
+    
+    /** 
+	 * @param data
+	 * The data to set.
+	 */
+    def setData(data : T)
+
+	/** 
+	     * Add an edge to the vertex. If edge.from is this vertex, its an outgoing
+	 * edge. If edge.to is this vertex, its an incoming edge. If neither from or
+	 * to is this vertex, the edge is not added.
+	 * 
+	 * @param e -
+	 * the edge to add
+	 * @return true if the edge was added, false otherwise
+	 */
+	def addEdge(e : Edge<T>) : boolean
+	
+	/**
+     * Add an outgoing edge ending at to.
+     *
+     * @param to -
+     *          the destination vertex
+     * @param cost
+     *          the edge cost
+     */
+     def addOutgoingEdge(to : Vertex<T>, cost : int)
+
+	/**
+	     * Add an incoming edge starting at from
+	 * 
+	 * @param from -
+	 * the starting vertex
+	 * @param cost
+	 * the edge cost
+	 */
+	def addIncomingEdge(from : Vertex<T>, cost : int)
+
+	/** 
+	 * Check the vertex for either an incoming or outgoing edge matching e.
+	 * 
+	 * @param e
+	 * the edge to check
+	 * @return true it has an edge
+	 */
+     def hasEdge(e : Edge<T>) : boolean
+     
+     /**
+     * Remove an edge from this vertex
+     *
+     * @param e -
+     *          the edge to remove
+     * @return true if the edge was removed, false if the edge was not connected
+     *         to this vertex
+     */
+     def remove(e : Edge<T>) : boolean
+     
+     /**
+     *
+     * @return the count of incoming edges
+     */
+     def getIncomingEdgeCount : int
+     
+     /**
+     * Get the ith incoming edge
+     *
+     * @param i
+     *          the index into incoming edges
+     * @return ith incoming edge
+     */
+     def getIncomingEdge(i : int) : Edge<T>
+
+	/**
+	 * Get the incoming edges
+	 * 
+	 * @return incoming edge list
+	 */
+	def getIncomingEdges() : List
+	
+	/**
+     *
+     * @return the count of incoming edges
+     */
+     def getOutgoingEdgeCount : int
+     
+     /**
+     * Get the ith outgoing edge
+     *
+     * @param i
+     *          the index into outgoing edges
+     * @return ith outgoing edge
+     */
+     def getOutgoingEdge(i : int) : Edge<T>
+
+	/**
+	 * Get the outgoing edges
+	 * 
+	 * @return outgoing edge list
+	 */
+	 def getOutgoingEdges : List
+	 
+	 /**
+     * Search the outgoing edges looking for an edge whose's edge.to == dest.
+     *
+     * @param dest
+     *          the destination
+     * @return the outgoing edge going to dest if one exists, null otherwise.
+     */
+     def findEdge(dest : Vertex<T>) : Edge<T>
+
+	/**
+	 * Search the outgoing edges for a match to e.
+	 * 
+	 * @param e -
+	 * the edge to check
+	 * @return e if its a member of the outgoing edges, null otherwise.
+	 */
+	 def findEdge(e : Edge<T>) : Edge<T>
+
+	/**
+	 * What is the cost from this vertext to the dest vertex.
+	 * 
+	 * @param dest -
+	 * the destination vertex.
+	 * @return Return Integer.MAX_VALUE if we have no edge to dest, 0 if dest is
+	 * this vertex, the cost of the outgoing edge otherwise.
+	 */
+     def cost(dest : Vertex<T>) : int
+     
+     /**
+     * Is there an outgoing edge ending at dest.
+     *
+     * @param dest -
+     *          the vertex to check
+     * @return true if there is an outgoing edge ending at vertex, false
+     *         otherwise.
+     */
+     def hasEdge(dest : Vertex<T>) : boolean
+     
+     /**
+     * Has this vertex been marked during a visit
+     *
+     * @return true is visit has been called
+     */
+     def visited : boolean
+     
+     /**
+     * Set the vertex mark flag.
+     *
+     */
+     def mark
+
+	/**
+	 * Set the mark state to state.
+	 * 
+	 * @param state
+	 * the state
+	 */
+	 def setMarkState(state : int)
+
+	/**
+	 * Get the mark state value.
+	 * 
+	 * @return the mark state
+	 */
+     def getMarkState : int
+     
+     /**
+     * Visit the vertex and set the mark flag to true.
+     *
+     */
+     def visit
+
+	/**
+	 * Clear the visited mark flag.
+	 * 
+	 */
+	 def clearMark
+}

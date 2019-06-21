@@ -1,0 +1,7 @@
+How to use the A star : 
+
+- Extend the ASearchNode
+- implement IGoalNode interface
+
+e.g : ISearchNode AStar.search(ISearchNode initialNode, IGoalNode goalNode)
+

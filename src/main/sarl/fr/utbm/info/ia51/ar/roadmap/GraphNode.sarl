@@ -1,0 +1,24 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+
+/** 
+ * This interface is represents a node in a graph data structure
+ * 
+ * @author koffi Agbenya
+ * @param <T> generic data type for the node
+ */
+interface GraphNode<T> {
+
+	/** 
+	 * 
+	 * @return the data contain in the node
+	 */
+     def getData : T
+
+    /**
+     *
+     * @return all the edges linked to an node
+     */
+     def getConnections() : List<Edge>
+}

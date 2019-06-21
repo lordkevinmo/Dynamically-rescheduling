@@ -1,0 +1,238 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+import java.util.Comparator
+
+/** 
+ * A named graph interface.
+ * 
+ * @author Koffi Agbenya
+ * @param <T>
+ */
+interface GraphInterface<T> {
+
+	/** 
+	 * Are there any verticies in the graph
+	 * 
+	 * @return true if there are no verticies in the graph
+     */
+	 def isEmpty : boolean
+
+    /**
+     * Add a vertex to the graph
+     *
+     * @param v
+     *          the Vertex to add
+     * @return true if the vertex was added, false if it was already in the graph.
+     */
+     def addVertex(v : Vertex<T>) : boolean
+
+    /**
+     * Get the vertex count.
+     *
+     * @return the number of verticies in the graph.
+     */
+     def size : int
+
+    /**
+     * Get the root vertex
+     *
+     * @return the root vertex if one is set, null if no vertex has been set as
+     *         the root.
+     */
+     def getRootVertex : Vertex<T>
+
+    /**
+     * Set a root vertex. If root does no exist in the graph it is added.
+     *
+     * @param root -
+     *          the vertex to set as the root and optionally add if it does not
+     *          exist in the graph.
+     */
+     def setRootVertex(root : Vertex<T>)
+
+    /**
+     * Get the given Vertex.
+     *
+     * @param n
+     *          the index [0, size()-1] of the Vertex to access
+     * @return the nth Vertex
+     */
+     def getVertex(n : int) : Vertex<T>
+
+    /**
+     * Get the graph verticies
+     *
+     * @return the graph verticies
+     */
+     def getVerticies : List<Vertex<T>>
+
+    /**
+     * Insert a directed, weighted Edge<T> into the graph.
+     *
+     * @param from -
+     *          the Edge<T> starting vertex
+     * @param to -
+     *          the Edge<T> ending vertex
+     * @param cost -
+     *          the Edge<T> weight/cost
+     * @return true if the Edge<T> was added, false if from already has this Edge<T>
+     * @throws IllegalArgumentException
+     *           if from/to are not verticies in the graph
+     */
+     def addEdge(from : Vertex<T>, to : Vertex<T>, cost : int) : boolean
+     		 throws IllegalArgumentException
+
+    /**
+     * Insert a bidirectional Edge<T> in the graph
+     *
+     * @param from -
+     *          the Edge<T> starting vertex
+     * @param to -
+     *          the Edge<T> ending vertex
+     * @param cost -
+     *          the Edge<T> weight/cost
+     * @return true if edges between both nodes were added, false otherwise
+     * @throws IllegalArgumentException
+     *           if from/to are not verticies in the graph
+     */
+     def insertBiEdge(from : Vertex<T>, to : Vertex<T>, cost : int) : boolean
+            throws IllegalArgumentException;
+
+    /**
+     * Get the graph edges
+     *
+     * @return the graph edges
+     */
+     def getEdges : List<Edge<T>>
+
+    /**
+     * Remove a vertex from the graph
+     *
+     * @param v
+     *          the Vertex to remove
+     * @return true if the Vertex was removed
+     */
+     def removeVertex(v : Vertex<T>) : boolean
+
+    /**
+     * Remove an Edge<T> from the graph
+     *
+     * @param from -
+     *          the Edge<T> starting vertex
+     * @param to -
+     *          the Edge<T> ending vertex
+     * @return true if the Edge<T> exists, false otherwise
+     */
+     def removeEdge(from : Vertex<T>, to : Vertex<T>) : boolean
+
+    /**
+     * Clear the mark state of all verticies in the graph by calling clearMark()
+     * on all verticies.
+     *
+     * @see Vertex#clearMark()
+     */
+     def clearMark
+
+    /**
+     * Clear the mark state of all edges in the graph by calling clearMark() on
+     * all edges.
+     */
+     def clearEdges
+     
+    /**
+     * Perform a depth first serach using recursion.
+     *
+     * @param v -
+     *          the Vertex to start the search from
+     * @param visitor -
+     *          the vistor to inform prior to
+     * @see Visitor#visit(Graph, Vertex)
+     */
+     def depthFirstSearch(v : Vertex<T>, visitor : Visitor<T>)
+
+    /**
+     * Perform a depth first serach using recursion. The search may be cut short
+     * if the visitor throws an exception.
+     *
+     * @param <E>
+     *
+     * @param v -
+     *          the Vertex to start the search from
+     * @param visitor -
+     *          the vistor to inform prior to
+     * @see Visitor#visit(Graph, Vertex)
+     * @throws E
+     *           if visitor.visit throws an exception
+     */
+     def <E extends Exception>  depthFirstSearch(v : Vertex<T>, visitor : VisitorEx<T, E>) throws E
+
+    /**
+     * Perform a breadth first search of this graph, starting at v.
+     *
+     * @param v -
+     *          the search starting point
+     * @param visitor -
+     *          the vistor whose vist method is called prior to visting a vertex.
+     */
+     def breadthFirstSearch(v : Vertex<T>, visitor : Visitor<T>)
+
+    /**
+     * Perform a breadth first search of this graph, starting at v. The vist may
+     * be cut short if visitor throws an exception during a vist callback.
+     *
+     * @param <E>
+     *
+     * @param v -
+     *          the search starting point
+     * @param visitor -
+     *          the vistor whose vist method is called prior to visting a vertex.
+     * @throws E
+     *           if vistor.visit throws an exception
+     */
+     def <E extends Exception> breadthFirstSearch(v : Vertex<T>, visitor : VisitorEx<T, E>)
+            throws E
+
+    /**
+     * Find the spanning tree using a DFS starting from v.
+     *
+     * @param v -
+     *          the vertex to start the search from
+     * @param visitor -
+     *          visitor invoked after each vertex is visited and an edge is added
+     *          to the tree.
+     */
+     def dfsSpanningTree(v : Vertex<T>, visitor : DFSVisitor<T>)
+
+    /**
+     * Search the verticies for one with name.
+     *
+     * @param name -
+     *          the vertex name
+     * @return the first vertex with a matching name, null if no matches are found
+     */
+     def findVertexByName(name : String) : Vertex<T>
+
+    /**
+     * Search the verticies for one with data.
+     *
+     * @param data -
+     *          the vertex data to match
+     * @param compare -
+     *          the comparator to perform the match
+     * @return the first vertex with a matching data, null if no matches are found
+     */
+     def findVertexByData(data : T, compare : Comparator<T>) : Vertex<T> 
+
+    /**
+     * Search the graph for cycles. In order to detect cycles, we use a modified
+     * depth first search called a colored DFS. All nodes are initially marked
+     * white. When a node is encountered, it is marked grey, and when its
+     * descendants are completely visited, it is marked black. If a grey node is
+     * ever encountered, then there is a cycle.
+     *
+     * @return the edges that form cycles in the graph. The array will be empty if
+     *         there are no cycles.
+     */
+     def findCycles : Edge<T>[]
+}

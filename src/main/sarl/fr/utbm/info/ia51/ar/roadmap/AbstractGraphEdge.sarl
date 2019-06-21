@@ -1,0 +1,79 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+/** 
+ * This abstract class is the implementation of the GraphEdge<T> generic interface
+ * By definition, an edge have two nodes which are named : source and destination,
+ * and a data. All the methods in the interface is implemented here.
+ * 
+ * @author Koffi Agbenya
+ * @param <T> generic data type for the edge
+ */
+abstract class AbstractGraphEdge<T> implements GraphEdge<T> {
+	
+	var from : Vertex<T> 
+    var to : Vertex<T>
+    var cost : int
+    var mark : boolean
+
+    /**
+     * Create a zero cost edge between from and to
+     *
+     * @param from
+     *          the starting vertex
+     * @param to
+     *          the ending vertex
+     */
+    new(from : Vertex<T>, to : Vertex<T> ){
+        this(from, to, 0);
+    }
+
+	/**
+	 * Create an edge between from and to with the given cost.
+	 * 
+	 * @param from
+	 * the starting vertex
+	 * @param to
+	 * the ending vertex
+	 * @param data
+	 * the cost of the edge
+	 */
+	  new (from : Vertex<T>, to : Vertex<T> , data : int){
+	    this.from = from
+	    this.to = to
+	    this.cost = data
+	    mark = false
+	  }
+	
+	   override getSource : Vertex<T> {
+		return from
+	}
+		
+	   override getDestination : Vertex<T> {
+		    return to
+		}
+	
+		
+		override getCost : int {
+	        return cost
+	    }
+	
+	    override mark {
+	        mark = true
+	    }
+	
+	    override clearMarks {
+	        mark = false
+	    }
+	
+	    override isMarked : boolean {
+	        return mark
+	    }
+	
+	    override setDestination(destination : Vertex<T> ) {
+	        this.to = destination
+	    }
+	
+	    override setSource(source : Vertex<T> ) {
+	        this.from = source
+	    }
+}

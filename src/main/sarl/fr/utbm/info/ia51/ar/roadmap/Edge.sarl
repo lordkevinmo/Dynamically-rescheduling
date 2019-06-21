@@ -1,0 +1,22 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.roadmap
+
+/** 
+ * This class extends the abstract graph edge and redefine some of their methods
+ * 
+ * @author koffi Agbenya
+ * @param <T> generic data type for the edge
+ */
+class Edge<T> extends AbstractGraphEdge<T> {
+	
+	new(from : Vertex<T>, to : Vertex<T>) {
+		super(from, to)
+	}
+
+    new(from : Vertex<T>, to : Vertex<T>, data : int) {
+        super(from, to, data);
+    }
+	
+}

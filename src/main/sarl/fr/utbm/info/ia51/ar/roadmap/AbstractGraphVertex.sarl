@@ -1,0 +1,134 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+import java.util.List
+import java.util.ArrayList
+
+/** 
+ * @author Koffi Agbenya
+ * 
+ */
+abstract class AbstractGraphVertex<T> implements GraphVertex<T> {
+
+	var incomingEdges : List<Edge<T>>
+
+    var outgoingEdges : List<Edge<T>>
+
+    var name : String
+
+    var mark : boolean
+
+    var markState : int
+
+    var data : T
+
+	/**
+     * Calls this(null, null).
+	 */
+	new(){
+        this(null, null)
+	}
+
+	/** 
+	 * Create a vertex with the given name and no data
+	 * 
+	 * @param n
+	 */
+	new(n : String){
+	   this(n, null)
+	}
+	
+	/** 
+	 * Create a Vertex with name n and given data
+	 * 
+	 * @param n -
+	 * name of vertex
+	 * @param data -
+	 * data associated with vertex
+	 */
+	new(n : String, data : T) {
+        incomingEdges = new ArrayList
+        outgoingEdges = new ArrayList
+        name = n
+        mark = false
+        this.data = data
+	}
+	
+	override getName : String{
+	    return name
+	}
+	
+	override getData : T {
+	    return this.data
+	}
+	
+	override setData(data : T) {
+	    this.data = data
+	}
+	
+	override getIncomingEdgeCount : int{
+	     return incomingEdges.size()
+	}
+	
+	override getIncomingEdge(i : int) : Edge<T> {
+	     return incomingEdges.get(i)
+	}
+	
+	override getIncomingEdges : List {
+	     return this.incomingEdges
+	}
+	
+	override getOutgoingEdgeCount : int {
+	     return outgoingEdges.size()
+	}
+	
+	override getOutgoingEdge(i : int) : Edge<T> {
+	     return outgoingEdges.get(i)
+	}
+	
+	override getOutgoingEdges : List {
+	    return this.outgoingEdges
+	}
+	
+	override findEdge(dest : Vertex<T>) : Edge<T> {
+        for (e as Edge<T> : outgoingEdges) {
+            if (e.getDestination == dest)
+                return e
+        }
+        return null
+	}
+	
+	override findEdge(e : Edge<T>) : Edge<T> {
+	        if (outgoingEdges.contains(e)){
+	            return e
+	        } else
+	           return null
+	}
+	
+	override hasEdge(dest : Vertex<T>) : boolean {
+        return (findEdge(dest) !== null)
+	}
+	
+	override visited : boolean {
+        return mark
+	}
+	
+	override mark {
+	    mark = true
+	}
+	
+	override setMarkState(state : int) {
+	    markState = state
+	}
+	
+	override getMarkState : int{
+	   return markState
+	}
+	
+	override visit() {
+	     mark();
+	}
+	
+	override clearMark() {
+	     mark = false;
+	}
+}

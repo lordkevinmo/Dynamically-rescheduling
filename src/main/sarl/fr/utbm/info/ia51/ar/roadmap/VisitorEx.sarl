@@ -1,0 +1,24 @@
+package fr.utbm.info.ia51.ar.roadmap
+
+/** 
+ * A graph visitor interface that can throw an exception during a visit
+ * callback.
+ * 
+ * @author Koffi Agbenya
+ * @param <T>
+ * @param <E>
+ */
+interface VisitorEx<T, E extends Exception> {
+
+	/** 
+	 * Called by the graph traversal methods when a vertex is first visited.
+	 * 
+	 * @param g -
+	 * the graph
+	 * @param v -
+	 * the vertex being visited.
+	 * @throws E
+	 * exception for any error
+     */
+    def visit(g : Graph<T>, v : Vertex<T>) throws E;
+}

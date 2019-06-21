@@ -1,0 +1,23 @@
+/** 
+ * 
+ */
+package fr.utbm.info.ia51.ar.roadmap
+
+/** 
+ * A graph visitor interface.
+ * 
+ * @author Koffi Agbenya
+ * @param <T>
+ */
+interface Visitor<T> {
+
+	/** 
+	 * Called by the graph traversal methods when a vertex is first visited.
+	 * 
+	 * @param g -
+	 * the graph
+	 * @param v -
+	 * the vertex being visited.
+     */
+    def visit(g : Graph<T>, v : Vertex<T>)
+}

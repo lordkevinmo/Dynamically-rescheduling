@@ -155,7 +155,7 @@ class MyAppFxViewerController extends FxViewerController {
 	}
 	
 	protected def displayNegotiation(trip : Trip) {
-		println("there is a "+ trip)
+		println("GUI : The new trip is  "+ trip)
 	}
 
 	/** React to any request from the agent refresh the UI.
